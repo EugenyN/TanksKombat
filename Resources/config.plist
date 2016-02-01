@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"/>
+
+<plist version="1.0">
+    <dict>
+        <key>modes</key>
+        <dict>
+            <key>STANDARD</key>
+            <dict>
+                <key>startLives</key>
+                <integer>5</integer>
+                <key>startAmmo</key>
+                <integer>20</integer>
+                <key>newBonusTime</key>
+                <real>20.0000000</real>
+                <key>ghostTime</key>
+                <real>4.0000000</real>
+                <key>ammoInBonus</key>
+                <integer>10</integer>
+            </dict>
+			<key>PROFI</key>
+            <dict>
+                <key>startLives</key>
+                <integer>3</integer>
+                <key>startAmmo</key>
+                <integer>10</integer>
+                <key>newBonusTime</key>
+                <real>20.0000000</real>
+                <key>ghostTime</key>
+                <real>3.0000000</real>
+                <key>ammoInBonus</key>
+                <integer>5</integer>
+            </dict>
+			<key>QUICK DEATH</key>
+            <dict>
+                <key>startLives</key>
+                <integer>20</integer>
+                <key>startAmmo</key>
+                <integer>40</integer>
+                <key>newBonusTime</key>
+                <real>10.0000000</real>
+                <key>ghostTime</key>
+                <real>0.0000000</real>
+                <key>ammoInBonus</key>
+                <integer>10</integer>
+            </dict>
+			<key>FIRE AND IRON</key>
+            <dict>
+                <key>startLives</key>
+                <integer>5</integer>
+                <key>startAmmo</key>
+                <integer>1</integer>
+                <key>newBonusTime</key>
+                <real>4.0000000</real>
+                <key>ghostTime</key>
+                <real>1.0000000</real>
+                <key>ammoInBonus</key>
+                <integer>1</integer>
+            </dict>
+        </dict>
+    </dict>
+</plist>
