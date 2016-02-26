@@ -19,7 +19,9 @@ else \
 
 class JoystickWithSimulator : public SneakyJoystick
 {
+	cocos2d::EventKeyboard::KeyCode getKeyCodeFromVelocity() const;
 	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) override;
+	void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) override;
 };
 
 //
@@ -27,6 +29,7 @@ class JoystickWithSimulator : public SneakyJoystick
 class ButtonWithSimulator : public SneakyButton
 {
 	bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event) override;
+	void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event) override;
 };
 
 //
@@ -41,7 +44,7 @@ public:
 	virtual void onTouchCancelled(cocos2d::Touch* touch, cocos2d::Event* event);
 	virtual void onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	virtual void onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
-	virtual void onKeyEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) = 0;
+	virtual void onKeyEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	static BaseScene* getCurrentScene();
 
 	int addTouchEvents(TouchEventsFunc touchEvent);

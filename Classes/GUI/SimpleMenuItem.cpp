@@ -76,10 +76,7 @@ bool SimpleMenuItem::selectNextValue()
 	if (_values.size() == 0)
 		return false;
 
-	_currentValue++;
-
-	if (_currentValue > _values.size() - 1)
-		_currentValue = 0;
+	_currentValue = (_currentValue + 1) % _values.size();
 
 	onValueChanged();
 	return true;
@@ -90,10 +87,7 @@ bool SimpleMenuItem::selectPrevValue()
 	if (_values.size() == 0)
 		return false;
 
-	_currentValue--;
-
-	if (_currentValue < 0)
-		_currentValue = _values.size() - 1;
+	_currentValue = (_currentValue + _values.size() - 1) % _values.size();
 
 	onValueChanged();
 	return true;

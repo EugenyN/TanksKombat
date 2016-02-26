@@ -177,7 +177,7 @@ void GameSettingsScene::onMenuItemActivated(int menuItem)
 		{
 			auto playersMessage = ModalDialog::create("Please select at least two tanks!", 
 				nullptr, nullptr, "OK", "");
-			this->addChild(playersMessage, MODAL_DIALOGS_LAYER_ZORDER);
+			this->addChild(playersMessage, LayerZOrder::MODAL_DIALOGS);
 		}
 		else 
 		{

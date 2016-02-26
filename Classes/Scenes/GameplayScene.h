@@ -22,13 +22,12 @@ public:
 
 	void addGameObject(GameObject* obj);
 	void removeGameObject(GameObject* obj);
-	GameObject* findGameObject(Pos2 pos);
-	GameObject* findGameObject(int x, int y);
-	GameObject* findGameObject(Pos2 pos, std::function<bool(GameObject*)> pred);
-	GameObject* findGameObject(int x, int y, std::function<bool(GameObject*)> pred);
+	GameObject* findGameObject(Pos2 pos) const;
+	GameObject* findGameObject(int x, int y) const;
+	GameObject* findGameObject(std::function<bool(GameObject*)> pred) const;
 	Tank* findTank(Team team) const;
-	bool findRandomEmptyTile(Pos2* result);
-	bool findRandomEmptyTile(Pos2* result, const Pos2& accessibleFrom);
+	bool findRandomEmptyTile(Pos2& result);
+	bool findRandomEmptyTile(Pos2& result, const Pos2& accessibleFrom);
 
 	LevelGrid* getGrid() const { return _levelGrid; }
 	const cocos2d::Vector<GameObject*>& getGameObjects() const { return _gameObjects; }

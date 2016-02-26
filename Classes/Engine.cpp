@@ -265,33 +265,41 @@ TankAction Engine::getActionForKey(Team team, EventKeyboard::KeyCode code) const
 
 std::array<KeyMap, MAX_TEAMS_COUNT> Engine::createKeyMaps()
 {
-	KeyMap t1;
-	t1[EventKeyboard::KeyCode::KEY_UP_ARROW] = TankAction::MOVE_UP;
-	t1[EventKeyboard::KeyCode::KEY_DOWN_ARROW] = TankAction::MOVE_DOWN;
-	t1[EventKeyboard::KeyCode::KEY_RIGHT_ARROW] = TankAction::MOVE_RIGHT;
-	t1[EventKeyboard::KeyCode::KEY_LEFT_ARROW] = TankAction::MOVE_LEFT;
-	t1[EventKeyboard::KeyCode::KEY_ENTER] = TankAction::FIRE;
+	KeyMap t1
+	{
+		{ EventKeyboard::KeyCode::KEY_UP_ARROW , TankAction::MOVE_UP },
+		{ EventKeyboard::KeyCode::KEY_DOWN_ARROW , TankAction::MOVE_DOWN },
+		{ EventKeyboard::KeyCode::KEY_RIGHT_ARROW , TankAction::MOVE_RIGHT },
+		{ EventKeyboard::KeyCode::KEY_LEFT_ARROW , TankAction::MOVE_LEFT },
+		{ EventKeyboard::KeyCode::KEY_ENTER , TankAction::FIRE }
+	};
 
-	KeyMap t2;
-	t2[EventKeyboard::KeyCode::KEY_W] = TankAction::MOVE_UP;
-	t2[EventKeyboard::KeyCode::KEY_S] = TankAction::MOVE_DOWN;
-	t2[EventKeyboard::KeyCode::KEY_D] = TankAction::MOVE_RIGHT;
-	t2[EventKeyboard::KeyCode::KEY_A] = TankAction::MOVE_LEFT;
-	t2[EventKeyboard::KeyCode::KEY_TAB] = TankAction::FIRE;
+	KeyMap t2
+	{
+		{ EventKeyboard::KeyCode::KEY_W, TankAction::MOVE_UP },
+		{ EventKeyboard::KeyCode::KEY_S, TankAction::MOVE_DOWN },
+		{ EventKeyboard::KeyCode::KEY_D, TankAction::MOVE_RIGHT },
+		{ EventKeyboard::KeyCode::KEY_A, TankAction::MOVE_LEFT },
+		{ EventKeyboard::KeyCode::KEY_TAB, TankAction::FIRE }
+	};
 
-	KeyMap t3;
-	t3[EventKeyboard::KeyCode::KEY_I] = TankAction::MOVE_UP;
-	t3[EventKeyboard::KeyCode::KEY_K] = TankAction::MOVE_DOWN;
-	t3[EventKeyboard::KeyCode::KEY_J] = TankAction::MOVE_RIGHT;
-	t3[EventKeyboard::KeyCode::KEY_L] = TankAction::MOVE_LEFT;
-	t3[EventKeyboard::KeyCode::KEY_U] = TankAction::FIRE;
+	KeyMap t3
+	{
+		{ EventKeyboard::KeyCode::KEY_I,  TankAction::MOVE_UP },
+		{ EventKeyboard::KeyCode::KEY_K, TankAction::MOVE_DOWN },
+		{ EventKeyboard::KeyCode::KEY_J, TankAction::MOVE_RIGHT },
+		{ EventKeyboard::KeyCode::KEY_L, TankAction::MOVE_LEFT },
+		{ EventKeyboard::KeyCode::KEY_U, TankAction::FIRE }
+	};
 
-	KeyMap t4;
-	t4[EventKeyboard::KeyCode::KEY_8] = TankAction::MOVE_UP;
-	t4[EventKeyboard::KeyCode::KEY_2] = TankAction::MOVE_DOWN;
-	t4[EventKeyboard::KeyCode::KEY_4] = TankAction::MOVE_RIGHT;
-	t4[EventKeyboard::KeyCode::KEY_6] = TankAction::MOVE_LEFT;
-	t4[EventKeyboard::KeyCode::KEY_MINUS] = TankAction::FIRE;
+	KeyMap t4
+	{
+		{ EventKeyboard::KeyCode::KEY_8,  TankAction::MOVE_UP },
+		{ EventKeyboard::KeyCode::KEY_2, TankAction::MOVE_DOWN },
+		{ EventKeyboard::KeyCode::KEY_4, TankAction::MOVE_RIGHT },
+		{ EventKeyboard::KeyCode::KEY_6, TankAction::MOVE_LEFT },
+		{ EventKeyboard::KeyCode::KEY_MINUS, TankAction::FIRE }
+	};
 
 	return { t1, t2, t3, t4 };
 }

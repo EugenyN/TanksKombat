@@ -9,7 +9,7 @@ USING_NS_CC;
 #define PROJ_DELAY 0.04f
 
 Projectile::Projectile()
-	: GameObject(Type::PROJECTILE)
+	: _ownerTank(nullptr), GameObject(Type::PROJECTILE)
 {
 }
 
@@ -90,7 +90,7 @@ bool Projectile::onCollidedWithGameObject(Direction direction, GameObject* obj)
 {
 	auto tank = dynamic_cast<Tank*>(obj);
 	if (tank != nullptr) {
-		if (!tank->isGhostState() && !tank->isFallIntoHoleState()) {
+		if (!tank->isGhostState() && !tank->isFallIntoHoleState() && tank != getOwnerTank()) {
 			tank->damage();
 			return true;
 		}

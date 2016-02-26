@@ -36,7 +36,7 @@ ShortestPathStep* ShortestPathStep::createWithPosition(const Pos2& pos)
 	}
 }
 
-bool ShortestPathStep::initWithPosition(const Pos2 &pos)
+bool ShortestPathStep::initWithPosition(const Pos2& pos)
 {
 	bool bRet = false;
 	do
@@ -54,7 +54,7 @@ int ShortestPathStep::getFScore() const
 	return this->getGScore() + this->getHScore();
 }
 
-bool ShortestPathStep::isEqual(const ShortestPathStep *other) const
+bool ShortestPathStep::isEqual(const ShortestPathStep* other) const
 {
 	return this->getPosition() == other->getPosition();
 }
@@ -85,7 +85,7 @@ bool Pathfinder::isPathExist(const Pos2& from, const Pos2& to, bool getUpClose)
 	return path.size() != 0;
 }
 
-const cocos2d::Vector<ShortestPathStep*>& Pathfinder::getShortestPath(const Pos2& from, const Pos2& to, bool getUpClose)
+const Vector<ShortestPathStep*>& Pathfinder::getShortestPath(const Pos2& from, const Pos2& to, bool getUpClose)
 {
 	_moveTowardPath.clear();
 
@@ -111,7 +111,7 @@ ShortestPathStep* Pathfinder::constructPath(const Pos2& from, const Pos2& to, bo
 
 	if (from == to)
 	{
-		CCLOG("You're already there! :P");
+		CCLOG("You're already there!");
 		return nullptr;
 	}
 
@@ -121,7 +121,7 @@ ShortestPathStep* Pathfinder::constructPath(const Pos2& from, const Pos2& to, bo
 		return nullptr;
 	}
 
-	CCLOG("From: %d, %d - To: %d, %d", fromTileCoord.x, fromTileCoord.y, toTileCoord.x, toTileCoord.y);
+	// CCLOG("From: %d, %d - To: %d, %d", from.x, from.y, to.x, to.y);
 
 	_spOpenSteps.clear();
 	_spClosedSteps.clear();
@@ -146,7 +146,7 @@ ShortestPathStep* Pathfinder::constructPath(const Pos2& from, const Pos2& to, bo
 			break;
 		}
 
-		PointArray *adjSteps = scene->getGrid()->walkableAdjacentTilesCoordForTileCoord(currentStep->getPosition());
+		PointArray* adjSteps = scene->getGrid()->walkableAdjacentTilesCoordForTileCoord(currentStep->getPosition());
 		for (ssize_t i = 0; i < adjSteps->count(); ++i)
 		{
 			auto step = ShortestPathStep::createWithPosition(adjSteps->getControlPointAtIndex(i));
@@ -209,7 +209,7 @@ int Pathfinder::costToMoveFromStepToAdjacentStep(const ShortestPathStep* fromSte
 	//	&& (fromStep->getPosition().y != toStep->getPosition().y)) ? 14 : 10;
 }
 
-ssize_t Pathfinder::getStepIndex(const cocos2d::Vector<ShortestPathStep *>& steps, const ShortestPathStep* step)
+ssize_t Pathfinder::getStepIndex(const Vector<ShortestPathStep *>& steps, const ShortestPathStep* step)
 {
 	for (ssize_t i = 0; i < steps.size(); ++i) {
 		if (steps.at(i)->isEqual(step))

@@ -62,7 +62,7 @@ Music:
 * Abrove Speed by Rob F. / EG / CONSCIOUSNESS
 	
 Graphics, fonts and sound effects:
-* Mario, Zelda and other retro games.
+* Some 8-bit, 16-bit retro games.
 * DNS Design & Wildcop
 * zironid_n http://opengameart.org/content/tanks
 * M-Tee http://www.romhacking.net/forum/index.php?topic=16132.40

@@ -123,7 +123,7 @@ void AI::makeDecision()
 	if (onFireLine || (random(0.0f, 1.0f) < _chanceToEscape))
 	{
 		Pos2 escapePoint;
-		if (findEscapePoint(&escapePoint))
+		if (findEscapePoint(escapePoint))
 			escapeStart(escapePoint);
 		else
 			thinkStart(); // completely blocked ?
@@ -409,7 +409,7 @@ Bonus* AI::findNearestBonus() const
 	return nearest;
 }
 
-bool AI::findEscapePoint(/*out*/  Pos2* point) const
+bool AI::findEscapePoint(/*out*/ Pos2& point) const
 {
 	auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
 	if (scene == nullptr)
@@ -419,7 +419,7 @@ bool AI::findEscapePoint(/*out*/  Pos2* point) const
 	return scene->findRandomEmptyTile(point, owner->getGridPosition());
 }
 
-bool AI::isEnemyOnFiringLine(/*out*/  GameObject::Direction& fireLineDirection, /*out*/  Tank*& enemyOnLine) const
+bool AI::isEnemyOnFiringLine(/*out*/ GameObject::Direction& fireLineDirection, /*out*/ Tank*& enemyOnLine) const
 {
 	auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
 	if (scene == nullptr)

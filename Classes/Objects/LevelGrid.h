@@ -36,8 +36,8 @@ public:
 	inline const cocos2d::Size& getTileSize() const { return _tileSize; };
 	//inline void setTileSize(const cocos2d::Size& tileSize) { _tileSize = tileSize; };
 
-	Pos2 tileCoordForPosition(const cocos2d::Vec2 & position) const;
-	cocos2d::Vec2 positionForTileCoord(const Pos2 & tileCoord) const;
+	Pos2 tileCoordForPosition(const cocos2d::Vec2& position) const;
+	cocos2d::Vec2 positionForTileCoord(const Pos2& tileCoord) const;
 
 	TileValue getTile(int x, int y) const;
 	TileValue getTile(const Pos2& position) const;
@@ -50,11 +50,11 @@ public:
 	void setDynamicPassable(const Pos2& tileCoord, PassableValue value);
 	bool isDynamicPassable(const Pos2& tileCoord) const;
 
-	bool isTilePassable(const Pos2 &tileCoord) const;
-	bool isValidTileCoord(const Pos2 &tileCoord) const;
+	bool isTilePassable(const Pos2& tileCoord) const;
+	bool isValidTileCoord(const Pos2& tileCoord) const;
 	cocos2d::PointArray* walkableAdjacentTilesCoordForTileCoord(const Pos2 &tileCoord) const;
 
-	void digPath(const Pos2 & posA, const Pos2 & posB);
+	void digPath(const Pos2& posA, const Pos2& posB);
 
 private:
 	LevelGrid();
@@ -75,14 +75,14 @@ private:
 	bool initialiseRandom(float chanceToWall, float chanceToHole);
 	void getRandomTiles(std::vector<TileValue>& tiles, float chanceToWall, float chanceToHole) const;
 	bool initialiseUsingCA(const CAParams& params, float chanceToHole);
-	void getCATiles(std::vector<TileValue>& tiles, const CAParams & params, float chanceToHole) const;
+	void getCATiles(std::vector<TileValue>& tiles, const CAParams& params, float chanceToHole) const;
 
 	void updateSprite(int x, int y, TileValue value);
-	void setSprite(int x, int y, const std::string & sprite, int zOrder, int tagLayer);
+	void setSprite(int x, int y, const std::string& sprite, int zOrder, int tagLayer);
 	void removeSprite(int x, int y, int tagLayer);
 
 	std::vector<TileValue> doSimulationStep(std::vector<TileValue>& oldMap, int deathLimit, int birthLimit) const;
-	int  countAliveNeighbours(std::vector<TileValue>& map, int x, int y) const;
+	int countAliveNeighbours(std::vector<TileValue>& map, int x, int y) const;
 };
 
 #endif // _LEVELGRID_H_

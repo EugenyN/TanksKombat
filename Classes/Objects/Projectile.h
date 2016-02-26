@@ -14,6 +14,8 @@ public:
 	bool init() override;
 	void move(Direction direction);
 	void remove();
+
+	CC_SYNTHESIZE(GameObject*, _ownerTank, OwnerTank);
 private:
 	Projectile();
 	~Projectile();

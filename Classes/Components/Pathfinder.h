@@ -9,11 +9,11 @@ public:
 	ShortestPathStep();
 	~ShortestPathStep();
 
-	static ShortestPathStep *createWithPosition(const Pos2 &pos);
-	bool initWithPosition(const Pos2 &pos);
+	static ShortestPathStep* createWithPosition(const Pos2& pos);
+	bool initWithPosition(const Pos2& pos);
 
 	int getFScore() const;
-	bool isEqual(const ShortestPathStep *other) const;
+	bool isEqual(const ShortestPathStep* other) const;
 	std::string getDescription() const;
 
 	CC_SYNTHESIZE(Pos2, _position, Position);
@@ -39,7 +39,7 @@ private:
 	Pathfinder();
 	virtual ~Pathfinder();
 
-	void insertInOpenSteps(ShortestPathStep *step);
+	void insertInOpenSteps(ShortestPathStep* step);
 	int computeHScoreFromCoordToCoord(const Pos2& from, const Pos2& to);
 	int costToMoveFromStepToAdjacentStep(const ShortestPathStep* fromStep, const ShortestPathStep* toStep);
 	ssize_t getStepIndex(const cocos2d::Vector<ShortestPathStep*>& steps, const ShortestPathStep* step);

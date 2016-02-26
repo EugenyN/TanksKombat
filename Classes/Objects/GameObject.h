@@ -8,12 +8,9 @@ class Engine;
 class GameObject : public cocos2d::Node
 {
 public:
-	enum class Type
+	enum class Type : int
 	{
-		TANK = 0,
-		BONUS = 1,
-		EXPLOSION = 2,
-		PROJECTILE = 3
+		TANK = 0, BONUS, EXPLOSION, PROJECTILE
 	};
 
 	enum class Direction : int
@@ -28,11 +25,13 @@ public:
 	void setGridPosition(const Pos2& p);
 	void setGridPosition(int x, int y);
 
-	static Pos2 getGridPosition(cocos2d::Node* node);
+	static Pos2 getGridPosition(const cocos2d::Node* node);
 	static void setGridPosition(cocos2d::Node* node, const Pos2& p);
 	static void setGridPosition(cocos2d::Node* node, int x, int y);
 	static void setGridDirection(cocos2d::Node* node, Direction direction);
 	static Pos2 directionToOffset(Direction direction);
+	static Direction offsetToDirection(Pos2 offset);
+	static float directionToRotation(Direction direction);
 
 	static void updatePassableLayer(const Pos2& pos, const Pos2& prevPos);
 	static void removeFromPassableLayer(const Pos2& pos);

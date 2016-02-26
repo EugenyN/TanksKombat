@@ -8,7 +8,9 @@
 #include <array>
 #include <sstream>
 
+
 #define GAME_TITLE "Tanks Kombat"
+#define GAME_VERSION "1.0.13"
 
 #define DESIGN_WIDTH 640
 #define DESIGN_HEIGHT 480
@@ -26,21 +28,14 @@
 #define FIRE_BUTTON_OFFSET Point(8, 48)
 
 #define INT2COLOR4B(color) Color4B((color & 0xFF0000) >> 16, (color & 0x00FF00) >> 8, color & 0x0000FF, 255)
-#define INT2COLOR4B_(color, alpha) Color4B((color & 0xFF0000) >> 16, (color & 0x00FF00) >> 8, color & 0x0000FF, alpha)
+#define INT2COLOR4BA(color, alpha) Color4B((color & 0xFF0000) >> 16, (color & 0x00FF00) >> 8, color & 0x0000FF, alpha)
 #define INT2COLOR4F(color) Color4F(((color & 0xFF0000) >> 16)/255.0f, ((color & 0x00FF00) >> 8)/255.0f, (color & 0x0000FF)/255.0f, 1.0f)
-#define INT2COLOR4F_(color, alpha) Color4F(((color & 0xFF0000) >> 16)/255.0f, ((color & 0x00FF00) >> 8)/255.0f, (color & 0x0000FF)/255.0f, alpha)
+#define INT2COLOR4FA(color, alpha) Color4F(((color & 0xFF0000) >> 16)/255.0f, ((color & 0x00FF00) >> 8)/255.0f, (color & 0x0000FF)/255.0f, alpha)
 #define INT2COLOR3B(color) Color3B((color & 0xFF0000) >> 16, (color & 0x00FF00) >> 8, color & 0x0000FF)
 
 #define FONT_MAIN "fonts/main_font.png", 17, 16, ' '
 #define FONT_LOGO "fonts/logo_font.png", 32, 32, ' '
 
-#define BACKGROUND_LAYER_ZORDER 0
-#define GRID_LAYER_ZORDER 1
-#define GROUND_LAYER_ZORDER 2
-#define WALL_LAYER_ZORDER 3
-#define OBJECTS_LAYER_ZORDER 4
-#define HUD_LAYER_ZORDER 5
-#define MODAL_DIALOGS_LAYER_ZORDER 6
 
 #ifndef NDEBUG
 	#define SCENE_TRANSITION false
@@ -83,6 +78,22 @@
 
 #define BACKGROUND_MUSIC "music/main" MUSIC_EXT
 
+struct TouchEventsFunc
+{
+	int id;
+	std::function<bool(cocos2d::Touch*, cocos2d::Event*)> onTouchBegan;
+	std::function<void(cocos2d::Touch*, cocos2d::Event*)> onTouchMoved;
+	std::function<void(cocos2d::Touch*, cocos2d::Event*)> onTouchEnded;
+	std::function<void(cocos2d::Touch*, cocos2d::Event*)> onTouchCancelled;
+};
+
+struct KeyboardEventsFunc
+{
+	int id;
+	std::function<bool(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*)> onKeyPressed;
+	std::function<bool(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*)> onKeyReleased;
+};
+
 struct Settings 
 {
 	bool fullscreen;
@@ -108,10 +119,10 @@ struct GameSettings
 
 	enum class MapSize
 	{
-		SMALL = 0, MEDIUM = 1, LARGE = 2
+		SMALL = 0, MEDIUM, LARGE
 	};
 
-	TankType tankTypes[MAX_TEAMS_COUNT] = { 
+	std::array<TankType, MAX_TEAMS_COUNT> tankTypes = std::array<TankType, MAX_TEAMS_COUNT> {
 		TankType::HUMAN, TankType::CPU, TankType::NONE, TankType::NONE 
 	};
 	MapType mapType = MapType::RANDOM;
@@ -132,32 +143,29 @@ struct GameMode
 	void writeToDict(cocos2d::ValueMap& dict);
 };
 
-
-typedef struct 
+enum LayerZOrder
 {
-	int id;
-	std::function<bool(cocos2d::Touch*, cocos2d::Event*)> onTouchBegan;
-	std::function<void(cocos2d::Touch*, cocos2d::Event*)> onTouchMoved;
-	std::function<void(cocos2d::Touch*, cocos2d::Event*)> onTouchEnded;
-	std::function<void(cocos2d::Touch*, cocos2d::Event*)> onTouchCancelled;
-} TouchEventsFunc;
-
-
-typedef struct
-{
-	int id;
-	std::function<bool(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*)> onKeyPressed;
-	std::function<bool(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*)> onKeyReleased;
-} KeyboardEventsFunc;
-
+	BACKGROUND = 0, GRID, GROUND, WALL, OBJECTS, HUD, MODAL_DIALOGS
+};
 
 enum class Team
 {
-	RED = 0,
-	BLUE = 1,
-	GREEN = 2,
-	YELLOW = 3
+	RED = 0, BLUE, GREEN, YELLOW
 };
+
+enum class TeamColor
+{
+	RED = 0xff8080,
+	BLUE = 0x8080ff,
+	GREEN = 0xff80ff,
+	YELLOW = 0xffff80
+};
+
+const std::array<TeamColor, MAX_TEAMS_COUNT> teamColors = {
+	TeamColor::RED, TeamColor::BLUE, TeamColor::GREEN, TeamColor::YELLOW 
+};
+
+#define GET_TEAM_COLOR3B(team) Color3B(INT2COLOR3B((int)teamColors[(int)team]))
 
 enum class TankAction
 {

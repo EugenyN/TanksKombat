@@ -165,12 +165,12 @@ void LevelGrid::updateSprite(int x, int y, TileValue value)
 	if (value == TileValue::GROUND)
 	{
 		removeSprite(x, y, WALL_LAYER_TAGS);
-		setSprite(x, y, _groundSprite, GROUND_LAYER_ZORDER, GROUND_LAYER_TAGS);
+		setSprite(x, y, _groundSprite, LayerZOrder::GROUND, GROUND_LAYER_TAGS);
 	} 
 	else if (value == TileValue::BLOCK)
 	{
-		setSprite(x, y, _groundSprite, GROUND_LAYER_ZORDER, GROUND_LAYER_TAGS);
-		setSprite(x, y, _wallSprite, WALL_LAYER_ZORDER, WALL_LAYER_TAGS);
+		setSprite(x, y, _groundSprite, LayerZOrder::GROUND, GROUND_LAYER_TAGS);
+		setSprite(x, y, _wallSprite, LayerZOrder::WALL, WALL_LAYER_TAGS);
 	}
 	else if (value == TileValue::HOLE)
 	{

@@ -107,7 +107,7 @@ void MainMenuScene::onKeyEvent(EventKeyboard::KeyCode keyCode, cocos2d::Event *e
 	if (keyCode == EventKeyboard::KeyCode::KEY_BACK) 
 	{
 		auto exitDialog = ModalDialog::create("Do you want to exit?", CC_CALLBACK_0(MainMenuScene::exitGame, this), nullptr, "YES", "NO");
-		this->addChild(exitDialog, MODAL_DIALOGS_LAYER_ZORDER);
+		this->addChild(exitDialog, LayerZOrder::MODAL_DIALOGS);
 	}
 	else if (keyCode == EventKeyboard::KeyCode::KEY_MENU) {
 		onMenuItemActivated(TAG_OPTIONS);

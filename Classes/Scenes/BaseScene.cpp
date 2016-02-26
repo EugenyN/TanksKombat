@@ -4,27 +4,38 @@
 USING_NS_CC;
 
 
+cocos2d::EventKeyboard::KeyCode JoystickWithSimulator::getKeyCodeFromVelocity() const
+{
+	EventKeyboard::KeyCode code;
+	if (getVelocity().y > 0.5f)
+		code = EventKeyboard::KeyCode::KEY_UP_ARROW;
+	else if (getVelocity().y < -0.5f)
+		code = EventKeyboard::KeyCode::KEY_DOWN_ARROW;
+	else if (getVelocity().x > 0.5f)
+		code = EventKeyboard::KeyCode::KEY_RIGHT_ARROW;
+	else if (getVelocity().x < -0.5f)
+		code = EventKeyboard::KeyCode::KEY_LEFT_ARROW;
+	return code;
+}
+
 bool JoystickWithSimulator::onTouchBegan(Touch * touch, Event * event)
 {
 	if (SneakyJoystick::onTouchBegan(touch, event)) {
 		if (getVelocity().isZero())
 			return true;
-
-		EventKeyboard::KeyCode code;
-		if (getVelocity().y > 0.5f)
-			code =  EventKeyboard::KeyCode::KEY_UP_ARROW;
-		else if (getVelocity().y < -0.5f)
-			code = EventKeyboard::KeyCode::KEY_DOWN_ARROW;
-		else if (getVelocity().x > 0.5f)
-			code = EventKeyboard::KeyCode::KEY_RIGHT_ARROW;
-		else if (getVelocity().x < -0.5f)
-			code = EventKeyboard::KeyCode::KEY_LEFT_ARROW;
-		
-		EventKeyboard simEvent(code, true);
+		EventKeyboard simEvent(getKeyCodeFromVelocity(), true);
 		_eventDispatcher->dispatchEvent(&simEvent);
 		return true;
 	}
 	return false;
+}
+
+void JoystickWithSimulator::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
+{
+	EventKeyboard simEvent(getKeyCodeFromVelocity(), false);
+	_eventDispatcher->dispatchEvent(&simEvent);
+
+	SneakyJoystick::onTouchEnded(touch, event);
 }
 
 bool ButtonWithSimulator::onTouchBegan(Touch * touch, Event * event)
@@ -34,6 +45,14 @@ bool ButtonWithSimulator::onTouchBegan(Touch * touch, Event * event)
 		_eventDispatcher->dispatchEvent(&simEvent);
 	}
 	return false;
+}
+
+void ButtonWithSimulator::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
+{
+	SneakyButton::onTouchEnded(touch, event);
+
+	EventKeyboard simEvent(EventKeyboard::KeyCode::KEY_ENTER, false);
+	_eventDispatcher->dispatchEvent(&simEvent);
 }
 
 //
@@ -103,6 +122,10 @@ void BaseScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::
 	}
 
 	onKeyEvent(keyCode, event);
+}
+
+void BaseScene::onKeyEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
+{
 }
 
 bool BaseScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
@@ -239,6 +262,7 @@ void BaseScene::addJoystick()
 	auto action1ButtonBase = SneakyButtonSkinnedBase::create();
 	auto button1 = new ButtonWithSimulator();
 	button1->initWithRect(fireButtonDimensions);
+	// button1->setIsHoldable(true);
 	action1ButtonBase->setDefaultSprite(CCSprite::create("graphics/joystick/action1Down.png"));
 	action1ButtonBase->setActivatedSprite(CCSprite::create("graphics/joystick/action1Down.png"));
 	action1ButtonBase->setPressSprite(CCSprite::create("graphics/joystick/action1Up.png"));

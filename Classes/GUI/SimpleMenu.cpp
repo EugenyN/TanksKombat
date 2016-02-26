@@ -87,8 +87,7 @@ SimpleMenu::~SimpleMenu()
 
 void SimpleMenu::setCurrentMenuItemTag(int currentMenuItem)
 {
-	_currentMenuItem = currentMenuItem;
-	auto item = dynamic_cast<SimpleMenuItem*>(getChildByTag(_currentMenuItem));
+	auto item = dynamic_cast<SimpleMenuItem*>(getChildByTag(currentMenuItem));
 	if (item != nullptr)
 		onCurrentItemChanged(item, false);
 }
@@ -128,20 +127,16 @@ bool SimpleMenu::onKeyPressed2(EventKeyboard::KeyCode keyCode, Event *event)
 	}
 	else if (keyCode == upSelectCode)
 	{
-		if (_currentMenuItem > 0) {
-			_currentMenuItem--;
-			auto item = dynamic_cast<SimpleMenuItem*>(getChildByTag(_currentMenuItem));
-			onCurrentItemChanged(item);
-		}
+		ssize_t index = _children.getIndex(_currentMenuItem);
+		if (index > 0)
+			onCurrentItemChanged(dynamic_cast<SimpleMenuItem*>(_children.at(--index)));
 		return true;
 	}
 	else if (keyCode == downSelectCode)
 	{
-		if (_currentMenuItem < this->getChildrenCount() - 1) {
-			_currentMenuItem++;
-			auto item = dynamic_cast<SimpleMenuItem*>(getChildByTag(_currentMenuItem));
-			onCurrentItemChanged(item);
-		}
+		ssize_t index = _children.getIndex(_currentMenuItem);
+		if (index < _children.size() - 1)
+			onCurrentItemChanged(dynamic_cast<SimpleMenuItem*>(_children.at(++index)));
 		return true;
 	}
 	else if (keyCode == leftSelectCode)
@@ -149,7 +144,6 @@ bool SimpleMenu::onKeyPressed2(EventKeyboard::KeyCode keyCode, Event *event)
 		auto item = dynamic_cast<SimpleMenuItem*>(getCurrentMenuItem());
 		if (item != nullptr)
 			item->selectPrevValue();
-
 		return true;
 	}
 	else if (keyCode == rightSelectCode)
@@ -157,7 +151,6 @@ bool SimpleMenu::onKeyPressed2(EventKeyboard::KeyCode keyCode, Event *event)
 		auto item = dynamic_cast<SimpleMenuItem*>(getCurrentMenuItem());
 		if (item != nullptr)
 			item->selectNextValue();
-
 		return true;
 	}
 
@@ -168,10 +161,10 @@ void SimpleMenu::onCurrentItemChanged(SimpleMenuItem* menuItem, bool playSound)
 {
 	updateMenuItems(menuItem);
 
-	if (_currentMenuItem == menuItem->getTag())
+	if (_currentMenuItem == menuItem)
 		return;
 
-	_currentMenuItem = menuItem->getTag();
+	_currentMenuItem = menuItem;
 
 	if (playSound)
 		Engine::getInstance()->playSound("menu_select");

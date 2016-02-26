@@ -224,7 +224,11 @@ void OpenGLESPage::StartRenderLoop()
     }
 
     DisplayInformation^ currentDisplayInformation = DisplayInformation::GetForCurrentView();
-    mDpi = currentDisplayInformation->LogicalDpi;
+	mDpi = currentDisplayInformation->RawDpiX; //currentDisplayInformation->LogicalDpi;
+
+	//auto dpi = currentDisplayInformation->LogicalDpi;
+	//auto mRawDpiX = currentDisplayInformation->RawDpiX;
+	//auto mRawDpiY = currentDisplayInformation->RawDpiY;
 
     auto dispatcher = Windows::UI::Xaml::Window::Current->CoreWindow->Dispatcher;
 

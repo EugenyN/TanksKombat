@@ -32,26 +32,8 @@ GameObject::Direction GameObject::getGridDirection()
 void GameObject::setGridDirection(Direction direction)
 {
 	_direction = direction;
-
-	switch (direction)
-	{
-	case Direction::UP:
-		_sprite->setRotation(0.0f);
-		break;
-	case Direction::DOWN:
-		_sprite->setRotation(180.0f);
-		break;
-	case Direction::LEFT:
-		_sprite->setRotation(-90.0f);
-		break;
-	case Direction::RIGHT:
-		_sprite->setRotation(90.0f);
-		break;
-	default:
-		break;
-	}
+	setGridDirection(_sprite, direction);
 }
-
 
 Pos2 GameObject::getGridPosition() const
 {
@@ -62,7 +44,7 @@ void GameObject::setGridPosition(const Pos2& p)
 {
 	auto prevPos = _position;
 	_position = p;
-	_sprite->setPosition(Vec2(p.x, p.y)  * TILE_SIZE + Vec2::ONE * TILE_SIZE / 2);
+	setGridPosition(_sprite, p);
 
 	if (!_isPassable)
 		updatePassableLayer(p, prevPos);
@@ -73,9 +55,9 @@ void GameObject::setGridPosition(int x, int y)
 	setGridPosition(Pos2(x, y));
 }
 
-Pos2 GameObject::getGridPosition(Node* node)
+Pos2 GameObject::getGridPosition(const Node* node)
 {
-	return Pos2();
+	return Pos2(node->getPosition() / TILE_SIZE);
 }
 
 void GameObject::setGridPosition(Node* node, const Pos2& p)
@@ -90,31 +72,15 @@ void GameObject::setGridPosition(Node* node, int x, int y)
 
 void GameObject::setGridDirection(Node* node, Direction direction)
 {
-	switch (direction)
-	{
-	case Direction::UP:
-		node->setRotation(0.0f);
-		break;
-	case Direction::DOWN:
-		node->setRotation(180.0f);
-		break;
-	case Direction::LEFT:
-		node->setRotation(-90.0f);
-		break;
-	case Direction::RIGHT:
-		node->setRotation(90.0f);
-		break;
-	default:
-		break;
-	}
+	node->setRotation(directionToRotation(direction));
 }
 
-Sprite * GameObject::getSprite()
+Sprite* GameObject::getSprite()
 {
 	return _sprite;
 }
 
-void GameObject::setSprite(Sprite * sprite)
+void GameObject::setSprite(Sprite* sprite)
 {
 	if (_sprite != nullptr && _sprite->getParent() == this)
 		this->removeChild(_sprite);
@@ -138,6 +104,38 @@ Pos2 GameObject::directionToOffset(Direction direction)
 		return Pos2(+1, 0);
 	}
 	return Pos2(0, 0);
+}
+
+GameObject::Direction GameObject::offsetToDirection(Pos2 offset)
+{
+	offset.normalize();
+
+	if (offset == Pos2(0, -1))
+		return Direction::DOWN;
+	if (offset == Pos2(0, +1))
+		return Direction::UP;
+	if (offset == Pos2(-1, 0))
+		return Direction::LEFT;
+	if (offset == Pos2(+1, 0))
+		return Direction::RIGHT;
+
+	throw std::logic_error("Can not convert offset " + offset.toString() + " to direction!");
+}
+
+float GameObject::directionToRotation(Direction direction)
+{
+	switch (direction)
+	{
+	case Direction::UP:
+		return 0.0f;
+	case Direction::DOWN:
+		return 180.0f;
+	case Direction::LEFT:
+		return -90.0f;
+	case Direction::RIGHT:
+		return 90.0f;
+	}
+	return 0.0f;
 }
 
 void GameObject::updatePassableLayer(const Pos2& pos, const Pos2& prevPos)

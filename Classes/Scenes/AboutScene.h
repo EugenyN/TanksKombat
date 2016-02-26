@@ -7,11 +7,14 @@ class AboutScene : public BaseScene
 {
 public:
     static cocos2d::Scene* createScene();
-    virtual bool init();  
+    virtual bool init();
     CREATE_FUNC(AboutScene);
 
 private:
-	void onKeyEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
+	void onKeyPressed(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event* event) override;
+	void showDebugInfo();
+	cocos2d::Label* _content;
+	cocos2d::Label* _content2;
 };
 
 #endif // __ABOUT_SCENE_H__

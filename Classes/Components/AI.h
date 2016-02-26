@@ -59,7 +59,7 @@ private:
 
 	Tank* findNearestTank() const;
 	Bonus * findNearestBonus() const;
-	bool findEscapePoint(/*out*/ Pos2* point) const;
+	bool findEscapePoint(/*out*/ Pos2& point) const;
 	bool isEnemyOnFiringLine(/*out*/ GameObject::Direction& fireLineDirection, /*out*/ Tank*& enemyOnLine) const;
 	bool isEnemyOnFiringLine(GameObject::Direction direction, const Pos2& ownerPos, const Pos2& enemyPos) const;
 };

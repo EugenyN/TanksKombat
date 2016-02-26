@@ -14,14 +14,14 @@ TiledSprite* TiledSprite::createWithSprite(Sprite* sourceSprite, int width, int 
 	return nullptr;
 }
 
-bool TiledSprite::initWithTX(Sprite* sourceSprite, int width,int height)
+bool TiledSprite::initWithTX(Sprite* sourceSprite, int width, int height)
 {
 	CC_ASSERT(width > 0 && height > 0);
 
 	if (!Sprite::init())
 		return false;
 
-    Rect spriteBounds = sourceSprite->getTextureRect();
+    const Rect& spriteBounds = sourceSprite->getTextureRect();
     int sourceX = spriteBounds.origin.x;
     int sourceY = spriteBounds.origin.y;
     int sourceWidth = spriteBounds.size.width;

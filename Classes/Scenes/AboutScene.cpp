@@ -49,18 +49,18 @@ bool AboutScene::init()
 		"\n\n"
 		"3d party code:\n\n";
 
-	auto content = Label::createWithCharMap(FONT_MAIN);
-	content->setAlignment(TextHAlignment::CENTER);
-	content->setString(about);
-	content->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 + 32));
-	this->addChild(content, 2);
+	_content = Label::createWithCharMap(FONT_MAIN);
+	_content->setAlignment(TextHAlignment::CENTER);
+	_content->setString(about);
+	_content->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 + 32));
+	this->addChild(_content, 2);
 
-	auto content2 = Label::createWithCharMap(FONT_MAIN);
-	content2->setAlignment(TextHAlignment::CENTER);
-	content2->setColor(Color3B(255, 255, 0));
-	content2->setString(aboutYellow);
-	content2->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 + 32));
-	this->addChild(content2, 2);
+	_content2 = Label::createWithCharMap(FONT_MAIN);
+	_content2->setAlignment(TextHAlignment::CENTER);
+	_content2->setColor(Color3B(255, 255, 0));
+	_content2->setString(aboutYellow);
+	_content2->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 + 32));
+	this->addChild(_content2, 2);
 
 	//
 
@@ -73,7 +73,49 @@ bool AboutScene::init()
 	return true;
 }
 
-void AboutScene::onKeyEvent(EventKeyboard::KeyCode keyCode, cocos2d::Event *event)
+void AboutScene::showDebugInfo()
 {
-	CHANGE_SCENE(MainMenuScene);
+	this->removeChild(_content2);
+	_content2 = nullptr;
+
+	_content->setAlignment(TextHAlignment::LEFT);
+
+	Size visibleSize = Director::getInstance()->getVisibleSize();
+	Point origin = Director::getInstance()->getVisibleOrigin();
+	auto glview = Director::getInstance()->getOpenGLView();
+
+	float dpiScale = Device::getDPI() / 86.0f;
+	float resolutionScale = 1.0f / glview->getScaleX();
+
+	Size frameSize = glview->getFrameSize();
+
+	// add joystick
+
+	float joystickScale = JOYSTICK_SCALE * resolutionScale * dpiScale;
+
+	const char* debugInfoText =
+		"Version: %s\n\n"
+		"Frame Size: %.0f,%.0f\n"
+		"Visible Size: %.0f,%.0f\n"
+		"ScaleX: %.3f ResScale %.3f\n"
+		"DPI: %d\n"
+		"Joystick Scale: %.3f\n";
+
+	std::string debugInfo = StringUtils::format(debugInfoText, GAME_VERSION, frameSize.width,
+		frameSize.height, visibleSize.width, visibleSize.height, glview->getScaleX(), resolutionScale,
+		Device::getDPI(), joystickScale);
+
+	_content->setString(debugInfo);
+}
+
+void AboutScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
+{
+	BaseScene::onKeyPressed(keyCode, event);
+
+	if (keyCode == EventKeyboard::KeyCode::KEY_UP_ARROW) {
+		showDebugInfo();
+	}
+	else {
+		CHANGE_SCENE(MainMenuScene);
+	}
 }

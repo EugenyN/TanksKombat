@@ -111,7 +111,7 @@ void SettingsScene::menuItemValueChanged(Ref* pSender)
 	{
 	case TAG_FULLSCREEN: {
 		_engine->Settings.fullscreen = currentValue == 1;
-		this->addChild(ModalDialog::create("Changes will take effect after restart."), MODAL_DIALOGS_LAYER_ZORDER);
+		this->addChild(ModalDialog::create("Changes will take effect after restart."), LayerZOrder::MODAL_DIALOGS);
 		break;
 	}
 	case TAG_MUSIC:

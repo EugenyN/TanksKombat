@@ -32,7 +32,7 @@ private:
 	std::function<void(void)> _callbackCancel;
 
 	void addEvents();
-	bool onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
+	bool onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	virtual void onEnter() override;
 	virtual void onExit() override;
 	void initOpt(const std::string& content, const std::string& okText, const std::string& cancelText);

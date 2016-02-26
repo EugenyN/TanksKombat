@@ -37,21 +37,16 @@ public:
 #endif
 
 	static SimpleMenu* createWithArray(Type type, const cocos2d::Vector<cocos2d::MenuItem*>& arrayOfItems);
-	static SimpleMenu* createWithItems(Type type, cocos2d::MenuItem *firstItem, va_list args);
+	static SimpleMenu* createWithItems(Type type, cocos2d::MenuItem* firstItem, va_list args);
 
 	SimpleMenu();
 	~SimpleMenu();
-
-	int getCurrentMenuItemTag() const
-	{
-		return _currentMenuItem;
-	}
 
 	void setCurrentMenuItemTag(int currentMenuItem);
 
 	SimpleMenuItem* getCurrentMenuItem() const
 	{
-		return dynamic_cast<SimpleMenuItem*>(this->getChildByTag(_currentMenuItem));
+		return _currentMenuItem;
 	}
 
 protected:
@@ -59,12 +54,12 @@ protected:
 	virtual void onItemActivated(SimpleMenuItem* menuItem, bool playSound = true);
 private:
 	int _listenerId;
-	int _currentMenuItem;
+	SimpleMenuItem* _currentMenuItem;
 	Type _type;
 
 	std::function<void(cocos2d::Ref*)> _onItemChanged;
 
-	bool onKeyPressed2(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
+	bool onKeyPressed2(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	void initOpt(Type type);
 
 	void updateMenuItems(SimpleMenuItem* menuItem);

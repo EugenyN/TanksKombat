@@ -5,20 +5,6 @@
 #include "Objects\LevelGrid.h"
 #include <array>
 
-enum class TeamColor
-{
-	RED = 0xff8080,
-	BLUE = 0x8080ff,
-	GREEN = 0xff80ff,
-	YELLOW = 0xffff80
-};
-
-const std::array<TeamColor, 4> teamColors = { 
-	TeamColor::RED, TeamColor::BLUE, TeamColor::GREEN, TeamColor::YELLOW 
-};
-
-#define GET_TEAM_COLOR3B(team) Color3B(INT2COLOR3B((int)teamColors[(int)team]))
-
 class ShortestPathStep;
 
 class Tank : public GameObject
@@ -38,7 +24,7 @@ public:
 	bool init() override;
 
 	bool tryMove(Direction direction);
-	bool moveToward(const Pos2 &target, bool getUpClose = false);
+	bool moveToward(const Pos2& target, bool getUpClose = false);
 	void stopMoveToward();
 	void move(Direction direction);
 	bool tryShoot();
@@ -82,14 +68,14 @@ private:
 	void startGhostState();
 	void stopGhostState();
 	void startFallIntoHoleState();
-	bool startMoveTowardState(const Pos2 & target, bool getUpClose = false);
+	bool startMoveTowardState(const Pos2& target, bool getUpClose = false);
 	void addMoveTowardDebugPath();
 	void stopMoveTowardState();
 	void updateMoveTowardState();
 
 	void respawnIntoPosition(Pos2 position);
 
-	static cocos2d::Action * createIdleAction(Direction direction, const char* frame);
+	static cocos2d::Action* createIdleAction(Direction direction, const std::string& frame);
 
 	void shotAnimationStarted();
 	void shotAnimationFinished();
@@ -97,8 +83,6 @@ private:
 	bool onCollidedWithBlock(Direction direction, const TileValue& value);
 	bool onCollidedWithGameObject(Direction direction, GameObject* obj);
 	void onPostCollidedWithGameObject(GameObject* obj);
-
-	static Direction getDirectionFromOffset(Pos2 from, Pos2 to);
 };
 
 #endif // _TANK_H_

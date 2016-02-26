@@ -1,7 +1,6 @@
 #ifndef _POS2_H_
 #define _POS2_H_
 
-
 class Pos2
 {
 public:
@@ -127,9 +126,25 @@ public:
 		y = -y;
 	}
 
+	inline void normalize()
+	{
+		x = (0 < x) - (x < 0);
+		y = (0 < y) - (y < 0);
+	}
+
 	bool equals(const Pos2& p) const
 	{
 		return x == p.x && y == p.y;
+	}
+
+	inline std::ostream& operator<<(std::ostream& ostr)
+	{
+		return ostr << toString();
+	}
+
+	std::string toString() const
+	{
+		return cocos2d::StringUtils::format("[ %d, %d ]", x, y);
 	}
 };
 

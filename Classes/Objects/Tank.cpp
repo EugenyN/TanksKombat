@@ -21,8 +21,7 @@ Tank::Tank()
 }
 
 Tank::Tank(Team team, int lives, int ammo)
-	: GameObject(Type::TANK), 
-	_team(team), _lives(lives), _ammo(ammo),
+	: GameObject(Type::TANK), _team(team), _lives(lives), _ammo(ammo),
 	_shotState(nullptr), _shot(nullptr), _moveTowardState(nullptr)
 {
 	_isPassable = false;
@@ -48,10 +47,8 @@ void Tank::setTeam(Team team)
 {
 	_team = team;
 
-	if (_sprite != nullptr) {
-		//_sprite->setBlendFunc(BlendFunc::ADDITIVE);
+	if (_sprite != nullptr)
 		_sprite->setColor(GET_TEAM_COLOR3B(_team));
-	}
 }
 
 int Tank::getAmmo() const
@@ -131,14 +128,14 @@ bool Tank::init()
 	return true;
 }
 
-Action* Tank::createIdleAction(Direction direction, const char* frame)
+Action* Tank::createIdleAction(Direction direction, const std::string& frame)
 {
 	const float IDLE_ANIMATION_TIME = 0.2f;
 
 	Vector<SpriteFrame*> animFrames(2);
 	auto spritecache = SpriteFrameCache::getInstance();
 	for (int i = 0; i <= 1; ++i)
-		animFrames.pushBack(spritecache->getSpriteFrameByName(StringUtils::format(frame, i)));
+		animFrames.pushBack(spritecache->getSpriteFrameByName(StringUtils::format(frame.c_str(), i)));
 
 	auto action = RepeatForever::create(Animate::create(
 		Animation::createWithSpriteFrames(animFrames, IDLE_ANIMATION_TIME)));
@@ -185,7 +182,7 @@ bool Tank::tryMove(GameObject::Direction direction)
 	return true;
 }
 
-bool Tank::moveToward(const Pos2 & target, bool getUpClose)
+bool Tank::moveToward(const Pos2& target, bool getUpClose)
 {
 	return startMoveTowardState(target, getUpClose);
 }
@@ -219,7 +216,7 @@ bool Tank::onCollidedWithGameObject(Direction direction, GameObject* obj)
 	return false;
 }
 
-void Tank::onPostCollidedWithGameObject(GameObject * obj)
+void Tank::onPostCollidedWithGameObject(GameObject* obj)
 {
 	auto bonus = dynamic_cast<Bonus*>(obj);
 	if (bonus != nullptr) {
@@ -230,7 +227,7 @@ void Tank::onPostCollidedWithGameObject(GameObject * obj)
 
 	auto proj = dynamic_cast<Projectile*>(obj);
 	if (proj != nullptr) {
-		if (!isGhostState() && !isFallIntoHoleState()) {
+		if (!isGhostState() && !isFallIntoHoleState() && proj->getOwnerTank() != this) {
 			damage();
 			proj->remove();
 			return;
@@ -279,6 +276,7 @@ bool Tank::tryShoot()
 		auto proj = Projectile::create();
 		proj->setGridPosition(getGridPosition());
 		proj->setGridDirection(getGridDirection());
+		proj->setOwnerTank(this);
 		scene->addGameObject(proj);
 		return true;
 	}
@@ -523,7 +521,7 @@ void Tank::startFallIntoHoleState()
 	_sprite->runAction(state);
 }
 
-bool Tank::startMoveTowardState(const Pos2 & target, bool getUpClose)
+bool Tank::startMoveTowardState(const Pos2& target, bool getUpClose)
 {
 	auto pf = dynamic_cast<Pathfinder*>(getComponent(Pathfinder::COMPONENT_NAME));
 	if (pf == nullptr)
@@ -602,11 +600,20 @@ void Tank::updateMoveTowardState()
 {
 	CCASSERT(_moveTowardPath.size() > 0, "_moveTowardPath.size() == 0");
 
-	if (getGridPosition() != _moveTowardPath.at(0)->getPosition()) {
-		tryMove(getDirectionFromOffset(getGridPosition(), _moveTowardPath.at(0)->getPosition()));
+	auto from = getGridPosition();
+	auto to = _moveTowardPath.at(0)->getPosition();
+	auto offset = to - from;
 
-		_moveTowardPath.erase(0);
-	}
+	//CCASSERT(to != from, "There is no direction for null offset!");
+	if (to == from)
+		return; // There is no direction for null offset!
+
+	if (abs(offset.x) + abs(offset.y) != 1)
+		return; // There is no orthogonal offset!
+
+	tryMove(offsetToDirection(offset));
+
+	_moveTowardPath.erase(0);
 
 	if (_moveTowardPath.size() == 0)
 		stopMoveTowardState();
@@ -652,20 +659,4 @@ void Tank::kill()
 		scene->removeGameObject(this);
 		scene->onTankKilled(this);
 	}
-}
-
-Tank::Direction Tank::getDirectionFromOffset(Pos2 from, Pos2 to)
-{
-	CCASSERT(to != from, "There is no direction for null offset!");
-
-	if (to.x > from.x)
-		return Direction::RIGHT;
-	if (to.x < from.x)
-		return Direction::LEFT;
-	if (to.y > from.y)
-		return Direction::UP;
-	if (to.y < from.y)
-		return Direction::DOWN;
-
-	return Direction::DOWN;
 }
