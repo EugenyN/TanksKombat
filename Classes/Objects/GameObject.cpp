@@ -24,7 +24,7 @@ bool GameObject::init()
 	return Node::init();
 }
 
-GameObject::Direction GameObject::getGridDirection()
+GameObject::Direction GameObject::getGridDirection() const
 {
 	return _direction;
 }
@@ -75,7 +75,7 @@ void GameObject::setGridDirection(Node* node, Direction direction)
 	node->setRotation(directionToRotation(direction));
 }
 
-Sprite* GameObject::getSprite()
+Sprite* GameObject::getSprite() const
 {
 	return _sprite;
 }
