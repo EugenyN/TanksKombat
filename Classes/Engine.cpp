@@ -3,13 +3,19 @@
 #include "Scenes\BaseScene.h"
 #include "Scenes\GameplayScene.h"
 #include "Scenes\MainMenuScene.h"
-//#include "SimpleAudioEngine.h"
 #include "2d/CCFontAtlasCache.h"
 #include "2d/CCFontAtlas.h"
+
+#if USE_AUDIO_ENGINE
 #include "audio/include/AudioEngine.h"
+using namespace cocos2d::experimental;
+#elif USE_SIMPLE_AUDIO_ENGINE
+#include "audio/include/SimpleAudioEngine.h"
+using namespace CocosDenshion;
+#endif
 
 USING_NS_CC;
-using namespace cocos2d::experimental;
+
 
 
 GameMode GameMode::createFromDict(const ValueMap& dict)
@@ -54,6 +60,12 @@ Engine::Engine()
 void Engine::destroyInstance()
 {
 	CC_SAFE_DELETE(_instance);
+
+#if USE_AUDIO_ENGINE
+	AudioEngine::end();
+#elif USE_SIMPLE_AUDIO_ENGINE
+	SimpleAudioEngine::end();
+#endif
 }
 
 BaseScene* Engine::getCurrentScene() const
@@ -151,12 +163,14 @@ void Engine::playSound(const std::string& filePath)
 
 	std::string fullPath = "sfx/" + filePath + AUDIO_EXT;
 
-	//auto ae = CocosDenshion::SimpleAudioEngine::getInstance();
-	//ae->stopAllEffects();
-	//ae->setEffectsVolume(Settings.soundVolume / 100.0f);
-	//ae->playEffect(fullPath);
-
+#if USE_AUDIO_ENGINE
 	AudioEngine::play2d(fullPath, false, Settings.soundVolume / 100.0f);
+#elif USE_SIMPLE_AUDIO_ENGINE
+	auto ae = SimpleAudioEngine::getInstance();
+	ae->stopAllEffects();
+	ae->setEffectsVolume(Settings.soundVolume / 100.0f);
+	ae->playEffect(fullPath);
+#endif
 }
 
 void Engine::stopAllSound()
@@ -169,38 +183,51 @@ void Engine::playMusic(const std::string& filePath)
 	if (!Settings.musicEnabled)
 		return;
 
-	//setMusicVolume(Settings.musicVolume);
-	//CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic(filePath, true);
-
+#if USE_AUDIO_ENGINE
 	_bgMusicId = AudioEngine::play2d(filePath, true, Settings.musicVolume / 100.0f);
+#elif USE_SIMPLE_AUDIO_ENGINE
+	setMusicVolume(Settings.musicVolume);
+	SimpleAudioEngine::getInstance()->playBackgroundMusic(filePath, true);
+#endif
 }
 
 void Engine::stopMusic()
 {
+#if USE_AUDIO_ENGINE
 	AudioEngine::stop(_bgMusicId);
+#elif USE_SIMPLE_AUDIO_ENGINE
+	SimpleAudioEngine::getInstance()->stop();
+#endif
 }
 
 void Engine::setMusicVolume(float volume)
 {
-	//CocosDenshion::SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(volume / 100.0f);
+#if USE_AUDIO_ENGINE
 	if (_bgMusicId != AudioEngine::INVALID_AUDIO_ID)
 		AudioEngine::setVolume(_bgMusicId, volume / 100.0f);
+#elif USE_SIMPLE_AUDIO_ENGINE
+	SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(volume / 100.0f);
+#endif
 }
 
 void Engine::pauseAudio()
 {
-	// if you use SimpleAudioEngine, it must be pause
-	// SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
-
+#if USE_AUDIO_ENGINE
 	AudioEngine::pauseAll();
+#elif USE_SIMPLE_AUDIO_ENGINE
+	SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
+	SimpleAudioEngine::getInstance()->pauseAllEffects();
+#endif
 }
 
 void Engine::resumeAudio()
 {
-	// if you use SimpleAudioEngine, it must resume here
-	// SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
-
+#if USE_AUDIO_ENGINE
 	AudioEngine::resumeAll();
+#elif USE_SIMPLE_AUDIO_ENGINE
+	SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
+	SimpleAudioEngine::getInstance()->resumeAllEffects();
+#endif
 }
 
 void Engine::loadGameModes()

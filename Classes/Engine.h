@@ -10,7 +10,7 @@
 
 
 #define GAME_TITLE "Tanks Kombat"
-#define GAME_VERSION "1.0.13"
+#define GAME_VERSION "1.0.14"
 
 #define DESIGN_WIDTH 640
 #define DESIGN_HEIGHT 480
@@ -61,22 +61,26 @@
 #define GRID_MAX_WIDTH 20
 #define GRID_MAX_HEIGHT 14
 
+#define USE_AUDIO_ENGINE 1
+// #define USE_SIMPLE_AUDIO_ENGINE 1
+
+#if USE_AUDIO_ENGINE && USE_SIMPLE_AUDIO_ENGINE
+#error "Don't use AudioEngine and SimpleAudioEngine at the same time. Please just select one in your game!"
+#endif
+
 // define audio extension
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
 #define AUDIO_EXT ".ogg"
-#define MUSIC_EXT ".ogg"
 #define stdp stdPatchForMinGW
 #elif (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
 #define AUDIO_EXT ".ogg" // ".wav"
-#define MUSIC_EXT ".mp3" // win32 audio engine can not play ogg music
 #define stdp std
 #else
 #define AUDIO_EXT ".ogg"
-#define MUSIC_EXT ".ogg"
 #define stdp std
 #endif
 
-#define BACKGROUND_MUSIC "music/main" MUSIC_EXT
+#define BACKGROUND_MUSIC "music/main" AUDIO_EXT
 
 struct TouchEventsFunc
 {
