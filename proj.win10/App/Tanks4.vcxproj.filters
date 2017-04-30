@@ -14,26 +14,26 @@
     <Filter Include="Classes">
       <UniqueIdentifier>{a18967bc-4fa1-4c67-bf7e-3f9c8b6a1129}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Classes\GUI">
-      <UniqueIdentifier>{969bd942-8cf8-47c3-b283-3363f389caef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Objects">
-      <UniqueIdentifier>{9ad676b2-d505-4951-85a2-30b98aed3ea7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Classes\Scenes">
-      <UniqueIdentifier>{c259c90d-071c-4b18-997e-98ccf01227bf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Classes\Components">
-      <UniqueIdentifier>{5876b5da-7904-4964-8e3d-ed05d9fa9c95}</UniqueIdentifier>
+      <UniqueIdentifier>{de561d4f-17ec-4728-9089-4ac477aee611}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\GUI">
+      <UniqueIdentifier>{1e232380-24d2-4b10-a161-4f0562f23b69}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Math">
-      <UniqueIdentifier>{d36ff3a5-14b7-4071-bd73-c96376c69315}</UniqueIdentifier>
+      <UniqueIdentifier>{dccfeeca-8cb5-4166-9f54-4dec8eafbd72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Objects">
+      <UniqueIdentifier>{47f9ed1e-a1e9-4fb6-8679-ec6f14a163f9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Classes\Scenes">
+      <UniqueIdentifier>{7d84073e-4ae2-4d19-85ce-8788176f9e4c}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\SneakyInput">
-      <UniqueIdentifier>{b53c5bad-5296-4e1c-8b12-91aef1caa08b}</UniqueIdentifier>
+      <UniqueIdentifier>{12d28feb-17cc-4e51-96a4-ecdf508b72fe}</UniqueIdentifier>
     </Filter>
     <Filter Include="Classes\Utils">
-      <UniqueIdentifier>{c12a525a-4cdb-4d02-9af0-56212fe10e03}</UniqueIdentifier>
+      <UniqueIdentifier>{95c0ee6a-ae46-4ae0-b9ba-17a0793cfbb3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -88,9 +88,6 @@
     <ClCompile Include="..\..\Classes\Objects\TiledSprite.cpp">
       <Filter>Classes\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Classes\Scenes\SettingsScene.cpp">
-      <Filter>Classes\Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Classes\Scenes\AboutScene.cpp">
       <Filter>Classes\Scenes</Filter>
     </ClCompile>
@@ -103,7 +100,13 @@
     <ClCompile Include="..\..\Classes\Scenes\GameSettingsScene.cpp">
       <Filter>Classes\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Classes\Scenes\HighScoresScene.cpp">
+      <Filter>Classes\Scenes</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\Classes\Scenes\MainMenuScene.cpp">
+      <Filter>Classes\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Classes\Scenes\SettingsScene.cpp">
       <Filter>Classes\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Classes\SneakyInput\SneakyButton.cpp">
@@ -120,9 +123,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Classes\Engine.cpp">
       <Filter>Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Classes\Scenes\HighScoresScene.cpp">
-      <Filter>Classes\Scenes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -156,9 +156,6 @@
     <ClInclude Include="..\..\Classes\Math\Pos2.h">
       <Filter>Classes\Math</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Objects\TiledSprite.h">
-      <Filter>Classes\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Classes\Objects\Bonus.h">
       <Filter>Classes\Objects</Filter>
     </ClInclude>
@@ -177,11 +174,8 @@
     <ClInclude Include="..\..\Classes\Objects\Tank.h">
       <Filter>Classes\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Scenes\MainMenuScene.h">
-      <Filter>Classes\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Classes\Scenes\SettingsScene.h">
-      <Filter>Classes\Scenes</Filter>
+    <ClInclude Include="..\..\Classes\Objects\TiledSprite.h">
+      <Filter>Classes\Objects</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Scenes\AboutScene.h">
       <Filter>Classes\Scenes</Filter>
@@ -195,8 +189,14 @@
     <ClInclude Include="..\..\Classes\Scenes\GameSettingsScene.h">
       <Filter>Classes\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\SneakyInput\SneakyJoystickSkinnedBase.h">
-      <Filter>Classes\SneakyInput</Filter>
+    <ClInclude Include="..\..\Classes\Scenes\HighScoresScene.h">
+      <Filter>Classes\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Scenes\MainMenuScene.h">
+      <Filter>Classes\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Classes\Scenes\SettingsScene.h">
+      <Filter>Classes\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\SneakyInput\SneakyButton.h">
       <Filter>Classes\SneakyInput</Filter>
@@ -207,32 +207,32 @@
     <ClInclude Include="..\..\Classes\SneakyInput\SneakyJoystick.h">
       <Filter>Classes\SneakyInput</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Classes\SneakyInput\SneakyJoystickSkinnedBase.h">
+      <Filter>Classes\SneakyInput</Filter>
+    </ClInclude>
     <ClInclude Include="..\..\Classes\Utils\multicast.hpp">
       <Filter>Classes\Utils</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Classes\Engine.h">
       <Filter>Classes</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Classes\Scenes\HighScoresScene.h">
-      <Filter>Classes\Scenes</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Tanks4_TemporaryKey.pfx" />
     <None Include="$(AngleBinPath)libEGL.dll" />
     <None Include="$(AngleBinPath)libGLESv2.dll" />
-    <None Include="$(ZLibBinPath)zlib.dll" />
-    <None Include="$(WebsocketsBinPath)libwebsockets.dll" />
     <None Include="$(SQLiteBinPath)sqlite3.dll" />
-    <None Include="$(OggBinPath)libogg.dll" />
-    <None Include="$(OggBinPath)libvorbis.dll" />
-    <None Include="$(OggBinPath)libvorbisfile.dll" />
     <None Include="$(CurlBinPath)libcurl.dll" />
-    <None Include="$(CurlBinPath)libeay32.dll" />
-    <None Include="$(CurlBinPath)ssleay32.dll" />
+    <None Include="$(ZLibBinPath)zlib1.dll" />
+    <None Include="$(OpenSSLBinPath)libeay32.dll" />
+    <None Include="$(OpenSSLBinPath)ssleay32.dll" />
+    <None Include="$(OggBinPath)ogg.dll" />
+    <None Include="$(OggBinPath)vorbis.dll" />
+    <None Include="$(OggBinPath)vorbisfile.dll" />
+    <None Include="$(WebsocketsBinPath)websockets.dll" />
+    <None Include="Tanks4_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Cocos2dEngine\OpenGLESPage.xaml">

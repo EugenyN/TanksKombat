@@ -10,26 +10,26 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\GUI">
-      <UniqueIdentifier>{c443f020-a265-46f1-8bd0-eeff92b07fa2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Scenes">
-      <UniqueIdentifier>{4d441f46-e1cf-4a95-9af1-1035bc497069}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\Objects">
-      <UniqueIdentifier>{0eeb8bdc-aaae-46be-a242-89bec83ba17b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Components">
-      <UniqueIdentifier>{0a44eac6-8222-4083-8829-883a69df5243}</UniqueIdentifier>
+      <UniqueIdentifier>{0bc4674d-593c-45ea-a0c7-4deceaaa289f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\SneakyInput">
-      <UniqueIdentifier>{3fc49466-98c1-4b67-beeb-7e75b6cc6944}</UniqueIdentifier>
+    <Filter Include="src\GUI">
+      <UniqueIdentifier>{18f3209a-8852-4996-a3f4-ac09a5d5158e}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Math">
-      <UniqueIdentifier>{5f871b33-6b32-4b3b-ad56-34f12a028068}</UniqueIdentifier>
+      <UniqueIdentifier>{c1f5050d-1553-4fbf-a9af-38d10fe2ccdc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Objects">
+      <UniqueIdentifier>{6f9877a5-90e0-4f95-ba73-2e50b1b71ad1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Scenes">
+      <UniqueIdentifier>{07160049-e9df-4602-a7b6-b141fd6407c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\SneakyInput">
+      <UniqueIdentifier>{1ed730b1-b835-455c-ac75-79270cddef9c}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Utils">
-      <UniqueIdentifier>{348b6bb2-819e-40a7-985b-d8ab88539434}</UniqueIdentifier>
+      <UniqueIdentifier>{11ac714a-6482-4333-bb8e-4bbb64abd901}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -39,50 +39,65 @@
     <ClCompile Include="..\Classes\AppDelegate.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scenes\BaseScene.cpp">
-      <Filter>src\Scenes</Filter>
+    <ClCompile Include="..\Classes\Engine.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scenes\MainMenuScene.cpp">
-      <Filter>src\Scenes</Filter>
+    <ClCompile Include="..\Classes\Components\AI.cpp">
+      <Filter>src\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scenes\GameplayScene.cpp">
-      <Filter>src\Scenes</Filter>
+    <ClCompile Include="..\Classes\Components\Pathfinder.cpp">
+      <Filter>src\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Objects\Tank.cpp">
-      <Filter>src\Objects</Filter>
+    <ClCompile Include="..\Classes\GUI\ModalDialog.cpp">
+      <Filter>src\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Objects\Projectile.cpp">
-      <Filter>src\Objects</Filter>
+    <ClCompile Include="..\Classes\GUI\SimpleMenu.cpp">
+      <Filter>src\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Objects\GameObject.cpp">
+    <ClCompile Include="..\Classes\GUI\SimpleMenuItem.cpp">
+      <Filter>src\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Objects\Bonus.cpp">
       <Filter>src\Objects</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Objects\Explosion.cpp">
       <Filter>src\Objects</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Objects\GameObject.cpp">
+      <Filter>src\Objects</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\Objects\LevelGrid.cpp">
       <Filter>src\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Objects\Bonus.cpp">
+    <ClCompile Include="..\Classes\Objects\Projectile.cpp">
       <Filter>src\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Scenes\SettingsScene.cpp">
+    <ClCompile Include="..\Classes\Objects\Tank.cpp">
+      <Filter>src\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Objects\TiledSprite.cpp">
+      <Filter>src\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\AboutScene.cpp">
       <Filter>src\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Components\Pathfinder.cpp">
-      <Filter>src\Components</Filter>
+    <ClCompile Include="..\Classes\Scenes\BaseScene.cpp">
+      <Filter>src\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Scenes\GameplayScene.cpp">
+      <Filter>src\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Scenes\GameSettingsScene.cpp">
       <Filter>src\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\GUI\SimpleMenu.cpp">
-      <Filter>src\GUI</Filter>
+    <ClCompile Include="..\Classes\Scenes\HighScoresScene.cpp">
+      <Filter>src\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\SneakyInput\SneakyJoystick.cpp">
-      <Filter>src\SneakyInput</Filter>
+    <ClCompile Include="..\Classes\Scenes\MainMenuScene.cpp">
+      <Filter>src\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\SneakyInput\SneakyJoystickSkinnedBase.cpp">
-      <Filter>src\SneakyInput</Filter>
+    <ClCompile Include="..\Classes\Scenes\SettingsScene.cpp">
+      <Filter>src\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\SneakyInput\SneakyButton.cpp">
       <Filter>src\SneakyInput</Filter>
@@ -90,26 +105,11 @@
     <ClCompile Include="..\Classes\SneakyInput\SneakyButtonSkinnedBase.cpp">
       <Filter>src\SneakyInput</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Objects\TiledSprite.cpp">
-      <Filter>src\Objects</Filter>
+    <ClCompile Include="..\Classes\SneakyInput\SneakyJoystick.cpp">
+      <Filter>src\SneakyInput</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Components\AI.cpp">
-      <Filter>src\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Scenes\AboutScene.cpp">
-      <Filter>src\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Engine.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GUI\SimpleMenuItem.cpp">
-      <Filter>src\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\GUI\ModalDialog.cpp">
-      <Filter>src\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Scenes\HighScoresScene.cpp">
-      <Filter>src\Scenes</Filter>
+    <ClCompile Include="..\Classes\SneakyInput\SneakyJoystickSkinnedBase.cpp">
+      <Filter>src\SneakyInput</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -119,51 +119,68 @@
     <ClInclude Include="..\Classes\AppDelegate.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scenes\BaseScene.h">
-      <Filter>src\Scenes</Filter>
+    <ClInclude Include="..\Classes\Engine.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scenes\MainMenuScene.h">
-      <Filter>src\Scenes</Filter>
+    <ClInclude Include="..\Classes\Components\AI.h">
+      <Filter>src\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scenes\GameplayScene.h">
-      <Filter>src\Scenes</Filter>
+    <ClInclude Include="..\Classes\Components\Pathfinder.h">
+      <Filter>src\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Objects\Tank.h">
+    <ClInclude Include="..\Classes\GUI\ModalDialog.h">
+      <Filter>src\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GUI\SimpleMenu.h">
+      <Filter>src\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GUI\SimpleMenuItem.h">
+      <Filter>src\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Math\Pos2.h">
+      <Filter>src\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Objects\Bonus.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Objects\Projectile.h">
+    <ClInclude Include="..\Classes\Objects\Explosion.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Objects\GameObject.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="..\Classes\Objects\Explosion.h">
-      <Filter>src\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\Objects\LevelGrid.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Objects\Bonus.h">
+    <ClInclude Include="..\Classes\Objects\Projectile.h">
       <Filter>src\Objects</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Scenes\SettingsScene.h">
+    <ClInclude Include="..\Classes\Objects\Tank.h">
+      <Filter>src\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Objects\TiledSprite.h">
+      <Filter>src\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\AboutScene.h">
       <Filter>src\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Components\Pathfinder.h">
-      <Filter>src\Components</Filter>
+    <ClInclude Include="..\Classes\Scenes\BaseScene.h">
+      <Filter>src\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Scenes\GameplayScene.h">
+      <Filter>src\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Scenes\GameSettingsScene.h">
       <Filter>src\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\GUI\SimpleMenu.h">
-      <Filter>src\GUI</Filter>
+    <ClInclude Include="..\Classes\Scenes\HighScoresScene.h">
+      <Filter>src\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\SneakyInput\SneakyJoystick.h">
-      <Filter>src\SneakyInput</Filter>
+    <ClInclude Include="..\Classes\Scenes\MainMenuScene.h">
+      <Filter>src\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\SneakyInput\SneakyJoystickSkinnedBase.h">
-      <Filter>src\SneakyInput</Filter>
+    <ClInclude Include="..\Classes\Scenes\SettingsScene.h">
+      <Filter>src\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\SneakyInput\SneakyButton.h">
       <Filter>src\SneakyInput</Filter>
@@ -171,32 +188,14 @@
     <ClInclude Include="..\Classes\SneakyInput\SneakyButtonSkinnedBase.h">
       <Filter>src\SneakyInput</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Objects\TiledSprite.h">
-      <Filter>src\Objects</Filter>
+    <ClInclude Include="..\Classes\SneakyInput\SneakyJoystick.h">
+      <Filter>src\SneakyInput</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Components\AI.h">
-      <Filter>src\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Scenes\AboutScene.h">
-      <Filter>src\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Math\Pos2.h">
-      <Filter>src\Math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Engine.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GUI\SimpleMenuItem.h">
-      <Filter>src\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\GUI\ModalDialog.h">
-      <Filter>src\GUI</Filter>
+    <ClInclude Include="..\Classes\SneakyInput\SneakyJoystickSkinnedBase.h">
+      <Filter>src\SneakyInput</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Utils\multicast.hpp">
       <Filter>src\Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Scenes\HighScoresScene.h">
-      <Filter>src\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

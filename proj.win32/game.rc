@@ -80,8 +80,8 @@ GLFW_ICON               ICON                    "res\\game.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,0,0,13
- PRODUCTVERSION 1,0,0,13
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -96,13 +96,13 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "FileDescription", "game Module"
-            VALUE "FileVersion", "1.0.0.13"
-            VALUE "InternalName", "game"
-            VALUE "LegalCopyright", "Copyright "
-            VALUE "OriginalFilename", "game.exe"
-            VALUE "ProductName", "game Module"
-            VALUE "ProductVersion", "1.0.0.13"
+            VALUE "FileDescription", "Tanks Kombat"
+            VALUE "FileVersion", "1, 0, 0, 1"
+            VALUE "InternalName", "Tanks Kombat"
+            VALUE "LegalCopyright", "EugenyN. GPL"
+            VALUE "OriginalFilename", "Tanks4.exe"
+            VALUE "ProductName", "Tanks Kombat"
+            VALUE "ProductVersion", "1, 0, 0, 1"
         END
     END
     BLOCK "VarFileInfo"

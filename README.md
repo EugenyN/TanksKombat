@@ -42,7 +42,7 @@ Keyboard control:
 Tanks Kombat is open source under the GPL V3
 Please see the file named [LICENSE](LICENSE).
 
-To build Tanks Kombat, you will need to setup cocos2d-x environment. This version is built with cocos2d-x v3.9, which can be obtained from [Cocos2d-x offical website](http://www.cocos2d-x.org/filedown/cocos2d-x-3.9.zip).
+To build Tanks Kombat, you will need to setup cocos2d-x environment. This version is built with cocos2d-x v3.15, which can be obtained from [Cocos2d-x offical website](http://www.cocos2d-x.org/filedown/cocos2d-x-3.15.zip).
 
 ## Credits
 
@@ -69,4 +69,4 @@ Graphics, fonts and sound effects:
 * Onscreen Controls by Kenney Vleugels www.kenney.nl
 
 Tools:
-* VS 2015 Community, Eclipse IDE, Paint.NET, IcoFX 2, Audactiy, TexturePacker, TortoiseGIT
+* VS 2017 Community, Eclipse IDE, Paint.NET, IcoFX 2, Audactiy, TexturePacker

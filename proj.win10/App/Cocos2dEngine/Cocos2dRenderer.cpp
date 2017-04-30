@@ -18,9 +18,8 @@
 
 #include "Cocos2dRenderer.h"
 #include "AppDelegate.h"
-#include "CCGLViewImpl-winrt.h"
-#include "CCApplication.h"
-#include "cocos2d.h"
+#include "platform/winrt/CCGLViewImpl-winrt.h"
+#include "platform/CCApplication.h"
 #include "renderer/CCTextureCache.h"
 
 // These are used by the shader compilation methods.
@@ -57,13 +56,13 @@ void Cocos2dRenderer::Resume()
     auto director = cocos2d::Director::getInstance();
     auto glview = director->getOpenGLView();
 
-    if (!glview) 
+    if (!glview)
     {
         GLViewImpl* glview = GLViewImpl::create("Tanks4");
         glview->setDispatcher(m_dispatcher.Get());
         glview->setPanel(m_panel.Get());
         glview->Create(static_cast<float>(m_width), static_cast<float>(m_height), m_dpi, m_orientation);
-		glview->setFrameZoomFactor(1.0f / m_renderScale);
+		glview->setFrameZoomFactor(1.0f / m_renderScale); // Fixed issue with zooming!
         director->setOpenGLView(glview);
         CCApplication::getInstance()->run();
     }
@@ -153,6 +152,3 @@ void Cocos2dRenderer::QueueKeyboardEvent(WinRTKeyboardEventType type, Windows::U
 {
 	GLViewImpl::sharedOpenGLView()->QueueWinRTKeyboardEvent(type, args);
 }
-
-
-
