@@ -16,7 +16,8 @@ Currently supported Win32, Win10 (Mobile and Desktop) and Android platforms. Tan
 
 Tanks Kombat binaries and packages for Android, Win32, Win10/Mobile you can download here:
 
-https://drive.google.com/folderview?id=0B67JMJKGzz6WT2d5SUdrU2VSX00&usp=sharing
+https://github.com/EugenyN/TanksKombat/releases
+or https://drive.google.com/folderview?id=0B67JMJKGzz6WT2d5SUdrU2VSX00&usp=sharing
 
 ## How do I play?
 
