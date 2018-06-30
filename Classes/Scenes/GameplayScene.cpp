@@ -262,7 +262,7 @@ void GameplayScene::updateStatusLabel()
 
 	for (int i = 0; i < MAX_TEAMS_COUNT; i++)
 	{
-		auto tank = findTank((Team)i);
+		const auto tank = findTank((Team)i);
 		if (tank == nullptr || tank->getLives() == 0)
 			status += StringUtils::format("T%d ----- ", i + 1);
 		else
@@ -298,7 +298,7 @@ void GameplayScene::onTankKilled(Tank* tank)
 	}
 }
 
-void GameplayScene::roundFinished(Tank* winner)
+void GameplayScene::roundFinished(const Tank* winner)
 {
 	pauseGame();
 
@@ -416,7 +416,7 @@ GameObject* GameplayScene::findGameObject(Pos2 pos) const
 
 GameObject* GameplayScene::findGameObject(int x, int y) const
 {
-	return findGameObject([x, y](GameObject* obj) 
+	return findGameObject([x, y](const GameObject* obj)
 	{ 
 		auto pos = obj->getGridPosition();
 		return pos.x == x && pos.y == y;
@@ -437,7 +437,7 @@ Tank* GameplayScene::findTank(Team team) const
 	{
 		if (obj->getType() == GameObject::Type::TANK)
 		{
-			auto tank = dynamic_cast<Tank*>(obj);
+			const auto tank = dynamic_cast<Tank*>(obj);
 			return tank->getTeam() == team;
 		}
 		return false;

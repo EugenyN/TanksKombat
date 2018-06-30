@@ -146,7 +146,7 @@ Action* Tank::createIdleAction(Direction direction, const std::string& frame)
 
 bool Tank::tryMove(GameObject::Direction direction)
 {
-	auto scene = _engine->getCurrentScene<GameplayScene>();
+	const auto scene = _engine->getCurrentScene<GameplayScene>();
 	if (scene == nullptr)
 		return false;
 
@@ -558,7 +558,7 @@ void Tank::addMoveTowardDebugPath()
 	if (!PATHFINDING_DEBUG)
 		return;
 
-	auto scene = _engine->getCurrentScene<GameplayScene>();
+	const auto scene = _engine->getCurrentScene<GameplayScene>();
 	if (_debugPathLine != nullptr)
 		removeChild(_debugPathLine);
 

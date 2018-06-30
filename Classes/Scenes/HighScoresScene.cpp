@@ -29,7 +29,7 @@ bool HighScoresScene::init()
 	title->enableShadow(Color4B(LIGHTGREEN_COLOR), Size(1, -1));
 	this->addChild(title, 2);
 
-	auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
+	const auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
 
 	for (size_t i = 0; i < MAX_TEAMS_COUNT; i++)
 	{

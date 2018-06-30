@@ -41,9 +41,9 @@ private:
 	void updateStep();
 	void makeDecision();
 
-	void onGameObjectRemoved(GameObject* gameObject);
+	void onGameObjectRemoved(const GameObject* gameObject);
 	bool isItPossibleToAttack();
-	bool isItPossibleToAttackEnemy(Tank* enemy);
+	bool isItPossibleToAttackEnemy(const Tank* enemy);
 	bool isItPossibleToAttackInDirection(Tank::Direction direction);
 
 	void pursuitStart(Tank* target);

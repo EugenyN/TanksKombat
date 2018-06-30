@@ -58,7 +58,7 @@ void SimpleMenuItem::setCurrentValue(const std::string& value)
 
 void SimpleMenuItem::setCurrentValueIndex(int index)
 {
-	CCASSERT(index >= 0 && index < _values.size(), "index out of range");
+	CCASSERT(index >= 0 && index < (int)_values.size(), "index out of range");
 
 	_currentValue = index;
 	onValueChanged(false);

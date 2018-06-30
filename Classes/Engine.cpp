@@ -55,6 +55,7 @@ Engine* Engine::getInstance()
 }
 
 Engine::Engine()
+	: _spriteBatch(nullptr)
 { }
 
 void Engine::destroyInstance()
@@ -258,7 +259,7 @@ std::vector<std::string> Engine::getGameModes() const
 {
 	std::vector<std::string> result;
 
-	for(auto key : _modes)
+	for(const auto key : _modes)
 		result.push_back(key.first);
 
 	return result;

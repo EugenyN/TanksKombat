@@ -6,7 +6,7 @@ USING_NS_CC;
 
 cocos2d::EventKeyboard::KeyCode JoystickWithSimulator::getKeyCodeFromVelocity() const
 {
-	EventKeyboard::KeyCode code;
+	EventKeyboard::KeyCode code = EventKeyboard::KeyCode::KEY_UP_ARROW;
 	if (getVelocity().y > 0.5f)
 		code = EventKeyboard::KeyCode::KEY_UP_ARROW;
 	else if (getVelocity().y < -0.5f)

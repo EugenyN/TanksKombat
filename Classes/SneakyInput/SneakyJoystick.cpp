@@ -169,7 +169,7 @@ void SneakyJoystick::onTouchEnded(Touch *touch, Event *event)
 {
 	Point location = Point::ZERO;
 	if (!autoCenter) {
-		Point location = Director::getInstance()->convertToGL(touch->getLocationInView());
+		location = Director::getInstance()->convertToGL(touch->getLocationInView());
 		location = this->convertToNodeSpace(location);
 	}
 	this->updateVelocity(location);

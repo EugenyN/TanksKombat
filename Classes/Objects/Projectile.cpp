@@ -48,7 +48,7 @@ void Projectile::move(Direction direction)
 
 void Projectile::onMoved()
 {
-	auto scene = _engine->getCurrentScene<GameplayScene>();
+	const auto scene = _engine->getCurrentScene<GameplayScene>();
 	if (scene == nullptr)
 		return;
 

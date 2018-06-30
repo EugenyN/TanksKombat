@@ -105,7 +105,7 @@ const Vector<ShortestPathStep*>& Pathfinder::getShortestPath(const Pos2& from, c
 
 ShortestPathStep* Pathfinder::constructPath(const Pos2& from, const Pos2& to, bool getUpClose)
 {
-	auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
+	const auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
 	if (scene == nullptr)
 		return nullptr;
 

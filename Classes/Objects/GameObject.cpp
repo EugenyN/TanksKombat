@@ -140,7 +140,7 @@ float GameObject::directionToRotation(Direction direction)
 
 void GameObject::updatePassableLayer(const Pos2& pos, const Pos2& prevPos)
 {
-	auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
+	const auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
 	if (scene == nullptr)
 		return;
 	auto grid = scene->getGrid();
@@ -151,7 +151,7 @@ void GameObject::updatePassableLayer(const Pos2& pos, const Pos2& prevPos)
 
 void GameObject::removeFromPassableLayer(const Pos2& pos)
 {
-	auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
+	const auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
 	if (scene == nullptr)
 		return;
 	auto grid = scene->getGrid();

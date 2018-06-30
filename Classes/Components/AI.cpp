@@ -134,7 +134,7 @@ void AI::makeDecision()
 	}
 }
 
-void AI::onGameObjectRemoved(GameObject* gameObject)
+void AI::onGameObjectRemoved(const GameObject* gameObject)
 {
 	if (gameObject == _target)
 	{
@@ -160,7 +160,7 @@ bool AI::isItPossibleToAttack()
 	return owner->getAmmo() > 0 && !owner->isGhostState() && !owner->isFallIntoHoleState();
 }
 
-bool AI::isItPossibleToAttackEnemy(Tank* enemy)
+bool AI::isItPossibleToAttackEnemy(const Tank* enemy)
 {
 	auto owner = dynamic_cast<Tank*>(_owner);
 	if (!isItPossibleToAttack())
@@ -287,13 +287,13 @@ void AI::thinkStart()
 
 	auto thinkSequence = Sequence::create(
 		DelayTime::create(time),
-		CallFunc::create([owner]() { owner->setGridDirection((GameObject::Direction)random(0, 3)); }),
+		CallFunc::create([owner]() { owner->setGridDirection(static_cast<GameObject::Direction>(random(0, 3))); }),
 		DelayTime::create(time),
-		CallFunc::create([owner]() { owner->setGridDirection((GameObject::Direction)random(0, 3)); }),
+		CallFunc::create([owner]() { owner->setGridDirection(static_cast<GameObject::Direction>(random(0, 3))); }),
 		DelayTime::create(time),
-		CallFunc::create([owner]() { owner->setGridDirection((GameObject::Direction)random(0, 3)); }),
+		CallFunc::create([owner]() { owner->setGridDirection(static_cast<GameObject::Direction>(random(0, 3))); }),
 		DelayTime::create(time),
-		CallFunc::create([owner]() { owner->setGridDirection((GameObject::Direction)random(0, 3)); }),
+		CallFunc::create([owner]() { owner->setGridDirection(static_cast<GameObject::Direction>(random(0, 3))); }),
 		DelayTime::create(time),
 		CallFunc::create(CC_CALLBACK_0(AI::makeDecision, this)),
 		nullptr
@@ -346,7 +346,7 @@ Tank* AI::findNearestTank() const
 {
 	Tank* nearest = nullptr;
 
-	auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
+	const auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
 	if (scene == nullptr)
 		return nullptr;
 
@@ -383,7 +383,7 @@ Bonus* AI::findNearestBonus() const
 {
 	Bonus* nearest = nullptr;
 
-	auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
+	const auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
 	if (scene == nullptr)
 		return nullptr;
 
@@ -421,7 +421,7 @@ bool AI::findEscapePoint(/*out*/ Pos2& point) const
 
 bool AI::isEnemyOnFiringLine(/*out*/ GameObject::Direction& fireLineDirection, /*out*/ Tank*& enemyOnLine) const
 {
-	auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
+	const auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
 	if (scene == nullptr)
 		return false;
 
@@ -460,7 +460,7 @@ bool AI::isEnemyOnFiringLine(/*out*/ GameObject::Direction& fireLineDirection, /
 
 bool AI::isEnemyOnFiringLine(GameObject::Direction direction, const Pos2& ownerPos, const Pos2& enemyPos) const
 {
-	auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
+	const auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
 	auto grid = scene->getGrid();
 
 	if (direction == Tank::Direction::UP)

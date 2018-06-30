@@ -58,7 +58,7 @@ private:
 	void backHomeDialogCanceled();
 	void pauseGame();
 	void resumeGame();
-	void roundFinished(Tank* winner);
+	void roundFinished(const Tank* winner);
 	void restartGame();
 	bool checkReachability(Tank* tankA, Tank* tankB);
 	bool addRandomBonus(bool playSound = true);
