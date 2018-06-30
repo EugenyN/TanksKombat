@@ -7,7 +7,7 @@ version 1.0
 Tanks Kombat is cross-platform tile-based action game developed using Cocos2d-x and C++ 11, 
 the game is made in retrogaming style with lo-res sprites and reminiscences of 8 and 16 bit games of past eras.
 
-Currently supported Win32, Win10 (Mobile and Desktop) and Android platforms. Tanks Kombat is open source under the GPL
+Currently supported Win32, Win10 (UWP) and Android platforms. Tanks Kombat is open source under the GPL
 
 ![Title](/Screenshots/a.png?raw=true)
 ![Gameplay](/Screenshots/b.png?raw=true)
@@ -16,7 +16,8 @@ Currently supported Win32, Win10 (Mobile and Desktop) and Android platforms. Tan
 
 Tanks Kombat binaries and packages for Android, Win32, Win10/Mobile you can download here:
 
-https://drive.google.com/folderview?id=0B67JMJKGzz6WT2d5SUdrU2VSX00&usp=sharing
+https://github.com/EugenyN/TanksKombat/releases
+or https://drive.google.com/folderview?id=0B67JMJKGzz6WT2d5SUdrU2VSX00&usp=sharing
 
 ## How do I play?
 
@@ -42,7 +43,7 @@ Keyboard control:
 Tanks Kombat is open source under the GPL
 Please see the file named [LICENSE](LICENSE).
 
-To build Tanks Kombat, you will need to setup cocos2d-x environment. This version is built with cocos2d-x v3.15, which can be obtained from [Cocos2d-x offical website](http://www.cocos2d-x.org/filedown/cocos2d-x-3.15.zip).
+To build Tanks Kombat, you will need to setup cocos2d-x environment. This version is built with cocos2d-x v3.17, which can be obtained from [Cocos2d-x offical website](http://cocos2d-x.org/filedown/cocos2d-x-3.17.zip).
 
 ## Credits
 
