@@ -7,10 +7,10 @@
 class MainMenuScene : public BaseScene
 {
 public:
-    static cocos2d::Scene* createScene();
-    virtual bool init();
+	static cocos2d::Scene* createScene();
+	virtual bool init();
 
-    CREATE_FUNC(MainMenuScene);
+	CREATE_FUNC(MainMenuScene);
 
 private:
 	void onKeyEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);

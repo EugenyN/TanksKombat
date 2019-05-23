@@ -1,0 +1,10 @@
+# top-most EditorConfig file
+root = true
+
+[*]
+indent_style = tab
+indent_size = 4
+end_of_line = crlf
+
+[cocos2d/cocos/platform/winrt/*.h]
+indent_style = space

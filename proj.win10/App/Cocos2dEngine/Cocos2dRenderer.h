@@ -27,29 +27,29 @@ class AppDelegate;
 class Cocos2dRenderer
 {
 public:
-    Cocos2dRenderer(int width, int height, float dpi, float renderScale,
-        Windows::Graphics::Display::DisplayOrientations orientation, 
-        Windows::UI::Core::CoreDispatcher^ dispatcher, Windows::UI::Xaml::Controls::Panel^ panel);
-    ~Cocos2dRenderer();
-    void Draw(GLsizei width, GLsizei height, float dpi, Windows::Graphics::Display::DisplayOrientations orientation);
+	Cocos2dRenderer(int width, int height, float dpi, float renderScale,
+		Windows::Graphics::Display::DisplayOrientations orientation, 
+		Windows::UI::Core::CoreDispatcher^ dispatcher, Windows::UI::Xaml::Controls::Panel^ panel);
+	~Cocos2dRenderer();
+	void Draw(GLsizei width, GLsizei height, float dpi, Windows::Graphics::Display::DisplayOrientations orientation);
 	void QueuePointerEvent(cocos2d::PointerEventType type, Windows::UI::Core::PointerEventArgs^ args);
 	void QueueKeyboardEvent(cocos2d::WinRTKeyboardEventType type, Windows::UI::Core::KeyEventArgs^ args);
 	void QueueBackButtonEvent();
-    void Pause();
-    void Resume();
-    void DeviceLost();
-    bool AppShouldExit();
+	void Pause();
+	void Resume();
+	void DeviceLost();
+	bool AppShouldExit();
 
 private:
 
-    int m_width;
-    int m_height;
-    float m_dpi;
+	int m_width;
+	int m_height;
+	float m_dpi;
 	float m_renderScale;
 
-    // The AppDelegate for the Cocos2D app
-    AppDelegate* m_app;
-    Platform::Agile<Windows::UI::Core::CoreDispatcher> m_dispatcher;
-    Platform::Agile<Windows::UI::Xaml::Controls::Panel> m_panel;
-    Windows::Graphics::Display::DisplayOrientations m_orientation;
+	// The AppDelegate for the Cocos2D app
+	AppDelegate* m_app;
+	Platform::Agile<Windows::UI::Core::CoreDispatcher> m_dispatcher;
+	Platform::Agile<Windows::UI::Xaml::Controls::Panel> m_panel;
+	Windows::Graphics::Display::DisplayOrientations m_orientation;
 };

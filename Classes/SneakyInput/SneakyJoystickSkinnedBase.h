@@ -14,7 +14,7 @@ public:
 	//Public methods
 	CREATE_FUNC(SneakyJoystickSkinnedBase);
 	virtual ~SneakyJoystickSkinnedBase();
-	bool init();
+	bool init() override;
 	void updatePositions(float delta);
 	void setContentSize(cocos2d::Size s);
 	void setBackgroundSprite(cocos2d::Sprite *aSprite);

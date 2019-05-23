@@ -4,8 +4,8 @@
 class Pos2
 {
 public:
-    int x;
-    int y;
+	int x;
+	int y;
 
 	Pos2()
 		: x(0), y(0)
@@ -33,7 +33,7 @@ public:
 		this->y = copy.y;
 	}
 
-    ~Pos2()
+	~Pos2()
 	{ }
 
 	inline const Pos2 operator+(const Pos2& p) const
@@ -56,7 +56,7 @@ public:
 		return result;
 	}
 
-    inline Pos2& operator-=(const Pos2& p)
+	inline Pos2& operator-=(const Pos2& p)
 	{
 		subtract(p);
 		return *this;
@@ -92,7 +92,7 @@ public:
 		return x == p.x && y == p.y;
 	}
 
-    inline bool operator!=(const Pos2& p) const
+	inline bool operator!=(const Pos2& p) const
 	{
 		return x != p.x || y != p.y;
 	}

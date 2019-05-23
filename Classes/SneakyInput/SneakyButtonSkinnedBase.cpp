@@ -31,7 +31,7 @@ SneakyButtonSkinnedBase::~SneakyButtonSkinnedBase()
 	}
 }
 
-bool SneakyButtonSkinnedBase::init() //Possible errors here
+bool SneakyButtonSkinnedBase::init()  //Possible errors here
 {
 	bool pRet = false;
 	if (Layer::init()) {

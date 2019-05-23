@@ -76,46 +76,51 @@ public:
     void setPanel(Windows::UI::Xaml::Controls::Panel^ panel);
     Windows::UI::Xaml::Controls::Panel^ getPanel() {return m_panel.Get();}
 
-	void OnPointerPressed(Windows::UI::Core::PointerEventArgs^ args);
-	void OnPointerMoved(Windows::UI::Core::PointerEventArgs^ args);
-	void OnPointerReleased(Windows::UI::Core::PointerEventArgs^ args);
+    void OnPointerPressed(Windows::UI::Core::PointerEventArgs^ args);
+    void OnPointerMoved(Windows::UI::Core::PointerEventArgs^ args);
+    void OnPointerReleased(Windows::UI::Core::PointerEventArgs^ args);
 
     void OnMousePressed(Windows::UI::Core::PointerEventArgs^ args);
     void OnMouseMoved(Windows::UI::Core::PointerEventArgs^ args);
     void OnMouseReleased(Windows::UI::Core::PointerEventArgs^ args);
     void OnMouseWheelChanged(Windows::UI::Core::PointerEventArgs^ args);
 
-	void OnWinRTKeyboardEvent(WinRTKeyboardEventType type, Windows::UI::Core::KeyEventArgs^ args);
+    void OnWinRTKeyboardEvent(WinRTKeyboardEventType type, Windows::UI::Core::KeyEventArgs^ args);
 
 
-	void OnPointerPressed(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::PointerEventArgs^ args);
-	void OnPointerWheelChanged(Windows::UI::Core::CoreWindow^, Windows::UI::Core::PointerEventArgs^ args);
-	void OnPointerMoved(Windows::UI::Core::CoreWindow^, Windows::UI::Core::PointerEventArgs^ args);
-	void OnPointerReleased(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::PointerEventArgs^ args);
-	void OnVisibilityChanged(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::VisibilityChangedEventArgs^ args);
-	void OnWindowClosed(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::CoreWindowEventArgs^ args);
-	void OnResuming(Platform::Object^ sender, Platform::Object^ args);
-	void OnSuspending(Platform::Object^ sender, Windows::ApplicationModel::SuspendingEventArgs^ args);
+    void OnPointerPressed(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::PointerEventArgs^ args);
+    void OnPointerWheelChanged(Windows::UI::Core::CoreWindow^, Windows::UI::Core::PointerEventArgs^ args);
+    void OnPointerMoved(Windows::UI::Core::CoreWindow^, Windows::UI::Core::PointerEventArgs^ args);
+    void OnPointerReleased(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::PointerEventArgs^ args);
+    void OnVisibilityChanged(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::VisibilityChangedEventArgs^ args);
+    void OnWindowClosed(Windows::UI::Core::CoreWindow^ sender, Windows::UI::Core::CoreWindowEventArgs^ args);
+    void OnResuming(Platform::Object^ sender, Platform::Object^ args);
+    void OnSuspending(Platform::Object^ sender, Windows::ApplicationModel::SuspendingEventArgs^ args);
     void OnBackKeyPress();
     bool AppShouldExit();
     void BackButtonListener(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 
     void QueueBackKeyPress();
-	void QueuePointerEvent(PointerEventType type, Windows::UI::Core::PointerEventArgs^ args);
-	void QueueWinRTKeyboardEvent(WinRTKeyboardEventType type, Windows::UI::Core::KeyEventArgs^ args);
-	void QueueEvent(std::shared_ptr<InputEvent>& event);
+    void QueuePointerEvent(PointerEventType type, Windows::UI::Core::PointerEventArgs^ args);
+    void QueueWinRTKeyboardEvent(WinRTKeyboardEventType type, Windows::UI::Core::KeyEventArgs^ args);
+    void QueueEvent(std::shared_ptr<InputEvent>& event);
 
     bool ShowMessageBox(Platform::String^ title, Platform::String^ message);
 
-	int Run();
-	void Render();
+    int Run();
+    void Render();
 
     void resize(int width, int height);
 
-	float getFrameZoomFactor();
+    float getFrameZoomFactor();
+    /*
+     * Set zoom factor for frame. This method is for debugging big resolution (e.g.new ipad) app on desktop.
+     */
+    void setFrameZoomFactor(float zoomFactor);
+
     void centerWindow();
 
- 	void UpdateOrientation(Windows::Graphics::Display::DisplayOrientations orientation);
+    void UpdateOrientation(Windows::Graphics::Display::DisplayOrientations orientation);
     void UpdateForWindowSizeChange(float width, float height);
 
     void SetDPI(float dpi) { m_dpi = dpi; }
@@ -125,7 +130,7 @@ public:
     /**
     @brief    get the shared main open gl window
     */
-	static GLViewImpl* sharedOpenGLView();
+    static GLViewImpl* sharedOpenGLView();
 
     void ProcessEvents();
 
@@ -136,12 +141,6 @@ protected:
     bool initWithRect(const std::string& viewName, Rect rect, float frameZoomFactor);
     bool initWithFullScreen(const std::string& viewName);
 
-    /*
-     * Set zoom factor for frame. This method is for debugging big resolution (e.g.new ipad) app on desktop.
-     */
-public:
-    void setFrameZoomFactor(float zoomFactor);
-protected:
     inline bool isRetina() { return _isRetina; };
 
     float _frameZoomFactor;
@@ -153,32 +152,32 @@ protected:
 private:
     CC_DISALLOW_COPY_AND_ASSIGN(GLViewImpl);
 
-	void OnRendering();
-	void UpdateWindowSize();
+    void OnRendering();
+    void UpdateWindowSize();
  
     cocos2d::Vec2 TransformToOrientation(Windows::Foundation::Point point);
- 	cocos2d::Vec2  GetPoint(Windows::UI::Core::PointerEventArgs^ args);
+    cocos2d::Vec2  GetPoint(Windows::UI::Core::PointerEventArgs^ args);
     cocos2d::Vec2  GetPointMouse(Windows::UI::Core::PointerEventArgs^ args);
        
     Windows::Foundation::Rect m_windowBounds;
-	Windows::Foundation::EventRegistrationToken m_eventToken;
-	Windows::Foundation::Point m_lastPoint;
+    Windows::Foundation::EventRegistrationToken m_eventToken;
+    Windows::Foundation::Point m_lastPoint;
 
     float m_width;
     float m_height;
     float m_dpi;
 
     Windows::Graphics::Display::DisplayOrientations m_orientation;
-	Windows::Foundation::Rect m_keyboardRect;
+    Windows::Foundation::Rect m_keyboardRect;
 
-	bool m_lastPointValid;
-	bool m_windowClosed;
-	bool m_windowVisible;
+    bool m_lastPointValid;
+    bool m_windowClosed;
+    bool m_windowVisible;
     // PointerReleased for mouse not send button id, need save in PointerPressed last button
     EventMouse::MouseButton _lastMouseButtonPressed;
 
     bool m_running;
-	bool m_initialized;
+    bool m_initialized;
     bool m_appShouldExit;
 
     Concurrency::concurrent_queue<std::shared_ptr<InputEvent>> mInputEvents;

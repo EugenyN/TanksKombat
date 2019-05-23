@@ -14,10 +14,10 @@ USING_NS_CC;
 
 Scene* GameplayScene::createScene()
 {
-    auto scene = Scene::create();
-    auto layer = GameplayScene::create();
-    scene->addChild(layer);
-    return scene;
+	auto scene = Scene::create();
+	auto layer = GameplayScene::create();
+	scene->addChild(layer);
+	return scene;
 }
 
 GameplayScene::GameplayScene()

@@ -20,9 +20,9 @@ using namespace CocosAppWinRT;
 
 App::App()
 {
-    InitializeComponent();
-    Suspending += ref new SuspendingEventHandler(this, &App::OnSuspending);
-    Resuming += ref new EventHandler<Object^>(this, &App::OnResuming);
+	InitializeComponent();
+	Suspending += ref new SuspendingEventHandler(this, &App::OnSuspending);
+	Resuming += ref new EventHandler<Object^>(this, &App::OnResuming);
 }
 
 /// <summary>
@@ -32,46 +32,46 @@ App::App()
 /// <param name="e">Details about the launch request and process.</param>
 void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEventArgs^ e)
 {
-    // if our app is prelaunched do nothing
-    // see https://msdn.microsoft.com/en-us/windows/uwp/launch-resume/handle-app-prelaunch
-    if (e->PrelaunchActivated)
-    {
-        return;
-    }
+	// if our app is prelaunched do nothing
+	// see https://msdn.microsoft.com/en-us/windows/uwp/launch-resume/handle-app-prelaunch
+	if (e->PrelaunchActivated)
+	{
+		return;
+	}
 
-    auto rootFrame = dynamic_cast<Frame^>(Window::Current->Content);
+	auto rootFrame = dynamic_cast<Frame^>(Window::Current->Content);
 
-    // Do not repeat app initialization when the Window already has content,
-    // just ensure that the window is active
-    if (rootFrame == nullptr)
-    {
-        // Create a Frame to act as the navigation context and associate it with
-        // a SuspensionManager key
-        rootFrame = ref new Frame();
+	// Do not repeat app initialization when the Window already has content,
+	// just ensure that the window is active
+	if (rootFrame == nullptr)
+	{
+		// Create a Frame to act as the navigation context and associate it with
+		// a SuspensionManager key
+		rootFrame = ref new Frame();
 
-        rootFrame->NavigationFailed += ref new Windows::UI::Xaml::Navigation::NavigationFailedEventHandler(this, &App::OnNavigationFailed);
+		rootFrame->NavigationFailed += ref new Windows::UI::Xaml::Navigation::NavigationFailedEventHandler(this, &App::OnNavigationFailed);
 
-        if (e->PreviousExecutionState == ApplicationExecutionState::Terminated)
-        {
-            // TODO: Restore the saved session state only when appropriate, scheduling the
-            // final launch steps after the restore is complete
+		if (e->PreviousExecutionState == ApplicationExecutionState::Terminated)
+		{
+			// TODO: Restore the saved session state only when appropriate, scheduling the
+			// final launch steps after the restore is complete
 
-        }
+		}
 
-        // Place the frame in the current Window
-        Window::Current->Content = rootFrame;
-        // Ensure the current window is active
-    }
+		// Place the frame in the current Window
+		Window::Current->Content = rootFrame;
+		// Ensure the current window is active
+	}
 
-    if (rootFrame->Content == nullptr)
-    {
-        // When the navigation stack isn't restored navigate to the first page,
-        // configuring the new page by passing required information as a navigation
-        // parameter
-        rootFrame->Content = mPage = ref new OpenGLESPage(&mOpenGLES);
-    }
-    // Ensure the current window is active
-    Window::Current->Activate();
+	if (rootFrame->Content == nullptr)
+	{
+		// When the navigation stack isn't restored navigate to the first page,
+		// configuring the new page by passing required information as a navigation
+		// parameter
+		rootFrame->Content = mPage = ref new OpenGLESPage(&mOpenGLES);
+	}
+	// Ensure the current window is active
+	Window::Current->Activate();
 }
 
 
@@ -82,13 +82,13 @@ void App::OnLaunched(Windows::ApplicationModel::Activation::LaunchActivatedEvent
 /// </summary>
 void App::OnSuspending(Object^ sender, SuspendingEventArgs^ e)
 {
-    (void)sender;	// Unused parameter
-    (void)e;		// Unused parameter
+	(void)sender;	// Unused parameter
+	(void)e;		// Unused parameter
 
-    if (mPage)
-    {
-        mPage->SetVisibility(false);
-    }
+	if (mPage)
+	{
+		mPage->SetVisibility(false);
+	}
 }
 
 /// <summary>
@@ -98,13 +98,13 @@ void App::OnSuspending(Object^ sender, SuspendingEventArgs^ e)
 /// <param name="args">Details about the resume request.</param>
 void App::OnResuming(Object ^sender, Object ^args)
 {
-    (void)sender; // Unused parameter
-    (void)args; // Unused parameter
+	(void)sender; // Unused parameter
+	(void)args; // Unused parameter
 
-    if (mPage)
-    {
-        mPage->SetVisibility(true);
-    }
+	if (mPage)
+	{
+		mPage->SetVisibility(true);
+	}
 }
 
 /// <summary>
@@ -114,7 +114,7 @@ void App::OnResuming(Object ^sender, Object ^args)
 /// <param name="e">Details about the navigation failure</param>
 void App::OnNavigationFailed(Platform::Object ^sender, Windows::UI::Xaml::Navigation::NavigationFailedEventArgs ^e)
 {
-    throw ref new FailureException("Failed to load Page " + e->SourcePageType.Name);
+	throw ref new FailureException("Failed to load Page " + e->SourcePageType.Name);
 }
 
 

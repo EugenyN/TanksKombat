@@ -22,7 +22,7 @@ Tank::Tank()
 
 Tank::Tank(Team team, int lives, int ammo)
 	: GameObject(Type::TANK), _team(team), _lives(lives), _ammo(ammo),
-	_shotState(nullptr), _shot(nullptr), _moveTowardState(nullptr)
+	_shotState(nullptr), _shot(nullptr), _moveTowardState(nullptr), _debugPathLine(nullptr)
 {
 	_isPassable = false;
 }

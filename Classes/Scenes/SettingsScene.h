@@ -7,10 +7,10 @@
 class SettingsScene : public BaseScene
 {
 public:
-    static cocos2d::Scene* createScene();
-    virtual bool init();  
+	static cocos2d::Scene* createScene();
+	virtual bool init();  
 	virtual void onExit() override;
-    CREATE_FUNC(SettingsScene);
+	CREATE_FUNC(SettingsScene);
 
 private:
 	void onKeyEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);

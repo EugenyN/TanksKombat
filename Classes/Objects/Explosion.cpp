@@ -4,7 +4,7 @@
 
 
 USING_NS_CC;
-               
+
 cocos2d::Vector<Explosion*> Explosion::_explosionPool;
 
 
@@ -26,10 +26,10 @@ Explosion* Explosion::createFromPool(Pos2 pos)
 		{
 			expl->activate(pos);
 			return expl;
-		}                      
-	}                                          
+		}
+	}
 
-	auto expl = Explosion::create();                                                        
+	auto expl = Explosion::create();
 	expl->activate(pos);
 	_explosionPool.pushBack(expl);
 

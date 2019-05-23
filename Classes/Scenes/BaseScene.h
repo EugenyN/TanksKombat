@@ -37,7 +37,7 @@ class ButtonWithSimulator : public SneakyButton
 class BaseScene : public cocos2d::LayerColor
 {
 public:
-    virtual bool init(const cocos2d::Color4B& backgroundColor);
+	virtual bool init(const cocos2d::Color4B& backgroundColor);
 	virtual bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
 	virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
 	virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);

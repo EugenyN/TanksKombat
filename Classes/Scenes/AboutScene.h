@@ -6,9 +6,9 @@
 class AboutScene : public BaseScene
 {
 public:
-    static cocos2d::Scene* createScene();
-    virtual bool init();
-    CREATE_FUNC(AboutScene);
+	static cocos2d::Scene* createScene();
+	virtual bool init();
+	CREATE_FUNC(AboutScene);
 
 private:
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event* event) override;

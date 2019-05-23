@@ -40,7 +40,7 @@ void Bonus::take()
 
 void Bonus::kill()
 {
-	Explosion::createFromPool(getGridPosition());                                                                                                                      
+	Explosion::createFromPool(getGridPosition());
 
 	_engine->playSound("bonus_kill");
 

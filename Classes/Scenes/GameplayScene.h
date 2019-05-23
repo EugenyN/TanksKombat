@@ -14,9 +14,9 @@ class GameplayScene : public BaseScene
 public:
 	CREATE_FUNC(GameplayScene);
 
-    static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene();
 
-    virtual bool init();
+	virtual bool init();
 
 	~GameplayScene();
 

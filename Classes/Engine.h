@@ -8,7 +8,6 @@
 #include <array>
 #include <sstream>
 
-
 #define GAME_TITLE "Tanks Kombat"
 #define GAME_VERSION "1.0.14"
 

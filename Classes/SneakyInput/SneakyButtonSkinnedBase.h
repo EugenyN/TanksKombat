@@ -15,7 +15,7 @@ class SneakyButtonSkinnedBase : public cocos2d::Layer
 	//Public methods
 	CREATE_FUNC(SneakyButtonSkinnedBase);
 	virtual ~SneakyButtonSkinnedBase();
-	bool init();
+	bool init() override;
 	void watchSelf(float delta);
 	void setContentSize(cocos2d::Size s);
 	void setDefaultSprite(cocos2d::Sprite *aSprite);

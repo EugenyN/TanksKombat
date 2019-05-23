@@ -7,9 +7,9 @@
 class GameSettingsScene : public BaseScene
 {
 public:
-    static cocos2d::Scene* createScene();
-    virtual bool init();  
-    CREATE_FUNC(GameSettingsScene);
+	static cocos2d::Scene* createScene();
+	virtual bool init();  
+	CREATE_FUNC(GameSettingsScene);
 
 private:
 	void onKeyEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
