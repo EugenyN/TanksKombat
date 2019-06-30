@@ -30,6 +30,7 @@ Keyboard control:
 ## Download
 
 You can download Tanks Kombat Win32 binaries and packages for Android, UWP (Win10) in [Release page](https://github.com/EugenyN/TanksKombat/releases).
+Also, the game is available on Itch.io: https://eugenyn.itch.io/tanks-kombat
 
 ## Build from source
 
