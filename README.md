@@ -1,12 +1,13 @@
 # Tanks Kombat
 
 Tanks Kombat is cross-platform tile-based action game developed using Cocos2d-x framework and C++, 
-the game is made in retrogaming style with lo-res sprites and reminiscences of 8 and 16 bit games of past eras.
+the game is made in retro style with lo-res sprites and reminiscences of 8 and 16 bit games of past eras.
 
-Currently supported Win32, UWP (Win10) and Android platforms. Tanks Kombat is open source under the GPL
+released for Win32, UWP (Win10) and Android platforms.
 
-![Title](/Screenshots/a.png)
-![Gameplay](/Screenshots/b.png)
+![scr1](/Screenshots/scr1.png) ![scr2](/Screenshots/scr2.png)
+![scr3](/Screenshots/scr3.png) ![scr4](/Screenshots/scr4.png)
+
 
 ## Description and rules
 
@@ -29,7 +30,8 @@ Keyboard control:
 
 ## Download
 
-You can download Tanks Kombat Win32 binaries and packages for Android, UWP (Win10) in [Release page](https://github.com/EugenyN/TanksKombat/releases).
+You can download Tanks Kombat Win32 binaries and packages for Android and UWP (Win10) in [Release page](https://github.com/EugenyN/TanksKombat/releases).
+
 Also, the game is available on Itch.io: https://eugenyn.itch.io/tanks-kombat
 
 ## Build from source
