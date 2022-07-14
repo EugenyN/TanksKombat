@@ -18,7 +18,7 @@ cocos2d::EventKeyboard::KeyCode JoystickWithSimulator::getKeyCodeFromVelocity() 
 	return code;
 }
 
-bool JoystickWithSimulator::onTouchBegan(Touch * touch, Event * event)
+bool JoystickWithSimulator::onTouchBegan(Touch* touch, Event* event)
 {
 	if (SneakyJoystick::onTouchBegan(touch, event)) {
 		if (getVelocity().isZero())
@@ -38,7 +38,7 @@ void JoystickWithSimulator::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* 
 	SneakyJoystick::onTouchEnded(touch, event);
 }
 
-bool ButtonWithSimulator::onTouchBegan(Touch * touch, Event * event)
+bool ButtonWithSimulator::onTouchBegan(Touch* touch, Event* event)
 {
 	if (SneakyButton::onTouchBegan(touch, event)) {
 		EventKeyboard simEvent(EventKeyboard::KeyCode::KEY_ENTER, true);
@@ -59,11 +59,16 @@ void ButtonWithSimulator::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* ev
 
 static BaseScene* _currentScene = nullptr;
 
+BaseScene::BaseScene()
+	:_eventListenerTouch(nullptr), _onScreenJoystickLayer(nullptr)
+{
+}
+
 bool BaseScene::init(const Color4B& backgroundColor)
 {
 	_currentScene = this;
 
-	if (!LayerColor::initWithColor(backgroundColor) )
+	if (!LayerColor::initWithColor(backgroundColor))
 		return false;
 
 	Size visibleSize = Director::getInstance()->getVisibleSize();
@@ -101,21 +106,21 @@ void BaseScene::onExit()
 	LayerColor::onExit();
 }
 
-void BaseScene::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event)
+void BaseScene::onKeyPressed(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
-	for (const auto &ev : _keyboardEvents)
+	for (const auto& ev : _keyboardEvents)
 	{
 		if (ev.onKeyPressed && ev.onKeyPressed(keyCode, event))
 			return;
 	}
 }
 
-void BaseScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event)
+void BaseScene::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
 	if (keyCode == EventKeyboard::KeyCode::KEY_BACK)
 		event->stopPropagation(); // avoid exit on WINRT
 
-	for (const auto &ev : _keyboardEvents)
+	for (const auto& ev : _keyboardEvents)
 	{
 		if (ev.onKeyReleased && ev.onKeyReleased(keyCode, event))
 			return;
@@ -130,7 +135,7 @@ void BaseScene::onKeyEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Eve
 
 bool BaseScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 {
-	for (const auto &ev : _touchEvents)
+	for (const auto& ev : _touchEvents)
 	{
 		if (ev.onTouchBegan && ev.onTouchBegan(touch, event))
 			return true;
@@ -141,7 +146,7 @@ bool BaseScene::onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event)
 
 void BaseScene::onTouchMoved(Touch* touch, Event* event)
 {
-	for (const auto &ev : _touchEvents)
+	for (const auto& ev : _touchEvents)
 	{
 		if (ev.onTouchMoved)
 			ev.onTouchMoved(touch, event);
@@ -150,7 +155,7 @@ void BaseScene::onTouchMoved(Touch* touch, Event* event)
 
 void BaseScene::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 {
-	for (const auto &ev : _touchEvents)
+	for (const auto& ev : _touchEvents)
 	{
 		if (ev.onTouchEnded)
 			ev.onTouchEnded(touch, event);
@@ -159,7 +164,7 @@ void BaseScene::onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event)
 
 void BaseScene::onTouchCancelled(cocos2d::Touch* touch, cocos2d::Event* event)
 {
-	for (const auto &ev : _touchEvents)
+	for (const auto& ev : _touchEvents)
 	{
 		if (ev.onTouchCancelled)
 			ev.onTouchCancelled(touch, event);
@@ -171,28 +176,6 @@ BaseScene* BaseScene::getCurrentScene()
 	return _currentScene;
 }
 
-int BaseScene::addTouchEvents(TouchEventsFunc touchEvent)
-{
-	static int id_generator = 0;
-	id_generator++;
-	touchEvent.id = id_generator;
-	_touchEvents.push_front(touchEvent);
-	return id_generator;
-};
-
-
-bool BaseScene::removeTouchEvents(int id)
-{
-	for (auto it = _touchEvents.begin(); it != _touchEvents.end(); ++it)
-	{
-		if (it->id == id) {
-			_touchEvents.erase(it);
-			return (true);
-		}
-	}
-	return false;
-};
-
 int BaseScene::addKeyboardEvents(KeyboardEventsFunc keyboardEvent)
 {
 	static int id_generator = 0;
@@ -200,7 +183,7 @@ int BaseScene::addKeyboardEvents(KeyboardEventsFunc keyboardEvent)
 	keyboardEvent.id = id_generator;
 	_keyboardEvents.push_front(keyboardEvent);
 	return id_generator;
-};
+}
 
 bool BaseScene::removeKeyboardEvents(int id)
 {
@@ -212,7 +195,7 @@ bool BaseScene::removeKeyboardEvents(int id)
 		}
 	}
 	return false;
-};
+}
 
 void BaseScene::addJoystick()
 {
@@ -220,16 +203,16 @@ void BaseScene::addJoystick()
 	Point origin = Director::getInstance()->getVisibleOrigin();
 	auto glview = Director::getInstance()->getOpenGLView();
 
-	float dpiScale = Device::getDPI() / 86.0f;
+	float dpiScale = (float)Device::getDPI() / 86.0f;
 	float resolutionScale = 1.0f / glview->getScaleX();
 
 	// add joystick
 
-	float scale =  JOYSTICK_SCALE * resolutionScale * dpiScale;
+	float scale = JOYSTICK_SCALE * resolutionScale * dpiScale;
 
 #ifndef NDEBUG
 	Size frameSize = glview->getFrameSize();
-	debugPrint(StringUtils::format("Frame: %.0f,%.0f DPI: %d Scale: %.3f", 
+	debugPrint(StringUtils::format("Frame: %.0f,%.0f DPI: %d Scale: %.3f",
 		frameSize.width, frameSize.height, Device::getDPI(), scale));
 #endif
 
@@ -241,8 +224,8 @@ void BaseScene::addJoystick()
 	Rect fireButtonDimensions = Rect(0, 0, 80.0f, 80.0f);
 	Point fireButtonHalfSize = fireButtonDimensions.size / 2;
 	Point fireButtonOffset = FIRE_BUTTON_OFFSET;
-	Point fireButtonPosition1 = (origin + fireButtonOffset + fireButtonHalfSize) * scale + 
-		Point(- fireButtonHalfSize.x , + fireButtonHalfSize.y) * (scale - 1);
+	Point fireButtonPosition1 = (origin + fireButtonOffset + fireButtonHalfSize) * scale +
+		Point(-fireButtonHalfSize.x, +fireButtonHalfSize.y) * (scale - 1);
 	Point fireButtonPosition = Point(visibleSize.width - fireButtonPosition1.x, fireButtonPosition1.y);
 
 	// add joystick base
@@ -251,8 +234,8 @@ void BaseScene::addJoystick()
 	joystick->initWithRect(joystickBaseDimensions);
 	joystick->setIsDPad(true);
 	joystick->setInnerThumb(true);
-	joystickBase->setBackgroundSprite(CCSprite::create("graphics/joystick/dpadDown.png"));
-	joystickBase->setThumbSprite(CCSprite::create("graphics/joystick/joystickDown.png"));
+	joystickBase->setBackgroundSprite(Sprite::create("graphics/joystick/dpadDown.png"));
+	joystickBase->setThumbSprite(Sprite::create("graphics/joystick/joystickDown.png"));
 	joystickBase->setJoystick(joystick);
 	joystickBase->setPosition(joystickBasePosition);
 	joystickBase->setScale(scale);
@@ -263,9 +246,9 @@ void BaseScene::addJoystick()
 	auto button1 = new ButtonWithSimulator();
 	button1->initWithRect(fireButtonDimensions);
 	// button1->setIsHoldable(true);
-	action1ButtonBase->setDefaultSprite(CCSprite::create("graphics/joystick/action1Down.png"));
-	action1ButtonBase->setActivatedSprite(CCSprite::create("graphics/joystick/action1Down.png"));
-	action1ButtonBase->setPressSprite(CCSprite::create("graphics/joystick/action1Up.png"));
+	action1ButtonBase->setDefaultSprite(Sprite::create("graphics/joystick/action1Down.png"));
+	action1ButtonBase->setActivatedSprite(Sprite::create("graphics/joystick/action1Down.png"));
+	action1ButtonBase->setPressSprite(Sprite::create("graphics/joystick/action1Up.png"));
 	action1ButtonBase->setButton(button1);
 	action1ButtonBase->setPosition(fireButtonPosition);
 	action1ButtonBase->setScale(scale);
@@ -278,8 +261,8 @@ void BaseScene::addJoystick()
 void BaseScene::debugPrint(const std::string& output)
 {
 	static Label* label = nullptr;
-	static BaseScene *thisScene = nullptr;
-	if(label == nullptr || thisScene != getCurrentScene()){
+	static BaseScene* thisScene = nullptr;
+	if (label == nullptr || thisScene != getCurrentScene()) {
 		Size visibleSize = Director::getInstance()->getVisibleSize();
 		label = Label::createWithCharMap(FONT_MAIN);
 		label->setString(output);
@@ -289,6 +272,6 @@ void BaseScene::debugPrint(const std::string& output)
 		thisScene = getCurrentScene();
 	}
 	label->setString(output);
-};
+}
 
 #endif

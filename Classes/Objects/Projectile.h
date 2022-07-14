@@ -18,10 +18,10 @@ public:
 	CC_SYNTHESIZE(GameObject*, _ownerTank, OwnerTank);
 private:
 	Projectile();
-	~Projectile();
+	~Projectile() override;
 	void onMoved();
 	bool onCollidedWithBlock(Direction direction, const TileValue& value);
-	bool onCollidedWithGameObject(Direction direction, GameObject* obj);
+	bool onCollidedWithGameObject(GameObject* obj) const;
 };
 
 #endif // _PROJECTILE_H_

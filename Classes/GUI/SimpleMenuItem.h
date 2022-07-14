@@ -11,7 +11,7 @@ public:
 	static SimpleMenuItem* create(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap);
 	static SimpleMenuItem* create(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap, const cocos2d::ccMenuCallback& menuItemActivate);
 
-	virtual void activate() override;
+	void activate() override;
 
 	void setValues(const std::vector<std::string>& values);
 	const std::vector<std::string>& getValues() const

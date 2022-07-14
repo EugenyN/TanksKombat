@@ -13,7 +13,7 @@ enum class TileValue
 enum class PassableValue
 {
 	PASSABLE = 0,
-	INPASSABLE = 1,
+	IMPASSABLE = 1,
 };
 
 struct CAParams
@@ -52,18 +52,18 @@ public:
 
 	bool isTilePassable(const Pos2& tileCoord) const;
 	bool isValidTileCoord(const Pos2& tileCoord) const;
-	cocos2d::PointArray* walkableAdjacentTilesCoordForTileCoord(const Pos2 &tileCoord) const;
+	cocos2d::PointArray* walkableAdjacentTilesCoordForTileCoord(const Pos2& tileCoord) const;
 
 	void digPath(const Pos2& posA, const Pos2& posB);
 
 private:
 	LevelGrid();
 	LevelGrid(const cocos2d::Size& mapSize, const cocos2d::Size& tileSize);
-	~LevelGrid();
+	~LevelGrid() override;
 
-	/** the map's size property measured in tiles */
+	/** the map size property measured in tiles */
 	cocos2d::Size _mapSize;
-	/** the tiles's size property measured in pixels */
+	/** the tile size property measured in pixels */
 	cocos2d::Size _tileSize;
 	//
 	std::vector<TileValue> _grid;
@@ -72,13 +72,14 @@ private:
 	std::string _groundSprite;
 	std::string _wallSprite;
 
-	bool initialiseRandom(float chanceToWall, float chanceToHole);
+	void initialise();
+	void initialiseRandom(float chanceToWall, float chanceToHole);
 	void getRandomTiles(std::vector<TileValue>& tiles, float chanceToWall, float chanceToHole) const;
-	bool initialiseUsingCA(const CAParams& params, float chanceToHole);
+	void initialiseUsingCA(const CAParams& params, float chanceToHole);
 	void getCATiles(std::vector<TileValue>& tiles, const CAParams& params, float chanceToHole) const;
 
 	void updateSprite(int x, int y, TileValue value);
-	void setSprite(int x, int y, const std::string& sprite, int zOrder, int tagLayer);
+	void setSprite(int x, int y, const std::string& sprite, LayerZOrder zOrder, int tagLayer);
 	void removeSprite(int x, int y, int tagLayer);
 
 	std::vector<TileValue> doSimulationStep(std::vector<TileValue>& oldMap, int deathLimit, int birthLimit) const;

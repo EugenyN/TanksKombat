@@ -36,7 +36,7 @@ public:
 	~Pos2()
 	{ }
 
-	inline const Pos2 operator+(const Pos2& p) const
+	inline Pos2 operator+(const Pos2& p) const
 	{
 		Pos2 result(*this);
 		result.add(p);
@@ -49,7 +49,7 @@ public:
 		return *this;
 	}
 
-	inline const Pos2 operator-(const Pos2& p) const
+	inline Pos2 operator-(const Pos2& p) const
 	{
 		Pos2 result(*this);
 		result.subtract(p);
@@ -62,7 +62,7 @@ public:
 		return *this;
 	}
 
-	inline const Pos2 operator-() const
+	inline Pos2 operator-() const
 	{
 		Pos2 result(*this);
 		result.negate();
@@ -97,8 +97,8 @@ public:
 		return x != p.x || y != p.y;
 	}
 
-	explicit operator cocos2d::Point() const 
-	{ 
+	explicit operator cocos2d::Point() const
+	{
 		return cocos2d::Point(x, y);
 	}
 

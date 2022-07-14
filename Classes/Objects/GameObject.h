@@ -19,7 +19,7 @@ public:
 	};
 
 	GameObject(Type type);
-	virtual ~GameObject();
+	~GameObject() override;
 
 	Pos2 getGridPosition() const;
 	void setGridPosition(const Pos2& p);

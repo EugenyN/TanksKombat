@@ -61,10 +61,17 @@ Makefile
 cmake_install.cmake
 CMakeLists.txt.user
 
+# Android Studio
+proj.android/.idea/
+project.properties
+*.iml
+/proj.android/app/build.xml
+/proj.android/app/proguard-project.txt
+*.apk
+
 #Project
 
-/proj.android-studio
-/proj.ios_mac
-/proj.linux
-/proj.win8.1-universal
-/proj.win32/Packages
+.idea
+/cmake-build-*
+/out
+/build

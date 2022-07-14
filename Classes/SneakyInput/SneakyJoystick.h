@@ -23,25 +23,24 @@ protected:
 	CC_SYNTHESIZE_READONLY(float, thumbRadius, ThumbRadius);
 	CC_SYNTHESIZE_READONLY(float, deadRadius, DeadRadius);
 
-	virtual ~SneakyJoystick();
+	~SneakyJoystick() override;
 
-	bool initWithRect(cocos2d::Rect rect);
-	virtual void onEnterTransitionDidFinish() override;
-	virtual void onExit() override;
+	void initWithRect(const cocos2d::Rect& rect);
+	void onEnterTransitionDidFinish() override;
+	void onExit() override;
 	void setIsDPad(bool b);
 	void setJoystickRadius(float r);
 	void setThumbRadius(float r);
 	void setDeadRadius(float r);
-	virtual bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);
-	virtual void onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event);
-	virtual void onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event);
-	virtual void onTouchCancelled(cocos2d::Touch *touch, cocos2d::Event *event);
+	virtual bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
+	virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
+	virtual void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
+	virtual void onTouchCancelled(cocos2d::Touch* touch, cocos2d::Event* event);
 
 private:
 	void updateVelocity(cocos2d::Point point);
-	//void setTouchRadius();
 
-	cocos2d::EventListenerTouchOneByOne * _eventListenerTouch;
+	cocos2d::EventListenerTouchOneByOne* _eventListenerTouch;
 
 };
 #endif

@@ -6,6 +6,7 @@
 #include "Objects\Tank.h"
 
 class Bonus;
+class EventCustom;
 
 class AI : public cocos2d::Component
 {
@@ -24,24 +25,26 @@ public:
 
 	CREATE_FUNC(AI);
 
-	virtual bool init() override;
-	virtual void onAdd() override;
+	bool init() override;
+	void onAdd() override;
+	void onRemove() override;
 private:
 	States _currentState = States::UNDEFINED;
 	GameObject* _target = nullptr;
 	Pos2 _escapePoint;
+	cocos2d::EventListenerCustom* _gameObjectRemovedEventListener;
 
 	float _aiSpeed = 0.5f;
 	float _chanceToEscape = 0.5f;
 	float _thinkTime = 3.0f;
 
 	AI();
-	virtual ~AI();
+	~AI() override;
 
 	void updateStep();
 	void makeDecision();
 
-	void onGameObjectRemoved(const GameObject* gameObject);
+	void onGameObjectRemoved(cocos2d::EventCustom* eventCustom);
 	bool isItPossibleToAttack();
 	bool isItPossibleToAttackEnemy(const Tank* enemy);
 	bool isItPossibleToAttackInDirection(Tank::Direction direction);
@@ -50,7 +53,7 @@ private:
 	void pursuitUpdate();
 	void attackStart(Tank::Direction fireLineDirection, Tank* enemyOnLine);
 	void attackUpdate();
-	void escapeStart(Pos2 escapePoint);
+	void escapeStart(const Pos2& escapePoint);
 	void escapeUpdate();
 	void thinkStart();
 	void thinkUpdate();
@@ -58,10 +61,10 @@ private:
 	void getBonusUpdate();
 
 	Tank* findNearestTank() const;
-	Bonus * findNearestBonus() const;
+	Bonus* findNearestBonus() const;
 	bool findEscapePoint(/*out*/ Pos2& point) const;
 	bool isEnemyOnFiringLine(/*out*/ GameObject::Direction& fireLineDirection, /*out*/ Tank*& enemyOnLine) const;
-	bool isEnemyOnFiringLine(GameObject::Direction direction, const Pos2& ownerPos, const Pos2& enemyPos) const;
+	static bool isEnemyOnFiringLine(GameObject::Direction direction, const Pos2& ownerPos, const Pos2& enemyPos);
 };
 
 #endif // _AI_H_

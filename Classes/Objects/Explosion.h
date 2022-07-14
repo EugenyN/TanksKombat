@@ -9,7 +9,7 @@ class Explosion : public GameObject
 public:
 	CREATE_FUNC(Explosion);
 
-	static Explosion* createFromPool(Pos2 pos);
+	static Explosion* createFromPool(const Pos2& pos);
 	static void clearPool();
 
 	bool init() override;
@@ -21,7 +21,7 @@ private:
 	cocos2d::Animation* _animation;
 
 	Explosion();
-	~Explosion();
+	~Explosion() override;
 	void activate(Pos2 pos);
 };
 

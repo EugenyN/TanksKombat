@@ -1,12 +1,10 @@
 #include "GameplayScene.h"
 #include "MainMenuScene.h"
 #include "GUI\ModalDialog.h"
-#include "AppDelegate.h"
 #include "Objects\LevelGrid.h"
 #include "Objects\Bonus.h"
 #include "Objects\Explosion.h"
 #include "Objects\TiledSprite.h"
-#include "Objects\LevelGrid.h"
 #include "Components\Pathfinder.h"
 
 
@@ -21,7 +19,7 @@ Scene* GameplayScene::createScene()
 }
 
 GameplayScene::GameplayScene()
-	: _statusLabel(nullptr), _levelGrid(nullptr)
+	: _statusLabel(nullptr), _levelGrid(nullptr), _background(nullptr), _paused(false), _highScores()
 {
 }
 
@@ -34,7 +32,6 @@ bool GameplayScene::init()
 {
 	_paused = false;
 
-	auto engine = Engine::getInstance();
 	if (!BaseScene::init(Color4B(DARKGREEN_COLOR)))
 		return false;
 
@@ -48,15 +45,15 @@ bool GameplayScene::init()
 	auto bonusCreation = RepeatForever::create(Sequence::create(
 		DelayTime::create(random(_engine->GameMode.newBonusTime / 2, _engine->GameMode.newBonusTime)),
 		CallFunc::create([this]() { addRandomBonus(); }), nullptr)
-		);
+	);
 	this->runAction(bonusCreation);
 
 	return true;
 }
 
-void GameplayScene::leaveGame() 
+void GameplayScene::leaveGame()
 {
-	CHANGE_SCENE(MainMenuScene);
+	CHANGE_SCENE(MainMenuScene)
 }
 
 void GameplayScene::restartGame()
@@ -70,17 +67,17 @@ void GameplayScene::restartGame()
 	if (_background != nullptr)
 		this->removeChild(_background);
 
-	auto designSize = Director::getInstance()->getWinSize();
+	auto& designSize = Director::getInstance()->getWinSize();
 
 	const int backgroundsCount = 23;
-	auto bgSpriteName = StringUtils::format("graphics/background/%d.png", 
+	auto bgSpriteName = StringUtils::format("graphics/background/%d.png",
 		RandomHelper::random_int(1, backgroundsCount));
 	auto bgSprite = Sprite::create(bgSpriteName);
 	bgSprite->getTexture()->setAliasTexParameters();
 	_background = TiledSprite::createWithSprite(bgSprite, designSize.width, designSize.height);
 	_background->setColor(Color3B(90, 90, 90));
 	_engine->setEnableRecursiveCascading(_background, true);
-	addChild(_background, LayerZOrder::BACKGROUND);
+	addChild(_background, (int)LayerZOrder::BACKGROUND);
 
 	// level grid
 
@@ -90,14 +87,15 @@ void GameplayScene::restartGame()
 	Size size;
 	if (_engine->GameSettings.mapSize == GameSettings::MapSize::SMALL)
 		size = Size(11, 8);
-	else if(_engine->GameSettings.mapSize == GameSettings::MapSize::MEDIUM)
+	else if (_engine->GameSettings.mapSize == GameSettings::MapSize::MEDIUM)
 		size = Size(13, 13);
 	else
 		size = Size(GRID_MAX_WIDTH, GRID_MAX_HEIGHT);
 
 	if (_engine->GameSettings.mapType == GameSettings::MapType::RANDOM) {
 		_levelGrid = LevelGrid::createRandom(size, 0.2f, 0.05f);
-	} else if (_engine->GameSettings.mapType == GameSettings::MapType::CA_CAVE) {
+	}
+	else if (_engine->GameSettings.mapType == GameSettings::MapType::CA_CAVE) {
 		CAParams params;
 		params.birthLimit = 4;
 		params.deathLimit = 3;
@@ -110,7 +108,7 @@ void GameplayScene::restartGame()
 	if (_levelGrid->getMapSize().height == GRID_MAX_HEIGHT)
 		yOffset = _levelGrid->getTileSize().height / 2;
 	_levelGrid->setPosition(designSize.width / 2, designSize.height / 2 - yOffset);
-	this->addChild(_levelGrid, LayerZOrder::GRID);
+	this->addChild(_levelGrid, (int)LayerZOrder::GRID);
 
 	// game objects
 
@@ -187,17 +185,17 @@ bool GameplayScene::addRandomBonus(bool playSound)
 bool GameplayScene::findRandomEmptyTile(Pos2& result)
 {
 	auto emptyTiles = _levelGrid->findTiles(TileValue::GROUND);
-	if (emptyTiles.size() == 0)
+	if (emptyTiles.empty())
 		return false;
 
 	std::random_device rng;
 	std::mt19937 urng(rng());
 	std::shuffle(emptyTiles.begin(), emptyTiles.end(), rng);
 
-	for (size_t i = 0; i < emptyTiles.size(); i++)
+	for (auto& emptyTile : emptyTiles)
 	{
-		if (findGameObject(emptyTiles[i]) == nullptr) {
-			result = emptyTiles[i];
+		if (findGameObject(emptyTile) == nullptr) {
+			result = emptyTile;
 			return true;
 		}
 	}
@@ -207,7 +205,7 @@ bool GameplayScene::findRandomEmptyTile(Pos2& result)
 bool GameplayScene::findRandomEmptyTile(Pos2& result, const Pos2& accessibleFrom)
 {
 	auto emptyTiles = _levelGrid->findTiles(TileValue::GROUND);
-	if (emptyTiles.size() == 0)
+	if (emptyTiles.empty())
 		return false;
 
 	auto pf = Pathfinder::create();
@@ -216,14 +214,14 @@ bool GameplayScene::findRandomEmptyTile(Pos2& result, const Pos2& accessibleFrom
 	std::mt19937 urng(rng());
 	std::shuffle(emptyTiles.begin(), emptyTiles.end(), rng);
 
-	for (size_t i = 0; i < emptyTiles.size(); i++)
+	for (auto& emptyTile : emptyTiles)
 	{
-		if (findGameObject(emptyTiles[i]) == nullptr) {
+		if (findGameObject(emptyTile) == nullptr) {
 
-			if (!pf->isPathExist(accessibleFrom, emptyTiles[i]))
+			if (!pf->isPathExist(accessibleFrom, emptyTile))
 				continue;
 
-			result = emptyTiles[i];
+			result = emptyTile;
 			return true;
 		}
 	}
@@ -253,7 +251,7 @@ void GameplayScene::createStatusLable()
 	_statusLabel->setPosition(Vec2(origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height - _statusLabel->getContentSize().height));
 
-	this->addChild(_statusLabel, LayerZOrder::HUD);
+	this->addChild(_statusLabel, (int)LayerZOrder::HUD);
 }
 
 void GameplayScene::updateStatusLabel()
@@ -319,7 +317,7 @@ void GameplayScene::roundFinished(const Tank* winner)
 
 	auto roundFinishedDialog = ModalDialog::create(message, CC_CALLBACK_0(GameplayScene::restartGame, this),
 		CC_CALLBACK_0(GameplayScene::leaveGame, this), "CONTINUE", "EXIT");
-	this->addChild(roundFinishedDialog, LayerZOrder::MODAL_DIALOGS);
+	this->addChild(roundFinishedDialog, (int)LayerZOrder::MODAL_DIALOGS);
 }
 
 void GameplayScene::pauseGame()
@@ -353,11 +351,11 @@ void GameplayScene::backHomeDialog()
 	pauseGame();
 
 	static ModalDialog* leaveDialog = nullptr;
-	if (leaveDialog == nullptr || leaveDialog->isValid() == false) {
+	if (leaveDialog == nullptr || !leaveDialog->isValid()) {
 		leaveDialog = ModalDialog::create("If you go back to home page, your current game will be lost, are you sure?",
 			CC_CALLBACK_0(GameplayScene::leaveGame, this), CC_CALLBACK_0(GameplayScene::backHomeDialogCanceled, this));
 		leaveDialog->setReferencer(&leaveDialog);
-		this->addChild(leaveDialog, LayerZOrder::MODAL_DIALOGS);
+		this->addChild(leaveDialog, (int)LayerZOrder::MODAL_DIALOGS);
 	}
 }
 
@@ -385,17 +383,17 @@ void GameplayScene::onKeyPressed(EventKeyboard::KeyCode code, Event* event)
 	}
 }
 
-void GameplayScene::addGameObject(GameObject * obj)
+void GameplayScene::addGameObject(GameObject* obj)
 {
 	CCASSERT(obj != nullptr, "Argument must be non-nil");
 
 	_gameObjects.pushBack(obj);
-	_levelGrid->addChild(obj, LayerZOrder::OBJECTS);
+	_levelGrid->addChild(obj, (int)LayerZOrder::OBJECTS);
 
-	_gameObjectAddedEvent(obj);
+	Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(GAME_OBJECT_ADDED_EVENT, obj);
 }
 
-void GameplayScene::removeGameObject(GameObject * obj)
+void GameplayScene::removeGameObject(GameObject* obj)
 {
 	CCASSERT(_gameObjects.contains(obj), "Scene should contain the object");
 
@@ -403,7 +401,7 @@ void GameplayScene::removeGameObject(GameObject * obj)
 	if (index != CC_INVALID_INDEX) {
 		_gameObjects.erase(index);
 
-		_gameObjectRemovedEvent(obj);
+		Director::getInstance()->getEventDispatcher()->dispatchCustomEvent(GAME_OBJECT_REMOVED_EVENT, obj);
 
 		_levelGrid->removeChild(obj);
 	}
@@ -417,10 +415,10 @@ GameObject* GameplayScene::findGameObject(Pos2 pos) const
 GameObject* GameplayScene::findGameObject(int x, int y) const
 {
 	return findGameObject([x, y](const GameObject* obj)
-	{ 
-		auto pos = obj->getGridPosition();
-		return pos.x == x && pos.y == y;
-	});
+		{
+			auto pos = obj->getGridPosition();
+			return pos.x == x && pos.y == y;
+		});
 }
 
 GameObject* GameplayScene::findGameObject(std::function<bool(GameObject*)> pred) const
@@ -434,12 +432,12 @@ GameObject* GameplayScene::findGameObject(std::function<bool(GameObject*)> pred)
 Tank* GameplayScene::findTank(Team team) const
 {
 	return dynamic_cast<Tank*>(findGameObject([team](GameObject* obj)
-	{
-		if (obj->getType() == GameObject::Type::TANK)
 		{
-			const auto tank = dynamic_cast<Tank*>(obj);
-			return tank->getTeam() == team;
-		}
-		return false;
-	}));
+			if (obj->getType() == GameObject::Type::TANK)
+			{
+				const auto tank = dynamic_cast<Tank*>(obj);
+				return tank->getTeam() == team;
+			}
+			return false;
+		}));
 }

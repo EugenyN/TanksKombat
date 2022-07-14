@@ -59,7 +59,7 @@ private:
 
 	Tank();
 	Tank(Team team, int lives, int ammo);
-	~Tank();
+	~Tank() override;
 
 	void startIdleState();
 	void stopIdleState();

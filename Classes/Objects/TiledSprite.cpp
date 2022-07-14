@@ -27,11 +27,11 @@ bool TiledSprite::initWithTX(Sprite* sourceSprite, int width, int height)
 	int sourceWidth = spriteBounds.size.width;
 	int sourceHeight = spriteBounds.size.height;
 	auto texture = sourceSprite->getTexture();
-			
+
 	// Case 1: both width and height are smaller than source sprite, just clip
 	if (width <= sourceWidth && height <= sourceHeight)
 	{
-		auto sprite = CCSprite::createWithTexture(texture, Rect(sourceX, sourceY + sourceHeight - height, width, height));
+		auto sprite = Sprite::createWithTexture(texture, Rect(sourceX, sourceY + sourceHeight - height, width, height));
 		sprite->setAnchorPoint(Vec2(0, 0));
 		addChild(sprite);
 	}
@@ -42,16 +42,16 @@ bool TiledSprite::initWithTX(Sprite* sourceSprite, int width, int height)
 		int ix = 0;
 		while (ix < width - sourceWidth)
 		{
-			auto sprite = CCSprite::createWithTexture(texture, Rect(sourceX, sourceY + sourceHeight - height, sourceWidth, height));
+			auto sprite = Sprite::createWithTexture(texture, Rect(sourceX, sourceY + sourceHeight - height, sourceWidth, height));
 			sprite->setAnchorPoint(Vec2(0, 0));
 			sprite->setPosition(Vec2(ix, 0));
 			addChild(sprite);
-					
+
 			ix += sourceWidth;
 		}
-				
+
 		// Stamp the last one
-		auto sprite = CCSprite::createWithTexture(texture, Rect(sourceX, sourceY + sourceHeight - height, width - ix, height));
+		auto sprite = Sprite::createWithTexture(texture, Rect(sourceX, sourceY + sourceHeight - height, width - ix, height));
 		sprite->setAnchorPoint(Vec2(0, 0));
 		sprite->setPosition(Vec2(ix, 0));
 		addChild(sprite);
@@ -63,24 +63,24 @@ bool TiledSprite::initWithTX(Sprite* sourceSprite, int width, int height)
 		int iy = 0;
 		while (iy < height - sourceHeight)
 		{
-			auto sprite = CCSprite::createWithTexture(texture, Rect(sourceX, sourceY, width, sourceHeight));
+			auto sprite = Sprite::createWithTexture(texture, Rect(sourceX, sourceY, width, sourceHeight));
 			sprite->setAnchorPoint(Vec2(0, 0));
 			sprite->setPosition(Vec2(0, iy));
 			addChild(sprite);
-					
+
 			iy += sourceHeight;
 		}
-			
+
 		// Stamp the last one
 		int remainingHeight = height - iy;
-		auto sprite = CCSprite::createWithTexture(texture, Rect(sourceX, sourceY + sourceHeight - remainingHeight, width, remainingHeight));
+		auto sprite = Sprite::createWithTexture(texture, Rect(sourceX, sourceY + sourceHeight - remainingHeight, width, remainingHeight));
 		sprite->setAnchorPoint(Vec2(0, 0));
 		sprite->setPosition(Vec2(0, iy));
 		addChild(sprite);
 	}
 	// Case 4: both width and height are larger than source sprite (Composite together several Case 2's, as needed)
 	else
-	{            
+	{
 		// Stamp down until we can
 		int iy = 0;
 		while (iy < height - sourceHeight)
@@ -89,10 +89,10 @@ bool TiledSprite::initWithTX(Sprite* sourceSprite, int width, int height)
 			sprite->setAnchorPoint(Vec2(0, 0));
 			sprite->setPosition(Vec2(0, iy));
 			addChild(sprite);
-					
+
 			iy += sourceHeight;
 		}
-				
+
 		// Stamp the last one
 		auto sprite = TiledSprite::createWithSprite(sourceSprite, width, height - iy);
 		sprite->setAnchorPoint(Vec2(0, 0));

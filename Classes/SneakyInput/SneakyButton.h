@@ -20,10 +20,9 @@ protected:
 
 	CC_SYNTHESIZE_READONLY(float, radius, Radius);
 
-	//Public methods
 	virtual void onEnterTransitionDidFinish() override;
 	virtual void onExit() override;
-	bool initWithRect(cocos2d::Rect rect);
+	void initWithRect(const cocos2d::Rect& rect);
 	void limiter(float delta);
 	void setRadius(float r);
 	virtual bool onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event);

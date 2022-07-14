@@ -3,28 +3,28 @@
 
 USING_NS_CC;
 
-AppDelegate::AppDelegate() 
+AppDelegate::AppDelegate()
 { }
 
-AppDelegate::~AppDelegate() 
+AppDelegate::~AppDelegate()
 { }
 
 void AppDelegate::initGLContextAttrs()
 {
 	//set OpenGL context attributions,now can only set six attributions:
 	//red,green,blue,alpha,depth,stencil
-	GLContextAttrs glContextAttrs = {8, 8, 8, 8, 24, 8};
+	GLContextAttrs glContextAttrs = { 8, 8, 8, 8, 24, 8 };
 	GLView::setGLContextAttrs(glContextAttrs);
 }
 
-bool AppDelegate::applicationDidFinishLaunching() 
+bool AppDelegate::applicationDidFinishLaunching()
 {
 	auto engine = Engine::getInstance();
 	engine->launchGame();
 	return true;
 }
 
-void AppDelegate::applicationDidEnterBackground() 
+void AppDelegate::applicationDidEnterBackground()
 {
 	auto engine = Engine::getInstance();
 	engine->enterBackground();

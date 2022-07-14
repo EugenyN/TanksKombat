@@ -16,7 +16,7 @@ SimpleMenu* SimpleMenu::variadicCreate(Type type, MenuItem* item, ...)
 	va_list args;
 	va_start(args, item);
 
-	SimpleMenu *ret = SimpleMenu::createWithItems(type, item, args);
+	SimpleMenu* ret = SimpleMenu::createWithItems(type, item, args);
 
 	va_end(args);
 
@@ -30,7 +30,7 @@ SimpleMenu* SimpleMenu::create(Type type, MenuItem* item, ...)
 	va_list args;
 	va_start(args, item);
 
-	SimpleMenu *ret = SimpleMenu::createWithItems(type, item, args);
+	SimpleMenu* ret = SimpleMenu::createWithItems(type, item, args);
 
 	va_end(args);
 
@@ -60,7 +60,7 @@ SimpleMenu* SimpleMenu::createWithItems(Type type, MenuItem* item, va_list args)
 	if (item)
 	{
 		items.pushBack(item);
-		MenuItem *i = va_arg(args, MenuItem*);
+		MenuItem* i = va_arg(args, MenuItem*);
 		while (i)
 		{
 			items.pushBack(i);
@@ -72,6 +72,7 @@ SimpleMenu* SimpleMenu::createWithItems(Type type, MenuItem* item, va_list args)
 }
 
 SimpleMenu::SimpleMenu()
+	: _currentMenuItem(nullptr), _type(Type::HORIZONTAL)
 {
 	_listenerId = -1;
 }
@@ -104,7 +105,7 @@ void SimpleMenu::initOpt(Type type)
 	setCurrentMenuItemTag(0);
 }
 
-bool SimpleMenu::onKeyPressed2(EventKeyboard::KeyCode keyCode, Event *event)
+bool SimpleMenu::onKeyPressed2(EventKeyboard::KeyCode keyCode, Event* event)
 {
 	auto upSelectCode = EventKeyboard::KeyCode::KEY_UP_ARROW;
 	auto downSelectCode = EventKeyboard::KeyCode::KEY_DOWN_ARROW;
@@ -118,7 +119,7 @@ bool SimpleMenu::onKeyPressed2(EventKeyboard::KeyCode keyCode, Event *event)
 		rightSelectCode = EventKeyboard::KeyCode::KEY_DOWN_ARROW;
 	}
 
-	if (keyCode == EventKeyboard::KeyCode::KEY_KP_ENTER || keyCode == EventKeyboard::KeyCode::KEY_ENTER) 
+	if (keyCode == EventKeyboard::KeyCode::KEY_KP_ENTER || keyCode == EventKeyboard::KeyCode::KEY_ENTER)
 	{
 		auto item = getCurrentMenuItem();
 		if (item != nullptr)

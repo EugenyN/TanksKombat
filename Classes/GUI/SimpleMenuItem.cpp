@@ -13,20 +13,20 @@ SimpleMenuItem* SimpleMenuItem::create()
 
 SimpleMenuItem* SimpleMenuItem::create(const ccMenuCallback& callback)
 {
-	SimpleMenuItem *ret = new (std::nothrow) SimpleMenuItem();
+	SimpleMenuItem* ret = new (std::nothrow) SimpleMenuItem();
 	ret->initWithCallback(callback);
 	ret->autorelease();
 	return ret;
 }
 
-SimpleMenuItem * SimpleMenuItem::create(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap)
+SimpleMenuItem* SimpleMenuItem::create(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap)
 {
 	return SimpleMenuItem::create(value, charMapFile, itemWidth, itemHeight, startCharMap, (const ccMenuCallback&)nullptr);
 }
 
-SimpleMenuItem * SimpleMenuItem::create(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap, const ccMenuCallback& menuItemActivate)
+SimpleMenuItem* SimpleMenuItem::create(const std::string& value, const std::string& charMapFile, int itemWidth, int itemHeight, char startCharMap, const ccMenuCallback& menuItemActivate)
 {
-	SimpleMenuItem *ret = new (std::nothrow) SimpleMenuItem();
+	SimpleMenuItem* ret = new (std::nothrow) SimpleMenuItem();
 	ret->initWithString(value, charMapFile, itemWidth, itemHeight, startCharMap, menuItemActivate);
 	ret->autorelease();
 
@@ -44,7 +44,7 @@ void SimpleMenuItem::activate()
 		parent->onItemActivated(this, true);
 }
 
-const std::string & SimpleMenuItem::getCurrentValue() const
+const std::string& SimpleMenuItem::getCurrentValue() const
 {
 	return _values[_currentValue];
 }
@@ -73,7 +73,7 @@ void SimpleMenuItem::setValues(const std::vector<std::string>& values)
 
 bool SimpleMenuItem::selectNextValue()
 {
-	if (_values.size() == 0)
+	if (_values.empty())
 		return false;
 
 	_currentValue = (_currentValue + 1) % _values.size();
@@ -84,7 +84,7 @@ bool SimpleMenuItem::selectNextValue()
 
 bool SimpleMenuItem::selectPrevValue()
 {
-	if (_values.size() == 0)
+	if (_values.empty())
 		return false;
 
 	_currentValue = (_currentValue + _values.size() - 1) % _values.size();
@@ -117,9 +117,9 @@ void SimpleMenuItem::updateLabel()
 	if (label == nullptr)
 		return;
 
-	auto string = label->getString();
+	auto string = std::string(label->getString());
 
-	if (_values.size() != 0 && _originalString.length() != 0)
+	if (!_values.empty() && _originalString.length() != 0)
 		string = StringUtils::format(_originalString.c_str(), getCurrentValue().c_str());
 
 	if (string[0] != ' ' && string[0] != '~')

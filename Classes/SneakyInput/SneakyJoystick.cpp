@@ -4,17 +4,15 @@ using namespace cocos2d;
 
 #define SJ_PI 3.14159265359f
 #define SJ_PI_X_2 6.28318530718f
-#define SJ_RAD2DEG 180.0f/SJ_PI
-#define SJ_DEG2RAD SJ_PI/180.0f
+#define SJ_RAD2DEG (180.0f/SJ_PI)
+#define SJ_DEG2RAD (SJ_PI/180.0f)
 
 SneakyJoystick::~SneakyJoystick()
 {
 }
 
-bool SneakyJoystick::initWithRect(Rect rect)
+void SneakyJoystick::initWithRect(const Rect& rect)
 {
-	bool pRet = false;
-	//if(Sprite::init()){
 	stickPosition = Point::ZERO;
 	degrees = 0.0f;
 	velocity = Point::ZERO;
@@ -29,9 +27,6 @@ bool SneakyJoystick::initWithRect(Rect rect)
 
 	//Cocos node stuff
 	setPosition(rect.origin);
-	pRet = true;
-	//}
-	return pRet;
 }
 
 void SneakyJoystick::onEnterTransitionDidFinish()
@@ -123,22 +118,22 @@ void SneakyJoystick::setIsDPad(bool b)
 void SneakyJoystick::setJoystickRadius(float r)
 {
 	joystickRadius = r;
-	joystickRadiusSq = r*r;
+	joystickRadiusSq = r * r;
 }
 
 void SneakyJoystick::setThumbRadius(float r)
 {
 	thumbRadius = r;
-	thumbRadiusSq = r*r;
+	thumbRadiusSq = r * r;
 }
 
 void SneakyJoystick::setDeadRadius(float r)
 {
 	deadRadius = r;
-	deadRadiusSq = r*r;
+	deadRadiusSq = r * r;
 }
 
-bool SneakyJoystick::onTouchBegan(Touch *touch, Event *event)
+bool SneakyJoystick::onTouchBegan(Touch* touch, Event* event)
 {
 	Point location = Director::getInstance()->convertToGL(touch->getLocationInView());
 
@@ -149,7 +144,7 @@ bool SneakyJoystick::onTouchBegan(Touch *touch, Event *event)
 		return false;
 	}
 	else {
-		float dSq = location.x*location.x + location.y*location.y;
+		float dSq = location.x * location.x + location.y * location.y;
 		if (joystickRadiusSq > dSq) {
 			this->updateVelocity(location);
 			return true;
@@ -158,14 +153,14 @@ bool SneakyJoystick::onTouchBegan(Touch *touch, Event *event)
 	return false;
 }
 
-void SneakyJoystick::onTouchMoved(Touch *touch, Event *event)
+void SneakyJoystick::onTouchMoved(Touch* touch, Event* event)
 {
 	Point location = Director::getInstance()->convertToGL(touch->getLocationInView());
 	location = this->convertToNodeSpace(location);
 	this->updateVelocity(location);
 }
 
-void SneakyJoystick::onTouchEnded(Touch *touch, Event *event)
+void SneakyJoystick::onTouchEnded(Touch* touch, Event* event)
 {
 	Point location = Point::ZERO;
 	if (!autoCenter) {
@@ -175,7 +170,7 @@ void SneakyJoystick::onTouchEnded(Touch *touch, Event *event)
 	this->updateVelocity(location);
 }
 
-void SneakyJoystick::onTouchCancelled(Touch *touch, Event *event)
+void SneakyJoystick::onTouchCancelled(Touch* touch, Event* event)
 {
 	this->onTouchEnded(touch, event);
 }

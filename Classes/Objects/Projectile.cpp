@@ -36,7 +36,7 @@ void Projectile::move(Direction direction)
 	// adjust position
 	if (direction == GameObject::Direction::LEFT)
 		_sprite->setAnchorPoint(Vec2(0.44f, 0.5f));
-	else if(direction == GameObject::Direction::RIGHT)
+	else if (direction == GameObject::Direction::RIGHT)
 		_sprite->setAnchorPoint(Vec2(0.58f, 0.5f));
 	else
 		_sprite->setAnchorPoint(Vec2(0.5f, 0.5f));
@@ -60,7 +60,7 @@ void Projectile::onMoved()
 
 	auto obj = scene->findGameObject(newPos);
 	if (obj != nullptr) {
-		if (onCollidedWithGameObject(_direction, obj)) {
+		if (onCollidedWithGameObject(obj)) {
 			remove();
 			return;
 		}
@@ -73,7 +73,6 @@ void Projectile::onMoved()
 	}
 
 	move(_direction);
-	return;
 }
 
 bool Projectile::onCollidedWithBlock(Direction direction, const TileValue& value)
@@ -86,7 +85,7 @@ bool Projectile::onCollidedWithBlock(Direction direction, const TileValue& value
 	return false;
 }
 
-bool Projectile::onCollidedWithGameObject(Direction direction, GameObject* obj)
+bool Projectile::onCollidedWithGameObject(GameObject* obj) const
 {
 	auto tank = dynamic_cast<Tank*>(obj);
 	if (tank != nullptr) {

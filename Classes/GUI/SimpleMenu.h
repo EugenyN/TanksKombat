@@ -40,7 +40,7 @@ public:
 	static SimpleMenu* createWithItems(Type type, cocos2d::MenuItem* firstItem, va_list args);
 
 	SimpleMenu();
-	~SimpleMenu();
+	~SimpleMenu() override;
 
 	void setCurrentMenuItemTag(int currentMenuItem);
 

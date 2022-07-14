@@ -1,6 +1,5 @@
 #include "Bonus.h"
 #include "Engine.h"
-#include "Objects\LevelGrid.h"
 #include "Objects\Explosion.h"
 #include "Scenes\GameplayScene.h"
 

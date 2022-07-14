@@ -3,83 +3,63 @@
 
 #include "cocos2d.h"
 #include "Math\Pos2.h"
-#include "Utils\multicast.hpp"
 #include <string>
 #include <array>
 #include <sstream>
 
 #define GAME_TITLE "Tanks Kombat"
-#define GAME_VERSION "1.0.14"
+#define GAME_VERSION "1.0.15"
 
-#define DESIGN_WIDTH 640
-#define DESIGN_HEIGHT 480
-#define TILE_SIZE 32
-#define DISPLAY_STATS false
+static const int DESIGN_WIDTH = 640;
+static const int DESIGN_HEIGHT = 480;
+static const int TILE_SIZE = 32;
+static const bool DISPLAY_STATS = false;
 
-#define JOYSTICK_SCALE 0.6f
+static const float JOYSTICK_SCALE = 0.6f;
 
 #if CC_TARGET_PLATFORM == CC_PLATFORM_WINRT
-	#define JOYSTICK_OFFSET Point(40, 8)
+static const cocos2d::Point JOYSTICK_OFFSET = cocos2d::Point(40, 8);
 #else
-	#define JOYSTICK_OFFSET Point(8, 8)
+static const cocos2d::Point JOYSTICK_OFFSET = cocos2d::Point(8, 8);
 #endif
 
-#define FIRE_BUTTON_OFFSET Point(8, 48)
-
-#define INT2COLOR4B(color) Color4B((color & 0xFF0000) >> 16, (color & 0x00FF00) >> 8, color & 0x0000FF, 255)
-#define INT2COLOR4BA(color, alpha) Color4B((color & 0xFF0000) >> 16, (color & 0x00FF00) >> 8, color & 0x0000FF, alpha)
-#define INT2COLOR4F(color) Color4F(((color & 0xFF0000) >> 16)/255.0f, ((color & 0x00FF00) >> 8)/255.0f, (color & 0x0000FF)/255.0f, 1.0f)
-#define INT2COLOR4FA(color, alpha) Color4F(((color & 0xFF0000) >> 16)/255.0f, ((color & 0x00FF00) >> 8)/255.0f, (color & 0x0000FF)/255.0f, alpha)
-#define INT2COLOR3B(color) Color3B((color & 0xFF0000) >> 16, (color & 0x00FF00) >> 8, color & 0x0000FF)
+static const cocos2d::Point FIRE_BUTTON_OFFSET = cocos2d::Point(8, 48);
 
 #define FONT_MAIN "fonts/main_font.png", 17, 16, ' '
 #define FONT_LOGO "fonts/logo_font.png", 32, 32, ' '
 
-
 #ifndef NDEBUG
-	#define SCENE_TRANSITION false
-	#define PATHFINDING_DEBUG true
+#define SCENE_TRANSITION false
+#define PATHFINDING_DEBUG false
 #else
-	#define SCENE_TRANSITION true
-	#define PATHFINDING_DEBUG false
+#define SCENE_TRANSITION true
+#define PATHFINDING_DEBUG false
 #endif
 
+static const char* UD_FULLSCREEN = "fullscreen";
+static const char* UD_SCREEN_WIDTH = "screenWidth";
+static const char* UD_SCREEN_HEIGHT = "screenHeight";
+static const char* UD_MUSIC_VOLUME = "musicVolume";
+static const char* UD_SOUND_VOLUME = "soundVolume";
+static const char* UD_MUSIC_ENABLED = "musicEnabled";
+static const char* UD_SOUND_ENABLED = "soundEnabled";
 
-#define UD_FULLSCREEN "fullscreen"
-#define UD_SCREEN_WIDTH "screenWidth"
-#define UD_SCREEN_HEIGHT "screenHeight"
-#define UD_MUSIC_VOLUME "musicVolume"
-#define UD_SOUND_VOLUME "soundVolume"
-#define UD_MUSIC_ENABLED "musicEnabled"
-#define UD_SOUND_ENABLED "soundEnabled"
+static const cocos2d::Color3B LIGHTGREEN_COLOR = cocos2d::Color3B(66, 99, 0);
+static const cocos2d::Color3B DARKGREEN_COLOR = cocos2d::Color3B(20, 30, 20);
 
-#define LIGHTGREEN_COLOR Color3B(66, 99, 0)
-#define DARKGREEN_COLOR Color3B(20, 30, 20)
+static const int MAX_TEAMS_COUNT = 4;
+static const int GRID_MAX_WIDTH = 20;
+static const int GRID_MAX_HEIGHT = 14;
 
-#define MAX_TEAMS_COUNT 4
-#define GRID_MAX_WIDTH 20
-#define GRID_MAX_HEIGHT 14
+//#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
+//#define stdp stdPatchForMinGW
+//#elif (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
+//#define stdp std
+//#else
+//#define stdp std
+//#endif
 
-#define USE_AUDIO_ENGINE 1
-// #define USE_SIMPLE_AUDIO_ENGINE 1
-
-#if USE_AUDIO_ENGINE && USE_SIMPLE_AUDIO_ENGINE
-#error "Don't use AudioEngine and SimpleAudioEngine at the same time. Please just select one in your game!"
-#endif
-
-// define audio extension
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID)
-#define AUDIO_EXT ".ogg"
-#define stdp stdPatchForMinGW
-#elif (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32)
-#define AUDIO_EXT ".ogg" // ".wav"
-#define stdp std
-#else
-#define AUDIO_EXT ".ogg"
-#define stdp std
-#endif
-
-#define BACKGROUND_MUSIC "music/main" AUDIO_EXT
+static const char* BACKGROUND_MUSIC = "music/main.ogg";
 
 struct TouchEventsFunc
 {
@@ -97,7 +77,7 @@ struct KeyboardEventsFunc
 	std::function<bool(cocos2d::EventKeyboard::KeyCode, cocos2d::Event*)> onKeyReleased;
 };
 
-struct Settings 
+struct Settings
 {
 	bool fullscreen;
 	cocos2d::Size windowsSize;
@@ -126,7 +106,7 @@ struct GameSettings
 	};
 
 	std::array<TankType, MAX_TEAMS_COUNT> tankTypes = std::array<TankType, MAX_TEAMS_COUNT> {
-		TankType::HUMAN, TankType::CPU, TankType::NONE, TankType::NONE 
+		TankType::HUMAN, TankType::CPU, TankType::NONE, TankType::NONE
 	};
 	MapType mapType = MapType::RANDOM;
 	MapSize mapSize = MapSize::MEDIUM;
@@ -143,10 +123,10 @@ struct GameMode
 	int ammoInBonus = 10;
 
 	static GameMode createFromDict(const cocos2d::ValueMap& dict);
-	void writeToDict(cocos2d::ValueMap& dict);
+	void writeToDict(cocos2d::ValueMap& dict) const;
 };
 
-enum LayerZOrder
+enum class LayerZOrder
 {
 	BACKGROUND = 0, GRID, GROUND, WALL, OBJECTS, HUD, MODAL_DIALOGS
 };
@@ -156,26 +136,17 @@ enum class Team
 	RED = 0, BLUE, GREEN, YELLOW
 };
 
-enum class TeamColor
-{
-	RED = 0xff8080,
-	BLUE = 0x8080ff,
-	GREEN = 0xff80ff,
-	YELLOW = 0xffff80
+const std::array<cocos2d::Color3B, MAX_TEAMS_COUNT> teamColors = {
+	cocos2d::Color3B(255, 128, 128), cocos2d::Color3B(128, 128, 255),
+	cocos2d::Color3B(255, 128, 255), cocos2d::Color3B(255, 255, 128)
 };
-
-const std::array<TeamColor, MAX_TEAMS_COUNT> teamColors = {
-	TeamColor::RED, TeamColor::BLUE, TeamColor::GREEN, TeamColor::YELLOW 
-};
-
-#define GET_TEAM_COLOR3B(team) Color3B(INT2COLOR3B((int)teamColors[(int)team]))
 
 enum class TankAction
 {
 	MOVE_UP, MOVE_DOWN, MOVE_LEFT, MOVE_RIGHT, FIRE
 };
 
-typedef std::map<cocos2d::EventKeyboard::KeyCode, TankAction> KeyMap;
+using KeyMap = std::map<cocos2d::EventKeyboard::KeyCode, TankAction>;
 
 class BaseScene;
 
@@ -193,13 +164,13 @@ public:
 	void enterBackground();
 	void enterForeground();
 	void loadSettings();
-	void saveSettings();
+	void saveSettings() const;
 
-	void playSound(const std::string& filePath);
+	void playSound(const std::string& filePath) const;
 	void stopAllSound();
 	void playMusic(const std::string& filePath);
-	void stopMusic();
-	void setMusicVolume(float volume);
+	void stopMusic() const;
+	void setMusicVolume(float volume) const;
 
 	BaseScene* getCurrentScene() const;
 
@@ -226,7 +197,7 @@ private:
 
 	Engine();
 	void loadGameModes();
-	std::array<KeyMap, MAX_TEAMS_COUNT> createKeyMaps();
+	static std::array<KeyMap, MAX_TEAMS_COUNT> createKeyMaps();
 	void pauseAudio();
 	void resumeAudio();
 };

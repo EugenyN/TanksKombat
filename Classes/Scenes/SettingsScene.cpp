@@ -111,7 +111,7 @@ void SettingsScene::menuItemValueChanged(Ref* pSender)
 	{
 	case TAG_FULLSCREEN: {
 		_engine->Settings.fullscreen = currentValue == 1;
-		this->addChild(ModalDialog::create("Changes will take effect after restart."), LayerZOrder::MODAL_DIALOGS);
+		this->addChild(ModalDialog::create("Changes will take effect after restart."), (int)LayerZOrder::MODAL_DIALOGS);
 		break;
 	}
 	case TAG_MUSIC:
@@ -133,10 +133,10 @@ void SettingsScene::menuItemValueChanged(Ref* pSender)
 	}
 }
 
-void SettingsScene::onKeyEvent(EventKeyboard::KeyCode keyCode, cocos2d::Event *event)
+void SettingsScene::onKeyEvent(EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
 	if (keyCode == EventKeyboard::KeyCode::KEY_BACK) {
-		CHANGE_SCENE(MainMenuScene);
+		CHANGE_SCENE(MainMenuScene)
 	}
 }
 
@@ -145,10 +145,10 @@ void SettingsScene::onMenuItemActivated(int menuItem)
 	switch (menuItem)
 	{
 	case TAG_ABOUT:
-		CHANGE_SCENE(AboutScene);
+		CHANGE_SCENE(AboutScene)
 		break;
 	case TAG_DONE:
-		CHANGE_SCENE(MainMenuScene);
+		CHANGE_SCENE(MainMenuScene)
 		return;
 	}
 }

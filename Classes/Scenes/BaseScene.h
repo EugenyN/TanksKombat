@@ -37,6 +37,7 @@ class ButtonWithSimulator : public SneakyButton
 class BaseScene : public cocos2d::LayerColor
 {
 public:
+	BaseScene();
 	virtual bool init(const cocos2d::Color4B& backgroundColor);
 	virtual bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
 	virtual void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
@@ -47,12 +48,10 @@ public:
 	virtual void onKeyEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
 	static BaseScene* getCurrentScene();
 
-	int addTouchEvents(TouchEventsFunc touchEvent);
-	bool removeTouchEvents(int);
 	int addKeyboardEvents(KeyboardEventsFunc touchEvent);
 	bool removeKeyboardEvents(int);
 	void addJoystick();
-	virtual void onExit() override;
+	void onExit() override;
 #ifndef NDEBUG //if DEBUG
 	static void debugPrint(const std::string& output);
 #endif
@@ -61,7 +60,7 @@ protected:
 private:
 	std::deque<TouchEventsFunc> _touchEvents;
 	std::deque<KeyboardEventsFunc> _keyboardEvents;
-	cocos2d::EventListenerTouchOneByOne * _eventListenerTouch;
+	cocos2d::EventListenerTouchOneByOne* _eventListenerTouch;
 
 	cocos2d::Layer* _onScreenJoystickLayer;
 };

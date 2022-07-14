@@ -1,7 +1,5 @@
 #include "Pathfinder.h"
 #include "Engine.h"
-#include "Objects\LevelGrid.h"
-#include "Objects\GameObject.h"
 #include "Scenes\GameplayScene.h"
 
 USING_NS_CC;
@@ -23,30 +21,15 @@ ShortestPathStep::~ShortestPathStep()
 
 ShortestPathStep* ShortestPathStep::createWithPosition(const Pos2& pos)
 {
-	ShortestPathStep *pRet = new ShortestPathStep();
-	if (pRet && pRet->initWithPosition(pos))
-	{
-		pRet->autorelease();
-		return pRet;
-	}
-	else
-	{
-		CC_SAFE_DELETE(pRet);
-		return nullptr;
-	}
+	auto* pRet = new ShortestPathStep();
+	pRet->initWithPosition(pos);
+	pRet->autorelease();
+	return pRet;
 }
 
-bool ShortestPathStep::initWithPosition(const Pos2& pos)
+void ShortestPathStep::initWithPosition(const Pos2& pos)
 {
-	bool bRet = false;
-	do
-	{
-		this->setPosition(pos);
-
-		bRet = true;
-	} while (0);
-
-	return bRet;
+	this->setPosition(pos);
 }
 
 int ShortestPathStep::getFScore() const
@@ -82,7 +65,7 @@ Pathfinder::~Pathfinder()
 bool Pathfinder::isPathExist(const Pos2& from, const Pos2& to, bool getUpClose)
 {
 	const auto& path = getShortestPath(from, to, getUpClose);
-	return path.size() != 0;
+	return !path.empty();
 }
 
 const Vector<ShortestPathStep*>& Pathfinder::getShortestPath(const Pos2& from, const Pos2& to, bool getUpClose)
@@ -143,7 +126,6 @@ ShortestPathStep* Pathfinder::constructPath(const Pos2& from, const Pos2& to, bo
 			_spOpenSteps.clear();
 			_spClosedSteps.clear();
 			return currentStep;
-			break;
 		}
 
 		PointArray* adjSteps = scene->getGrid()->walkableAdjacentTilesCoordForTileCoord(currentStep->getPosition());
@@ -178,7 +160,7 @@ ShortestPathStep* Pathfinder::constructPath(const Pos2& from, const Pos2& to, bo
 				}
 			}
 		}
-	} while (_spOpenSteps.size() > 0);
+	} while (!_spOpenSteps.empty());
 
 	return nullptr;
 }
@@ -209,7 +191,7 @@ int Pathfinder::costToMoveFromStepToAdjacentStep(const ShortestPathStep* fromSte
 	//	&& (fromStep->getPosition().y != toStep->getPosition().y)) ? 14 : 10;
 }
 
-ssize_t Pathfinder::getStepIndex(const Vector<ShortestPathStep *>& steps, const ShortestPathStep* step)
+ssize_t Pathfinder::getStepIndex(const Vector<ShortestPathStep*>& steps, const ShortestPathStep* step)
 {
 	for (ssize_t i = 0; i < steps.size(); ++i) {
 		if (steps.at(i)->isEqual(step))

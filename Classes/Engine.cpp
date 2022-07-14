@@ -1,22 +1,10 @@
 #include "Engine.h"
-#include "Objects\LevelGrid.h"
 #include "Scenes\BaseScene.h"
-#include "Scenes\GameplayScene.h"
 #include "Scenes\MainMenuScene.h"
 #include "2d/CCFontAtlasCache.h"
-#include "2d/CCFontAtlas.h"
-
-#if USE_AUDIO_ENGINE
-#include "audio/include/AudioEngine.h"
-using namespace cocos2d::experimental;
-#elif USE_SIMPLE_AUDIO_ENGINE
-#include "audio/include/SimpleAudioEngine.h"
-using namespace CocosDenshion;
-#endif
+#include "audio/AudioEngine.h"
 
 USING_NS_CC;
-
-
 
 GameMode GameMode::createFromDict(const ValueMap& dict)
 {
@@ -31,7 +19,7 @@ GameMode GameMode::createFromDict(const ValueMap& dict)
 	return mode;
 }
 
-void GameMode::writeToDict(ValueMap& dict)
+void GameMode::writeToDict(ValueMap& dict) const
 {
 	dict["startLives"] = startLives;
 	dict["startAmmo"] = startAmmo;
@@ -39,7 +27,6 @@ void GameMode::writeToDict(ValueMap& dict)
 	dict["newBonusTime"] = newBonusTime;
 	dict["ammoInBonus"] = ammoInBonus;
 }
-
 
 Engine* Engine::_instance = nullptr;
 
@@ -62,11 +49,7 @@ void Engine::destroyInstance()
 {
 	CC_SAFE_DELETE(_instance);
 
-#if USE_AUDIO_ENGINE
 	AudioEngine::end();
-#elif USE_SIMPLE_AUDIO_ENGINE
-	SimpleAudioEngine::end();
-#endif
 }
 
 BaseScene* Engine::getCurrentScene() const
@@ -144,7 +127,7 @@ void Engine::loadSettings()
 	saveSettings();
 }
 
-void Engine::saveSettings()
+void Engine::saveSettings() const
 {
 	auto ud = UserDefault::getInstance();
 
@@ -157,21 +140,13 @@ void Engine::saveSettings()
 	ud->setBoolForKey(UD_SOUND_ENABLED, Settings.soundEnabled);
 }
 
-void Engine::playSound(const std::string& filePath)
+void Engine::playSound(const std::string& filePath) const
 {
 	if (!Settings.soundEnabled || Settings.soundVolume < 1.0f)
 		return;
 
-	std::string fullPath = "sfx/" + filePath + AUDIO_EXT;
-
-#if USE_AUDIO_ENGINE
+	std::string fullPath = "sfx/" + filePath + ".ogg";
 	AudioEngine::play2d(fullPath, false, Settings.soundVolume / 100.0f);
-#elif USE_SIMPLE_AUDIO_ENGINE
-	auto ae = SimpleAudioEngine::getInstance();
-	ae->stopAllEffects();
-	ae->setEffectsVolume(Settings.soundVolume / 100.0f);
-	ae->playEffect(fullPath);
-#endif
 }
 
 void Engine::stopAllSound()
@@ -183,52 +158,28 @@ void Engine::playMusic(const std::string& filePath)
 {
 	if (!Settings.musicEnabled)
 		return;
-
-#if USE_AUDIO_ENGINE
 	_bgMusicId = AudioEngine::play2d(filePath, true, Settings.musicVolume / 100.0f);
-#elif USE_SIMPLE_AUDIO_ENGINE
-	setMusicVolume(Settings.musicVolume);
-	SimpleAudioEngine::getInstance()->playBackgroundMusic(filePath, true);
-#endif
 }
 
-void Engine::stopMusic()
+void Engine::stopMusic() const
 {
-#if USE_AUDIO_ENGINE
 	AudioEngine::stop(_bgMusicId);
-#elif USE_SIMPLE_AUDIO_ENGINE
-	SimpleAudioEngine::getInstance()->stop();
-#endif
 }
 
-void Engine::setMusicVolume(float volume)
+void Engine::setMusicVolume(float volume) const
 {
-#if USE_AUDIO_ENGINE
 	if (_bgMusicId != AudioEngine::INVALID_AUDIO_ID)
 		AudioEngine::setVolume(_bgMusicId, volume / 100.0f);
-#elif USE_SIMPLE_AUDIO_ENGINE
-	SimpleAudioEngine::getInstance()->setBackgroundMusicVolume(volume / 100.0f);
-#endif
 }
 
 void Engine::pauseAudio()
 {
-#if USE_AUDIO_ENGINE
 	AudioEngine::pauseAll();
-#elif USE_SIMPLE_AUDIO_ENGINE
-	SimpleAudioEngine::getInstance()->pauseBackgroundMusic();
-	SimpleAudioEngine::getInstance()->pauseAllEffects();
-#endif
 }
 
 void Engine::resumeAudio()
 {
-#if USE_AUDIO_ENGINE
 	AudioEngine::resumeAll();
-#elif USE_SIMPLE_AUDIO_ENGINE
-	SimpleAudioEngine::getInstance()->resumeBackgroundMusic();
-	SimpleAudioEngine::getInstance()->resumeAllEffects();
-#endif
 }
 
 void Engine::loadGameModes()
@@ -247,11 +198,11 @@ void Engine::loadGameModes()
 
 	auto path = FileUtils::getInstance()->fullPathForFilename("config.plist");
 	ValueMap config = FileUtils::getInstance()->getValueMapFromFile(path);
-	if (config.size() > 0)
+	if (!config.empty())
 		_modes = config.at("modes").asValueMap();
 
 	const auto& modes = getGameModes();
-	if (modes.size() > 0)
+	if (!modes.empty())
 		GameSettings.currentGameMode = modes[0];
 }
 
@@ -259,7 +210,7 @@ std::vector<std::string> Engine::getGameModes() const
 {
 	std::vector<std::string> result;
 
-	for(const auto key : _modes)
+	for (const auto& key : _modes)
 		result.push_back(key.first);
 
 	return result;
@@ -267,7 +218,7 @@ std::vector<std::string> Engine::getGameModes() const
 
 void Engine::setGameMode(const std::string& modeName)
 {
-	auto mode = _modes.at(modeName).asValueMap();
+	auto& mode = _modes.at(modeName).asValueMap();
 	GameMode = GameMode::createFromDict(mode);
 }
 

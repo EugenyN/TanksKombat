@@ -9,9 +9,9 @@ using namespace std;
 
 #define MAX_SPRITE_NUMBER 12
 
-#define INDEX_FROM_XY(x, y) x * _mapSize.height + y
-#define INDEX_FROM_POS(pos) pos.x * _mapSize.height + pos.y
-#define POS_FROM_INDEX(i) Pos2(i % _mapSize.width, i / _mapSize.width)
+#define INDEX_FROM_XY(x, y) (x * _mapSize.height + y)
+#define INDEX_FROM_POS(pos) (pos.x * _mapSize.height + pos.y)
+#define POS_FROM_INDEX(i) (Pos2(i % _mapSize.width, i / _mapSize.width))
 
 
 LevelGrid* LevelGrid::createFromFile(const std::string& fileName)
@@ -21,8 +21,9 @@ LevelGrid* LevelGrid::createFromFile(const std::string& fileName)
 
 LevelGrid* LevelGrid::createRandom(const Size& mapSize, float chanceToWall, float chanceToHole)
 {
-	LevelGrid* grid = new (std::nothrow) LevelGrid(mapSize, Size(TILE_SIZE, TILE_SIZE));
-	if (grid != nullptr && grid->initialiseRandom(chanceToWall, chanceToHole)) {
+	auto* grid = new (std::nothrow) LevelGrid(mapSize, Size(TILE_SIZE, TILE_SIZE));
+	if (grid != nullptr) {
+		grid->initialiseRandom(chanceToWall, chanceToHole);
 		grid->autorelease();
 		return grid;
 	}
@@ -30,10 +31,11 @@ LevelGrid* LevelGrid::createRandom(const Size& mapSize, float chanceToWall, floa
 	return nullptr;
 }
 
-LevelGrid * LevelGrid::createUsingCA(const Size & mapSize, const CAParams & params, float chanceToWall)
+LevelGrid* LevelGrid::createUsingCA(const Size& mapSize, const CAParams& params, float chanceToWall)
 {
-	LevelGrid* grid = new (std::nothrow) LevelGrid(mapSize, Size(TILE_SIZE, TILE_SIZE));
-	if (grid != nullptr && grid->initialiseUsingCA(params, chanceToWall)) {
+	auto* grid = new (std::nothrow) LevelGrid(mapSize, Size(TILE_SIZE, TILE_SIZE));
+	if (grid != nullptr) {
+		grid->initialiseUsingCA(params, chanceToWall);
 		grid->autorelease();
 		return grid;
 	}
@@ -46,8 +48,16 @@ LevelGrid::LevelGrid()
 { }
 
 LevelGrid::LevelGrid(const Size& mapSize, const Size& tileSize)
-	: _mapSize(mapSize), _tileSize(tileSize), _grid(_mapSize.width * _mapSize.height),
-	_dynamicPassableLayer(_mapSize.width * _mapSize.height)
+	: _mapSize(mapSize), _tileSize(tileSize), _grid(_mapSize.width* _mapSize.height),
+	_dynamicPassableLayer(_mapSize.width* _mapSize.height)
+{
+}
+
+LevelGrid::~LevelGrid()
+{
+}
+
+void LevelGrid::initialise()
 {
 	setContentSize(Size(_mapSize.width * _tileSize.width, _mapSize.height * _tileSize.height));
 	setAnchorPoint(Size(0.5f, 0.5f));
@@ -57,22 +67,19 @@ LevelGrid::LevelGrid(const Size& mapSize, const Size& tileSize)
 	_wallSprite = StringUtils::format("wall%d.png", spritePack);
 }
 
-LevelGrid::~LevelGrid()
+void LevelGrid::initialiseRandom(float chanceToWall, float chanceToHole)
 {
-}
+	initialise();
 
-bool LevelGrid::initialiseRandom(float chanceToWall, float chanceToHole)
-{
 	vector<TileValue> tiles(_grid.size());
 	getRandomTiles(tiles, chanceToWall, chanceToHole);
 	setTiles(tiles);
-	return true;
 }
 
 void LevelGrid::getRandomTiles(vector<TileValue>& tiles, float chanceToWall, float chanceToHole) const
 {
-	for (int x = 0; x < _mapSize.width; x++) {
-		for (int y = 0; y < _mapSize.height; y++) {
+	for (int x = 0; x < (int)_mapSize.width; x++) {
+		for (int y = 0; y < (int)_mapSize.height; y++) {
 			if (random(0.0f, 1.0f) < chanceToWall)
 				tiles[INDEX_FROM_XY(x, y)] = TileValue::BLOCK;
 			else
@@ -84,12 +91,13 @@ void LevelGrid::getRandomTiles(vector<TileValue>& tiles, float chanceToWall, flo
 	}
 }
 
-bool LevelGrid::initialiseUsingCA(const CAParams& params, float chanceToHole)
+void LevelGrid::initialiseUsingCA(const CAParams& params, float chanceToHole)
 {
+	initialise();
+
 	vector<TileValue> tiles(_grid.size());
 	getCATiles(tiles, params, chanceToHole);
 	setTiles(tiles);
-	return true;
 }
 
 void LevelGrid::getCATiles(vector<TileValue>& tiles, const CAParams& params, float chanceToHole) const
@@ -111,8 +119,8 @@ vector<TileValue> LevelGrid::doSimulationStep(vector<TileValue>& oldMap, int dea
 {
 	vector<TileValue> newMap(_mapSize.width * _mapSize.height);
 	//Loop over each row and column of the map
-	for (int x = 0; x < _mapSize.width; x++) {
-		for (int y = 0; y < _mapSize.height; y++) {
+	for (int x = 0; x < (int)_mapSize.width; x++) {
+		for (int y = 0; y < (int)_mapSize.height; y++) {
 			int nbs = countAliveNeighbours(oldMap, x, y);
 			//The new value is based on our simulation rules
 			//First, if a cell is alive but has too few neighbours, kill it.
@@ -122,7 +130,7 @@ vector<TileValue> LevelGrid::doSimulationStep(vector<TileValue>& oldMap, int dea
 				else
 					newMap[INDEX_FROM_XY(x, y)] = TileValue::BLOCK;
 			} //Otherwise, if the cell is dead now, check if it has the right number of neighbours to be 'born'
-			else 
+			else
 			{
 				if (nbs > birthLimit)
 					newMap[INDEX_FROM_XY(x, y)] = TileValue::BLOCK;
@@ -166,7 +174,7 @@ void LevelGrid::updateSprite(int x, int y, TileValue value)
 	{
 		removeSprite(x, y, WALL_LAYER_TAGS);
 		setSprite(x, y, _groundSprite, LayerZOrder::GROUND, GROUND_LAYER_TAGS);
-	} 
+	}
 	else if (value == TileValue::BLOCK)
 	{
 		setSprite(x, y, _groundSprite, LayerZOrder::GROUND, GROUND_LAYER_TAGS);
@@ -177,7 +185,7 @@ void LevelGrid::updateSprite(int x, int y, TileValue value)
 	}
 }
 
-void LevelGrid::setSprite(int x, int y, const std::string& spriteName, int zOrder, int tagLayer)
+void LevelGrid::setSprite(int x, int y, const std::string& spriteName, LayerZOrder zOrder, int tagLayer)
 {
 	removeSprite(x, y, tagLayer);
 
@@ -187,7 +195,7 @@ void LevelGrid::setSprite(int x, int y, const std::string& spriteName, int zOrde
 	sprite->setAnchorPoint(Vec2(0, 0));
 	sprite->setPosition(Vec2(x, y) * _tileSize.width);
 	sprite->setTag(tag);
-	this->addChild(sprite, zOrder);
+	this->addChild(sprite, (int)zOrder);
 }
 
 void LevelGrid::removeSprite(int x, int y, int tagLayer)
@@ -234,7 +242,7 @@ void LevelGrid::setTile(int x, int y, TileValue value)
 	updateSprite(x, y, value);
 }
 
-void LevelGrid::setTile(const Pos2 & position, TileValue value)
+void LevelGrid::setTile(const Pos2& position, TileValue value)
 {
 	setTile(position.x, position.y, value);
 }
@@ -268,15 +276,15 @@ void LevelGrid::setDynamicPassable(const Pos2& tileCoord, PassableValue value)
 {
 	_dynamicPassableLayer[INDEX_FROM_POS(tileCoord)] = value;
 
-	if (PATHFINDING_DEBUG) {
-		auto exist = this->getChildByTag(INDEX_FROM_POS(tileCoord));
-		if (exist != nullptr) {
-			if (value == PassableValue::PASSABLE)
-				exist->setColor(Color3B(255, 255, 255));
-			else
-				exist->setColor(Color3B(255, 0, 0));
-		}
+#if PATHFINDING_DEBUG
+	auto exist = this->getChildByTag(INDEX_FROM_POS(tileCoord));
+	if (exist != nullptr) {
+		if (value == PassableValue::PASSABLE)
+			exist->setColor(Color3B(255, 255, 255));
+		else
+			exist->setColor(Color3B(255, 0, 0));
 	}
+#endif
 }
 
 bool LevelGrid::isDynamicPassable(const Pos2& tileCoord) const
@@ -286,7 +294,7 @@ bool LevelGrid::isDynamicPassable(const Pos2& tileCoord) const
 
 bool LevelGrid::isValidTileCoord(const Pos2& tileCoord) const
 {
-	if (tileCoord.x < 0 || tileCoord.y < 0 || 
+	if (tileCoord.x < 0 || tileCoord.y < 0 ||
 		tileCoord.x >= _mapSize.width || tileCoord.y >= _mapSize.height)
 		return false;
 	else

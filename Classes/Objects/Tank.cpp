@@ -15,7 +15,7 @@ USING_NS_CC;
 #define MOVE_TOWARD_STATE_TAG 13
 
 
-Tank::Tank() 
+Tank::Tank()
 	: Tank(Team::BLUE, 5, 20)
 {
 }
@@ -48,7 +48,7 @@ void Tank::setTeam(Team team)
 	_team = team;
 
 	if (_sprite != nullptr)
-		_sprite->setColor(GET_TEAM_COLOR3B(_team));
+		_sprite->setColor(teamColors[(int)_team]);
 }
 
 int Tank::getAmmo() const
@@ -353,12 +353,12 @@ void Tank::startShotState()
 
 	if (_shotState == nullptr) {
 		_shotState = Sequence::create
-			(
-				CallFunc::create(CC_CALLBACK_0(Tank::shotAnimationStarted, this)),
-				DelayTime::create(SHOT_ANIMATION_TIME),
-				CallFunc::create(CC_CALLBACK_0(Tank::shotAnimationFinished, this)),
-				nullptr
-			);
+		(
+			CallFunc::create(CC_CALLBACK_0(Tank::shotAnimationStarted, this)),
+			DelayTime::create(SHOT_ANIMATION_TIME),
+			CallFunc::create(CC_CALLBACK_0(Tank::shotAnimationFinished, this)),
+			nullptr
+		);
 		_shotState->setTag(SHOT_STATE_TAG);
 		_shotState->retain();
 	}
@@ -502,20 +502,20 @@ void Tank::startFallIntoHoleState()
 	rotation.pushBack(CallFunc::create([this]() { _sprite->setVisible(false); }));
 
 	auto state = Sequence::create
+	(
+		DelayTime::create(1.0f),
+		Spawn::create
 		(
-			DelayTime::create(1.0f),
-			Spawn::create
-			(
-				Sequence::create(rotation),
-				CallFunc::create([]() { Engine::getInstance()->playSound("tank_fall"); }),
-				ScaleBy::create(1.0f, 1/10.0f),
-				nullptr
-			),
-			CallFunc::create([this]() { Tank::damage(false); }),
-			DelayTime::create(1.0f),
-			CallFunc::create([this]() { respawnIntoPosition(_prevPosition); }),
+			Sequence::create(rotation),
+			CallFunc::create([]() { Engine::getInstance()->playSound("tank_fall"); }),
+			ScaleBy::create(1.0f, 1 / 10.0f),
 			nullptr
-		);
+		),
+		CallFunc::create([this]() { Tank::damage(false); }),
+		DelayTime::create(1.0f),
+		CallFunc::create([this]() { respawnIntoPosition(_prevPosition); }),
+		nullptr
+	);
 
 	state->setTag(FALL_INTO_HOLE_STATE_TAG);
 	_sprite->runAction(state);
@@ -530,11 +530,12 @@ bool Tank::startMoveTowardState(const Pos2& target, bool getUpClose)
 	stopMoveTowardState();
 
 	_moveTowardPath = pf->getShortestPath(this->getGridPosition(), target, getUpClose);
-	if (_moveTowardPath.size() == 0)
+	if (_moveTowardPath.empty())
 		return false;
 
-	if (PATHFINDING_DEBUG)
-		addMoveTowardDebugPath();
+#if PATHFINDING_DEBUG
+	addMoveTowardDebugPath();
+#endif
 
 	if (_moveTowardState == nullptr) {
 		_moveTowardState = RepeatForever::create(
@@ -555,9 +556,7 @@ bool Tank::startMoveTowardState(const Pos2& target, bool getUpClose)
 
 void Tank::addMoveTowardDebugPath()
 {
-	if (!PATHFINDING_DEBUG)
-		return;
-
+#if PATHFINDING_DEBUG
 	const auto scene = _engine->getCurrentScene<GameplayScene>();
 	if (_debugPathLine != nullptr)
 		removeChild(_debugPathLine);
@@ -567,16 +566,17 @@ void Tank::addMoveTowardDebugPath()
 	_debugPathLine->drawLine(
 		scene->getGrid()->positionForTileCoord(this->getGridPosition()),
 		scene->getGrid()->positionForTileCoord(_moveTowardPath.at(0)->getPosition()),
-		Color4F(GET_TEAM_COLOR3B(_team)));
+		Color4F(teamColors[(int)_team]));
 
 	for (int i = 0; i < _moveTowardPath.size() - 1; i++)
 	{
 		_debugPathLine->drawLine(
 			scene->getGrid()->positionForTileCoord(_moveTowardPath.at(i)->getPosition()),
 			scene->getGrid()->positionForTileCoord(_moveTowardPath.at(i + 1)->getPosition()),
-			Color4F(GET_TEAM_COLOR3B(_team)));
+			Color4F(teamColors[(int)_team]));
 	}
 	addChild(_debugPathLine, 100);
+#endif
 }
 
 void Tank::stopMoveTowardState()
@@ -591,14 +591,14 @@ bool Tank::isMoveTowardState()
 
 Pos2 Tank::getMoveTowardTarget() const
 {
-	if (_moveTowardPath.size() == 0)
+	if (_moveTowardPath.empty())
 		return Pos2(-1, -1);
 	return _moveTowardPath.back()->getPosition();
 }
 
 void Tank::updateMoveTowardState()
 {
-	CCASSERT(_moveTowardPath.size() > 0, "_moveTowardPath.size() == 0");
+	CCASSERT(!_moveTowardPath.empty(), "_moveTowardPath.size() == 0");
 
 	auto from = getGridPosition();
 	auto to = _moveTowardPath.at(0)->getPosition();
@@ -615,7 +615,7 @@ void Tank::updateMoveTowardState()
 
 	_moveTowardPath.erase(0);
 
-	if (_moveTowardPath.size() == 0)
+	if (_moveTowardPath.empty())
 		stopMoveTowardState();
 }
 

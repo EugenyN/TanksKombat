@@ -31,11 +31,11 @@ bool HighScoresScene::init()
 
 	const auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
 
-	for (size_t i = 0; i < MAX_TEAMS_COUNT; i++)
+	for (int i = 0; i < MAX_TEAMS_COUNT; i++)
 	{
 		auto content = Label::createWithCharMap(FONT_MAIN);
 		content->setAlignment(TextHAlignment::CENTER);
-		content->setColor(GET_TEAM_COLOR3B((Team)i));
+		content->setColor(teamColors[i]);
 		content->setString(StringUtils::format("TANK %d : %d", i + 1, scene->getTankScore((Team)i)));
 		content->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2 + 32 * i));
 		this->addChild(content, 2);
@@ -78,7 +78,7 @@ void HighScoresScene::onMenuItemActivated(int menuItem)
 	}
 }
 
-void HighScoresScene::onKeyEvent(EventKeyboard::KeyCode keyCode, cocos2d::Event *event)
+void HighScoresScene::onKeyEvent(EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
 	// CHANGE_SCENE(HighScoresScene);
 

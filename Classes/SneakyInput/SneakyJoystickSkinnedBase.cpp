@@ -2,6 +2,12 @@
 
 using namespace cocos2d;
 
+SneakyJoystickSkinnedBase::SneakyJoystickSkinnedBase()
+	: backgroundSprite(nullptr), thumbSprite(nullptr), joystick(nullptr)
+{
+
+}
+
 SneakyJoystickSkinnedBase::~SneakyJoystickSkinnedBase()
 {
 	if (backgroundSprite)
@@ -32,7 +38,7 @@ bool SneakyJoystickSkinnedBase::init()
 
 		this->joystick = nullptr;
 
-		this->schedule(schedule_selector(SneakyJoystickSkinnedBase::updatePositions));
+		this->schedule(CC_SCHEDULE_SELECTOR(SneakyJoystickSkinnedBase::updatePositions));
 		pRet = true;
 	}
 	return pRet;
@@ -51,7 +57,7 @@ void SneakyJoystickSkinnedBase::setContentSize(Size s)
 	//joystick.joystickRadius = s.width/2;
 }
 
-void SneakyJoystickSkinnedBase::setBackgroundSprite(Sprite *aSprite)
+void SneakyJoystickSkinnedBase::setBackgroundSprite(Sprite* aSprite)
 {
 	if (backgroundSprite) {
 		if (backgroundSprite->getParent())
@@ -60,13 +66,11 @@ void SneakyJoystickSkinnedBase::setBackgroundSprite(Sprite *aSprite)
 	}
 	aSprite->retain();
 	backgroundSprite = aSprite;
-	if (aSprite) {
-		this->setContentSize(backgroundSprite->getContentSize());
-		this->addChild(backgroundSprite, 0);
-	}
+	this->setContentSize(backgroundSprite->getContentSize());
+	this->addChild(backgroundSprite, 0);
 }
 
-void SneakyJoystickSkinnedBase::setThumbSprite(Sprite *aSprite)
+void SneakyJoystickSkinnedBase::setThumbSprite(Sprite* aSprite)
 {
 	if (thumbSprite) {
 		if (thumbSprite->getParent())
@@ -75,14 +79,11 @@ void SneakyJoystickSkinnedBase::setThumbSprite(Sprite *aSprite)
 	}
 	aSprite->retain();
 	thumbSprite = aSprite;
-	if (aSprite) {
-		this->addChild(thumbSprite, 1);
-
-		//joystick->setThumbRadius(thumbSprite->getContentSize().width/2);
-	}
+	this->addChild(thumbSprite, 1);
+	//joystick->setThumbRadius(thumbSprite->getContentSize().width/2);
 }
 
-void SneakyJoystickSkinnedBase::setJoystick(SneakyJoystick *aJoystick)
+void SneakyJoystickSkinnedBase::setJoystick(SneakyJoystick* aJoystick)
 {
 	if (joystick) {
 		if (joystick->getParent())
@@ -91,14 +92,12 @@ void SneakyJoystickSkinnedBase::setJoystick(SneakyJoystick *aJoystick)
 	}
 	aJoystick->retain();
 	joystick = aJoystick;
-	if (aJoystick) {
-		this->addChild(aJoystick, 2);
-		if (thumbSprite)
-			joystick->setThumbRadius(thumbSprite->getBoundingBox().size.width / 2);
-		else
-			joystick->setThumbRadius(0);
+	this->addChild(aJoystick, 2);
+	if (thumbSprite)
+		joystick->setThumbRadius(thumbSprite->getBoundingBox().size.width / 2);
+	else
+		joystick->setThumbRadius(0);
 
-		if (backgroundSprite)
-			joystick->setJoystickRadius(backgroundSprite->getBoundingBox().size.width / 2);
-	}
+	if (backgroundSprite)
+		joystick->setJoystickRadius(backgroundSprite->getBoundingBox().size.width / 2);
 }

@@ -25,7 +25,7 @@ ModalDialog* ModalDialog::create(const std::string& content,
 	const std::function<void(void)>& callbackCancel,
 	const std::string& okText, const std::string& cancelText)
 {
-	ModalDialog *dialog = new (std::nothrow) ModalDialog();
+	auto* dialog = new (std::nothrow) ModalDialog();
 
 	if (dialog && dialog->init())
 	{
@@ -71,7 +71,7 @@ void ModalDialog::initOpt(const std::string& content, const std::string& okText,
 	okItem->setTag(TAG_OK);
 
 	SimpleMenuItem* cancelItem = nullptr;
-	if (cancelText != "") {
+	if (!cancelText.empty()) {
 		cancelItem = SimpleMenuItem::create(" " + cancelText, FONT_MAIN, CC_CALLBACK_1(ModalDialog::menuItemActivated, this));
 		cancelItem->setTag(TAG_CANCEL);
 	}
@@ -126,7 +126,7 @@ void ModalDialog::addEvents()
 	_listenerId = BaseScene::getCurrentScene()->addKeyboardEvents(listener);
 }
 
-bool ModalDialog::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event) 
+bool ModalDialog::onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
 	if (keyCode == EventKeyboard::KeyCode::KEY_BACK) {
 		event->stopPropagation(); // avoid exit on WINRT
@@ -160,33 +160,33 @@ void ModalDialog::runAnimations(int menuItem, bool bReverse)
 	if (bReverse)
 	{
 		auto callback = CallFunc::create([menuItem, this]()
-		{
-			switch (menuItem)
 			{
-			case TAG_OK:
-			{
-				if (_callbackOK != nullptr)
-					_callbackOK();
-				break;
-			}
+				switch (menuItem)
+				{
+				case TAG_OK:
+				{
+					if (_callbackOK != nullptr)
+						_callbackOK();
+					break;
+				}
 
-			case TAG_CANCEL:
-			{
-				if (_callbackCancel != nullptr)
-					_callbackCancel();
-				break;
-			}
-			default:
-			{
-				break;
-			}
-			}
-			this->removeFromParentAndCleanup(true);
-			if (_referencer != nullptr && *_referencer != nullptr) {
-				*_referencer = nullptr;
-				_referencer = nullptr;
-			}
-		});
+				case TAG_CANCEL:
+				{
+					if (_callbackCancel != nullptr)
+						_callbackCancel();
+					break;
+				}
+				default:
+				{
+					break;
+				}
+				}
+				this->removeFromParentAndCleanup(true);
+				if (_referencer != nullptr && *_referencer != nullptr) {
+					*_referencer = nullptr;
+					_referencer = nullptr;
+				}
+			});
 		auto seq = Sequence::create(DelayTime::create(0.4f), callback, nullptr);
 		this->runAction(seq);
 	}

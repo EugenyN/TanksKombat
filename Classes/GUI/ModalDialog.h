@@ -9,14 +9,14 @@ class ModalDialog : public cocos2d::Sprite
 {
 public:
 	ModalDialog();
-	~ModalDialog();
+	~ModalDialog() override;
 	static ModalDialog* create(const std::string& = "",
 		const std::function<void(void)>& callbackOK = nullptr,
 		const std::function<void(void)>& callbackCancel = nullptr,
 		const std::string& okText = "OK",
 		const std::string& cancelText = "CANCEL");
 
-	bool isValid() { return _listenerId != -1; };
+	bool isValid() const { return _listenerId != -1; };
 	void setReferencer(ModalDialog** referencer) { _referencer = referencer; };
 
 private:
@@ -33,8 +33,8 @@ private:
 
 	void addEvents();
 	bool onKeyReleased(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event);
-	virtual void onEnter() override;
-	virtual void onExit() override;
+	void onEnter() override;
+	void onExit() override;
 	void initOpt(const std::string& content, const std::string& okText, const std::string& cancelText);
 	void menuItemActivated(cocos2d::Ref* pSender);
 	void runAnimations(int menuItem, bool);

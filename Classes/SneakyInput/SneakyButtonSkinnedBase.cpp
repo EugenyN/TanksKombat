@@ -2,6 +2,11 @@
 
 using namespace cocos2d;
 
+SneakyButtonSkinnedBase::SneakyButtonSkinnedBase()
+	: defaultSprite(nullptr), activatedSprite(nullptr), disabledSprite(nullptr), pressSprite(nullptr)
+{
+}
+
 SneakyButtonSkinnedBase::~SneakyButtonSkinnedBase()
 {
 	if (defaultSprite)
@@ -46,7 +51,7 @@ bool SneakyButtonSkinnedBase::init()  //Possible errors here
 		this->button = nullptr;
 		//button->retain();
 
-		this->schedule(schedule_selector(SneakyButtonSkinnedBase::watchSelf));
+		this->schedule(CC_SCHEDULE_SELECTOR(SneakyButtonSkinnedBase::watchSelf));
 		pRet = true;
 	}
 	return pRet;
@@ -91,7 +96,7 @@ void SneakyButtonSkinnedBase::setContentSize(Size s)
 	//button->setRadius(s.width/2);
 }
 
-void SneakyButtonSkinnedBase::setDefaultSprite(Sprite *aSprite)
+void SneakyButtonSkinnedBase::setDefaultSprite(Sprite* aSprite)
 {
 	if (defaultSprite) {
 		if (defaultSprite->getParent())
@@ -100,14 +105,11 @@ void SneakyButtonSkinnedBase::setDefaultSprite(Sprite *aSprite)
 	}
 	aSprite->retain();
 	defaultSprite = aSprite; //Check again here
-	if (aSprite) {
-		this->addChild(defaultSprite, 0);
-
-		this->setContentSize(defaultSprite->getContentSize());
-	}
+	this->addChild(defaultSprite, 0);
+	this->setContentSize(defaultSprite->getContentSize());
 }
 
-void SneakyButtonSkinnedBase::setActivatedSprite(Sprite *aSprite)
+void SneakyButtonSkinnedBase::setActivatedSprite(Sprite* aSprite)
 {
 	if (activatedSprite) {
 		if (activatedSprite->getParent())
@@ -116,14 +118,11 @@ void SneakyButtonSkinnedBase::setActivatedSprite(Sprite *aSprite)
 	}
 	aSprite->retain();
 	activatedSprite = aSprite;
-	if (aSprite) {
-		this->addChild(activatedSprite, 1);
-
-		this->setContentSize(activatedSprite->getContentSize());
-	}
+	this->addChild(activatedSprite, 1);
+	this->setContentSize(activatedSprite->getContentSize());
 }
 
-void SneakyButtonSkinnedBase::setDisabledSprite(Sprite *aSprite)
+void SneakyButtonSkinnedBase::setDisabledSprite(Sprite* aSprite)
 {
 	if (disabledSprite) {
 		if (disabledSprite->getParent())
@@ -139,7 +138,7 @@ void SneakyButtonSkinnedBase::setDisabledSprite(Sprite *aSprite)
 	}
 }
 
-void SneakyButtonSkinnedBase::setPressSprite(Sprite *aSprite)
+void SneakyButtonSkinnedBase::setPressSprite(Sprite* aSprite)
 {
 	if (pressSprite) {
 		if (pressSprite->getParent())
@@ -148,14 +147,11 @@ void SneakyButtonSkinnedBase::setPressSprite(Sprite *aSprite)
 	}
 	aSprite->retain();
 	pressSprite = aSprite;
-	if (aSprite) {
-		this->addChild(pressSprite, 3);
-
-		this->setContentSize(pressSprite->getContentSize());
-	}
+	this->addChild(pressSprite, 3);
+	this->setContentSize(pressSprite->getContentSize());
 }
 
-void SneakyButtonSkinnedBase::setButton(SneakyButton *aButton)
+void SneakyButtonSkinnedBase::setButton(SneakyButton* aButton)
 {
 	if (button) {
 		if (button->getParent())
@@ -164,9 +160,7 @@ void SneakyButtonSkinnedBase::setButton(SneakyButton *aButton)
 	}
 	aButton->retain();
 	button = aButton;
-	if (aButton) {
-		this->addChild(button, 4);
-		if (defaultSprite)
-			button->setRadius(defaultSprite->getBoundingBox().size.width / 2);
-	}
+	this->addChild(button, 4);
+	if (defaultSprite)
+		button->setRadius(defaultSprite->getBoundingBox().size.width / 2);
 }

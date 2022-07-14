@@ -46,11 +46,11 @@ bool MainMenuScene::init()
 
 	// copyright
 
-	auto autors = Label::createWithCharMap(FONT_MAIN);
-	autors->setString("EugenyN 2016 GPL License");
-	autors->setPosition(Vec2(visibleSize.width / 2, 32));
-	autors->enableShadow(Color4B(LIGHTGREEN_COLOR), Size(1, -1));
-	this->addChild(autors, 2);
+	auto authors = Label::createWithCharMap(FONT_MAIN);
+	authors->setString("EugenyN 2016");
+	authors->setPosition(Vec2(visibleSize.width / 2, 32));
+	authors->enableShadow(Color4B(LIGHTGREEN_COLOR), Size(1, -1));
+	this->addChild(authors, 2);
 
 	// start, options exit menu
 
@@ -75,8 +75,8 @@ bool MainMenuScene::init()
 
 	auto spriteBatch = SpriteBatchNode::create("graphics/tanks_logo.png");
 	spriteBatch->getTexture()->setAliasTexParameters();
-	auto spritecache = SpriteFrameCache::getInstance();
-	spritecache->addSpriteFramesWithFile("graphics/tanks_logo.plist");
+	auto spriteCache = SpriteFrameCache::getInstance();
+	spriteCache->addSpriteFramesWithFile("graphics/tanks_logo.plist");
 
 	auto tankLogo = Sprite::createWithSpriteFrameName("tank_logo0.png");
 	tankLogo->setPosition(Vec2(visibleSize.width / 2, visibleSize.height / 2));
@@ -86,8 +86,8 @@ bool MainMenuScene::init()
 	this->addChild(spriteBatch, 3);
 
 	Vector<SpriteFrame*> animFrames(2);
-	animFrames.pushBack(spritecache->getSpriteFrameByName("tank_logo0.png"));
-	animFrames.pushBack(spritecache->getSpriteFrameByName("tank_logo1.png"));
+	animFrames.pushBack(spriteCache->getSpriteFrameByName("tank_logo0.png"));
+	animFrames.pushBack(spriteCache->getSpriteFrameByName("tank_logo1.png"));
 	tankLogo->runAction(RepeatForever::create(Animate::create(
 		Animation::createWithSpriteFrames(animFrames, 0.4f))));
 
@@ -102,12 +102,12 @@ void MainMenuScene::menuItemActivated(Ref* pSender)
 	onMenuItemActivated(pMenuItem->getTag());
 }
 
-void MainMenuScene::onKeyEvent(EventKeyboard::KeyCode keyCode, cocos2d::Event *event)
+void MainMenuScene::onKeyEvent(EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
-	if (keyCode == EventKeyboard::KeyCode::KEY_BACK) 
+	if (keyCode == EventKeyboard::KeyCode::KEY_BACK)
 	{
 		auto exitDialog = ModalDialog::create("Do you want to exit?", CC_CALLBACK_0(MainMenuScene::exitGame, this), nullptr, "YES", "NO");
-		this->addChild(exitDialog, LayerZOrder::MODAL_DIALOGS);
+		this->addChild(exitDialog, (int)LayerZOrder::MODAL_DIALOGS);
 	}
 	else if (keyCode == EventKeyboard::KeyCode::KEY_MENU) {
 		onMenuItemActivated(TAG_OPTIONS);
@@ -119,10 +119,10 @@ void MainMenuScene::onMenuItemActivated(int menuItem)
 	switch (menuItem)
 	{
 	case TAG_NEW_GAME:
-		CHANGE_SCENE(GameSettingsScene);
+		CHANGE_SCENE(GameSettingsScene)
 		break;
 	case TAG_OPTIONS:
-		CHANGE_SCENE(SettingsScene);
+		CHANGE_SCENE(SettingsScene)
 		break;
 	case TAG_EXIT:
 		exitGame();
@@ -130,7 +130,7 @@ void MainMenuScene::onMenuItemActivated(int menuItem)
 	}
 }
 
-void MainMenuScene::exitGame() 
+void MainMenuScene::exitGame()
 {
 	Director::getInstance()->end();
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

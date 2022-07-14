@@ -5,6 +5,9 @@
 #include "BaseScene.h"
 #include "Objects/Tank.h"
 
+#define GAME_OBJECT_ADDED_EVENT "game_object_added_event"
+#define GAME_OBJECT_REMOVED_EVENT "game_object_removed_event"
+
 class TiledSprite;
 class LevelGrid;
 
@@ -16,9 +19,9 @@ public:
 
 	static cocos2d::Scene* createScene();
 
-	virtual bool init();
+	bool init() override;
 
-	~GameplayScene();
+	~GameplayScene() override;
 
 	void addGameObject(GameObject* obj);
 	void removeGameObject(GameObject* obj);
@@ -34,9 +37,6 @@ public:
 
 	int getTankScore(Team team) const;
 
-	multifunction<void(GameObject*)>& getGameObjectAddedEvent() { return _gameObjectAddedEvent; }
-	multifunction<void(GameObject*)>& getGameObjectRemovedEvent() { return _gameObjectRemovedEvent; }
-
 private:
 	cocos2d::Vector<GameObject*> _gameObjects;
 	LevelGrid* _levelGrid;
@@ -44,11 +44,8 @@ private:
 
 	cocos2d::Label* _statusLabel;
 
-	multifunction<void(GameObject*)> _gameObjectAddedEvent;
-	multifunction<void(GameObject*)> _gameObjectRemovedEvent;
-
 	bool _paused;
-	int _highScores[MAX_TEAMS_COUNT];
+	int _highScores[MAX_TEAMS_COUNT]; //std array
 
 	GameplayScene();
 
@@ -64,7 +61,7 @@ private:
 	bool addRandomBonus(bool playSound = true);
 	void leaveGame();
 	void onTankKilled(Tank* tank);
-	void onKeyEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event *event);
+	void onKeyEvent(cocos2d::EventKeyboard::KeyCode keyCode, cocos2d::Event* event) override;
 	void onKeyPressed(cocos2d::EventKeyboard::KeyCode code, cocos2d::Event* event) override;
 };
 

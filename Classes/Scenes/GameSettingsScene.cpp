@@ -106,7 +106,7 @@ bool GameSettingsScene::init()
 	doneItem->setTag(TAG_DONE);
 	doneItem->setAnchorPoint(Vec2(0, 0.5f));
 
-	auto menu = SimpleMenu::create(SimpleMenu::Type::VERTICAL, tank1Item, tank2Item, tank3Item, tank4Item, 
+	auto menu = SimpleMenu::create(SimpleMenu::Type::VERTICAL, tank1Item, tank2Item, tank3Item, tank4Item,
 		mapItem, sizeItem, modeItem, doneItem, NULL);
 	menu->setPosition(Vec2(visibleSize.width / 2 - 130, visibleSize.height / 2));
 	menu->alignItemsVerticallyWithPadding(16);
@@ -155,10 +155,10 @@ void GameSettingsScene::menuItemValueChanged(Ref* pSender)
 	}
 }
 
-void GameSettingsScene::onKeyEvent(EventKeyboard::KeyCode keyCode, cocos2d::Event *event)
+void GameSettingsScene::onKeyEvent(EventKeyboard::KeyCode keyCode, cocos2d::Event* event)
 {
 	if (keyCode == EventKeyboard::KeyCode::KEY_BACK)
-		CHANGE_SCENE(MainMenuScene);
+		CHANGE_SCENE(MainMenuScene)
 }
 
 void GameSettingsScene::onMenuItemActivated(int menuItem)
@@ -175,13 +175,13 @@ void GameSettingsScene::onMenuItemActivated(int menuItem)
 
 		if (tanksInGame < 2)
 		{
-			auto playersMessage = ModalDialog::create("Please select at least two tanks!", 
+			auto playersMessage = ModalDialog::create("Please select at least two tanks!",
 				nullptr, nullptr, "OK", "");
-			this->addChild(playersMessage, LayerZOrder::MODAL_DIALOGS);
+			this->addChild(playersMessage, (int)LayerZOrder::MODAL_DIALOGS);
 		}
-		else 
+		else
 		{
-			CHANGE_SCENE(GameplayScene);
+			CHANGE_SCENE(GameplayScene)
 		}
 
 		return;

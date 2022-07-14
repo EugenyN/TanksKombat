@@ -6,12 +6,12 @@
 USING_NS_CC;
 
 GameObject::GameObject(Type type)
-	: _direction(Direction::UP), _sprite(nullptr), _engine(Engine::getInstance()), 
+	: _direction(Direction::UP), _sprite(nullptr), _engine(Engine::getInstance()),
 	_type(type), _isPassable(true)
 { }
 
 GameObject::~GameObject()
-{ 
+{
 	_sprite = nullptr;
 	_engine = nullptr;
 
@@ -62,7 +62,7 @@ Pos2 GameObject::getGridPosition(const Node* node)
 
 void GameObject::setGridPosition(Node* node, const Pos2& p)
 {
-	node->setPosition(Vec2(p.x, p.y)  * TILE_SIZE + Vec2::ONE * TILE_SIZE / 2);
+	node->setPosition(Vec2(p.x, p.y) * TILE_SIZE + Vec2::ONE * TILE_SIZE / 2);
 }
 
 void GameObject::setGridPosition(Node* node, int x, int y)
@@ -146,7 +146,7 @@ void GameObject::updatePassableLayer(const Pos2& pos, const Pos2& prevPos)
 	auto grid = scene->getGrid();
 
 	grid->setDynamicPassable(prevPos, PassableValue::PASSABLE);
-	grid->setDynamicPassable(pos, PassableValue::INPASSABLE);
+	grid->setDynamicPassable(pos, PassableValue::IMPASSABLE);
 }
 
 void GameObject::removeFromPassableLayer(const Pos2& pos)

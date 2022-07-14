@@ -17,7 +17,7 @@ Explosion::~Explosion()
 	CC_SAFE_RELEASE_NULL(_animation);
 }
 
-Explosion* Explosion::createFromPool(Pos2 pos)
+Explosion* Explosion::createFromPool(const Pos2& pos)
 {
 	// find an available explosion.
 	for (auto expl : _explosionPool)
@@ -90,6 +90,6 @@ void Explosion::activate(Pos2 pos)
 }
 
 bool Explosion::inUse() const
- {
+{
 	return _sprite->getActionByTag(0) != nullptr;
 }

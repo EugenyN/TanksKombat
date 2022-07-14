@@ -13,7 +13,7 @@ public:
 	void take();
 private:
 	Bonus();
-	~Bonus();
+	~Bonus() override;
 };
 
 #endif // _BONUS_H_

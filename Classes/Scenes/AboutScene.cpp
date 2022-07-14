@@ -3,6 +3,11 @@
 
 USING_NS_CC;
 
+AboutScene::AboutScene()
+	: _content(nullptr), _content2(nullptr)
+{
+}
+
 Scene* AboutScene::createScene()
 {
 	auto scene = Scene::create();
@@ -84,7 +89,7 @@ void AboutScene::showDebugInfo()
 	Point origin = Director::getInstance()->getVisibleOrigin();
 	auto glview = Director::getInstance()->getOpenGLView();
 
-	float dpiScale = Device::getDPI() / 86.0f;
+	float dpiScale = (float)Device::getDPI() / 86.0f;
 	float resolutionScale = 1.0f / glview->getScaleX();
 
 	Size frameSize = glview->getFrameSize();
@@ -116,6 +121,6 @@ void AboutScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event)
 		showDebugInfo();
 	}
 	else {
-		CHANGE_SCENE(MainMenuScene);
+		CHANGE_SCENE(MainMenuScene)
 	}
 }

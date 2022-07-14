@@ -7,10 +7,10 @@ class ShortestPathStep : public cocos2d::Ref
 {
 public:
 	ShortestPathStep();
-	~ShortestPathStep();
+	~ShortestPathStep() override;
 
 	static ShortestPathStep* createWithPosition(const Pos2& pos);
-	bool initWithPosition(const Pos2& pos);
+	void initWithPosition(const Pos2& pos);
 
 	int getFScore() const;
 	bool isEqual(const ShortestPathStep* other) const;
@@ -37,12 +37,12 @@ private:
 	cocos2d::Vector<ShortestPathStep*> _moveTowardPath;
 
 	Pathfinder();
-	virtual ~Pathfinder();
+	~Pathfinder() override;
 
 	void insertInOpenSteps(ShortestPathStep* step);
-	int computeHScoreFromCoordToCoord(const Pos2& from, const Pos2& to);
-	int costToMoveFromStepToAdjacentStep(const ShortestPathStep* fromStep, const ShortestPathStep* toStep);
-	ssize_t getStepIndex(const cocos2d::Vector<ShortestPathStep*>& steps, const ShortestPathStep* step);
+	static int computeHScoreFromCoordToCoord(const Pos2& from, const Pos2& to);
+	static int costToMoveFromStepToAdjacentStep(const ShortestPathStep* fromStep, const ShortestPathStep* toStep);
+	static ssize_t getStepIndex(const cocos2d::Vector<ShortestPathStep*>& steps, const ShortestPathStep* step);
 
 	ShortestPathStep* constructPath(const Pos2& from, const Pos2& to, bool getUpClose = false);
 };

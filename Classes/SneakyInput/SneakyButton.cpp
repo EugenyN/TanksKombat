@@ -22,41 +22,35 @@ void SneakyButton::onExit()
 	Node::onExit();
 }
 
-bool SneakyButton::initWithRect(Rect rect)
+void SneakyButton::initWithRect(const Rect& rect)
 {
-	bool pRet = false;
-	//if(CCSprite::init()){
-
 	bounds = Rect(0, 0, rect.size.width, rect.size.height);
 	center = Point(rect.size.width / 2, rect.size.height / 2);
-	status = 1; //defaults to enabled
+	status = true; //defaults to enabled
 	active = false;
-	value = 0;
-	isHoldable = 0;
-	isToggleable = 0;
+	value = false;
+	isHoldable = false;
+	isToggleable = false;
 	radius = 32.0f;
 	rateLimit = 1.0f / 120.0f;
 
 	setPosition(rect.origin); //not sure about this
-	pRet = true;
-	//}
-	return pRet;
 }
 
 void SneakyButton::limiter(float delta)
 {
 	value = 0;
-	this->unschedule(schedule_selector(SneakyButton::limiter));
+	this->unschedule(CC_SCHEDULE_SELECTOR(SneakyButton::limiter));
 	active = false;
 }
 
 void SneakyButton::setRadius(float r)
 {
 	radius = r;
-	radiusSq = r  *r;
+	radiusSq = r * r;
 }
 
-bool SneakyButton::onTouchBegan(Touch *touch, Event *event)
+bool SneakyButton::onTouchBegan(Touch* touch, Event* event)
 {
 	if (active)
 		return false;
@@ -73,12 +67,12 @@ bool SneakyButton::onTouchBegan(Touch *touch, Event *event)
 			active = true;
 			if (!isHoldable && !isToggleable) {
 				value = 1;
-				this->schedule(schedule_selector(SneakyButton::limiter), rateLimit);
+				this->schedule(CC_SCHEDULE_SELECTOR(SneakyButton::limiter), rateLimit);
 			}
-			if (isHoldable) 
+			if (isHoldable)
 				value = 1;
 
-			if (isToggleable) 
+			if (isToggleable)
 				value = !value;
 
 			return true;
@@ -87,7 +81,7 @@ bool SneakyButton::onTouchBegan(Touch *touch, Event *event)
 	return false;
 }
 
-void SneakyButton::onTouchMoved(Touch *touch, Event *event)
+void SneakyButton::onTouchMoved(Touch* touch, Event* event)
 {
 	if (!active) return;
 
@@ -98,33 +92,33 @@ void SneakyButton::onTouchMoved(Touch *touch, Event *event)
 		return;
 	}
 	else {
-		float dSq = location.x*location.x + location.y*location.y;
+		float dSq = location.x * location.x + location.y * location.y;
 		if (radiusSq > dSq) {
-			if (isHoldable) 
+			if (isHoldable)
 				value = 1;
 		}
 		else {
 			if (isHoldable) {
-				value = 0; 
+				value = 0;
 				active = false;
 			}
 		}
 	}
 }
 
-void SneakyButton::onTouchEnded(Touch *touch, Event *event)
+void SneakyButton::onTouchEnded(Touch* touch, Event* event)
 {
-	if (!active) 
+	if (!active)
 		return;
 
-	if (isHoldable) 
+	if (isHoldable)
 		value = 0;
 
-	if (isHoldable || isToggleable) 
+	if (isHoldable || isToggleable)
 		active = false;
 }
 
-void SneakyButton::onTouchCancelled(Touch *touch, Event *event)
+void SneakyButton::onTouchCancelled(Touch* touch, Event* event)
 {
 	this->onTouchEnded(touch, event);
 }

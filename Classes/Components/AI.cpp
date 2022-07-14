@@ -2,14 +2,16 @@
 #include "Engine.h"
 #include "Pathfinder.h"
 #include "Objects\Bonus.h"
+#include "Objects\GameObject.h"
 #include "Scenes\GameplayScene.h"
+#include "base/CCEventListenerCustom.h"
 
 USING_NS_CC;
 
 const std::string AI::COMPONENT_NAME = "AI";
 
 AI::AI()
-	: _escapePoint(-1, -1)
+	: _escapePoint(-1, -1), _gameObjectRemovedEventListener(nullptr)
 {
 	_name = COMPONENT_NAME;
 }
@@ -22,29 +24,37 @@ bool AI::init()
 {
 	if (!Component::init())
 		return false;
-
-	auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
-	scene->getGameObjectRemovedEvent() += CC_CALLBACK_1(AI::onGameObjectRemoved, this);
-
 	return true;
 }
 
 void AI::onAdd()
 {
+	_gameObjectRemovedEventListener =
+		EventListenerCustom::create(GAME_OBJECT_REMOVED_EVENT, CC_CALLBACK_1(AI::onGameObjectRemoved, this));
+	_gameObjectRemovedEventListener->retain();
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(
+		_gameObjectRemovedEventListener, this->getOwner());
+
 	auto delayedState = Sequence::createWithTwoActions(
 		DelayTime::create(random(0.0f, 2.0f)),
-		CallFunc::create([this]() 
-		{
-			auto state = RepeatForever::create(
-				Sequence::createWithTwoActions(
-					DelayTime::create(_aiSpeed),
-					CallFunc::create(CC_CALLBACK_0(AI::updateStep, this))
+		CallFunc::create([this]()
+			{
+				auto state = RepeatForever::create(
+					Sequence::createWithTwoActions(
+						DelayTime::create(_aiSpeed),
+						CallFunc::create(CC_CALLBACK_0(AI::updateStep, this))
 					)
 				);
-			_owner->runAction(state);
-		}));
+				_owner->runAction(state);
+			}));
 
 	_owner->runAction(delayedState);
+}
+
+void AI::onRemove()
+{
+	Director::getInstance()->getEventDispatcher()->removeEventListener(_gameObjectRemovedEventListener);
+	_gameObjectRemovedEventListener->release();
 }
 
 void AI::updateStep()
@@ -69,8 +79,6 @@ void AI::updateStep()
 	case States::GET_BONUS:
 		getBonusUpdate();
 		break;
-	default:
-		break;
 	}
 }
 
@@ -78,7 +86,7 @@ void AI::makeDecision()
 {
 	CCLOG("AI::makeDecision()");
 
-	// If enemy on line, is possible to attack.
+	// If enemy on the line, it is possible to attack.
 	//	 - Attack.
 
 	Tank::Direction fireLineDirection;
@@ -134,12 +142,11 @@ void AI::makeDecision()
 	}
 }
 
-void AI::onGameObjectRemoved(const GameObject* gameObject)
+void AI::onGameObjectRemoved(cocos2d::EventCustom* eventCustom)
 {
+	auto gameObject = static_cast<GameObject*>(eventCustom->getUserData());
 	if (gameObject == _target)
 	{
-		CCLOG("AI::onGameObjectRemoved()");
-
 		auto owner = dynamic_cast<Tank*>(_owner);
 		_target = nullptr;
 		owner->stopMoveToward();
@@ -162,7 +169,6 @@ bool AI::isItPossibleToAttack()
 
 bool AI::isItPossibleToAttackEnemy(const Tank* enemy)
 {
-	auto owner = dynamic_cast<Tank*>(_owner);
 	if (!isItPossibleToAttack())
 		return false;
 
@@ -236,7 +242,7 @@ void AI::attackUpdate()
 	}
 }
 
-void AI::escapeStart(Pos2 escapePoint)
+void AI::escapeStart(const Pos2& escapePoint)
 {
 	_currentState = States::ESCAPE;
 	_escapePoint = escapePoint;
@@ -297,7 +303,7 @@ void AI::thinkStart()
 		DelayTime::create(time),
 		CallFunc::create(CC_CALLBACK_0(AI::makeDecision, this)),
 		nullptr
-		);
+	);
 
 	_owner->runAction(thinkSequence);
 }
@@ -369,7 +375,7 @@ Tank* AI::findNearestTank() const
 
 			const auto& shortestPath = pf->getShortestPath(
 				owner->getGridPosition(), tank->getGridPosition(), true);
-			if (shortestPath.size() != 0 && shortestPath.size() < shortestPathSize) {
+			if (!shortestPath.empty() && shortestPath.size() < shortestPathSize) {
 				shortestPathSize = shortestPath.size();
 				nearest = tank;
 			}
@@ -399,7 +405,7 @@ Bonus* AI::findNearestBonus() const
 		if (bonus != nullptr)
 		{
 			const auto& shortestPath = pf->getShortestPath(owner->getGridPosition(), bonus->getGridPosition());
-			if (shortestPath.size() != 0 && shortestPath.size() < shortestPathSize) {
+			if (!shortestPath.empty() && shortestPath.size() < shortestPathSize) {
 				shortestPathSize = shortestPath.size();
 				nearest = bonus;
 			}
@@ -458,7 +464,7 @@ bool AI::isEnemyOnFiringLine(/*out*/ GameObject::Direction& fireLineDirection, /
 	return false;
 }
 
-bool AI::isEnemyOnFiringLine(GameObject::Direction direction, const Pos2& ownerPos, const Pos2& enemyPos) const
+bool AI::isEnemyOnFiringLine(GameObject::Direction direction, const Pos2& ownerPos, const Pos2& enemyPos)
 {
 	const auto scene = Engine::getInstance()->getCurrentScene<GameplayScene>();
 	auto grid = scene->getGrid();
