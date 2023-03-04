@@ -46,15 +46,17 @@ customization that is not appropriate for viewDidLoad.
 {
     // Initialize the CCEAGLView
     CCEAGLView* eaglView = [CCEAGLView viewWithFrame:[UIScreen mainScreen].bounds
-                                         pixelFormat:(__bridge NSString*)axis::GLViewImpl::_pixelFormat
-                                         depthFormat:axis::GLViewImpl::_depthFormat
+                                         pixelFormat:(__bridge NSString*)ax::GLViewImpl::_pixelFormat
+                                         depthFormat:ax::GLViewImpl::_depthFormat
                                   preserveBackbuffer:NO
                                           sharegroup:nil
-                                       multiSampling:axis::GLViewImpl::_multisamplingCount > 0 ? YES : NO
-                                     numberOfSamples:axis::GLViewImpl::_multisamplingCount];
+                                       multiSampling:ax::GLViewImpl::_multisamplingCount > 0 ? YES : NO
+                                     numberOfSamples:ax::GLViewImpl::_multisamplingCount];
 
     // Enable or disable multiple touches
+#if !defined(AX_TARGET_OS_TVOS)
     [eaglView setMultipleTouchEnabled:NO];
+#endif
 
     // Set EAGLView as view of RootViewController
     self.view = eaglView;
@@ -93,16 +95,16 @@ customization that is not appropriate for viewDidLoad.
 {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 
-    auto glview = axis::Director::getInstance()->getOpenGLView();
+    auto glView = ax::Director::getInstance()->getOpenGLView();
 
-    if (glview)
+    if (glView)
     {
-        CCEAGLView* eaglview = (__bridge CCEAGLView*)glview->getEAGLView();
+        CCEAGLView* eaglView = (__bridge CCEAGLView*)glView->getEAGLView();
 
-        if (eaglview)
+        if (eaglView)
         {
-            CGSize s = CGSizeMake([eaglview getWidth], [eaglview getHeight]);
-            axis::Application::getInstance()->applicationScreenSizeChanged((int)s.width, (int)s.height);
+            CGSize s = CGSizeMake([eaglView getWidth], [eaglView getHeight]);
+            ax::Application::getInstance()->applicationScreenSizeChanged((int)s.width, (int)s.height);
         }
     }
 }

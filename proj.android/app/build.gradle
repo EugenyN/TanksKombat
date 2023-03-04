@@ -1,22 +1,17 @@
-import org.gradle.internal.os.OperatingSystem
-import java.nio.file.Paths
-import java.nio.file.Files
-
 apply plugin: 'com.android.application'
-apply from: project(':libcocos2dx').projectDir.toString() + "/axistools.gradle"
+apply from: project(':libaxmol').projectDir.toString() + "/axutils.gradle"
 
 android {
     compileSdkVersion PROP_COMPILE_SDK_VERSION.toInteger()
 
-    // setup ndk
-    def ndkInfo = axistools.findNDK()
-    ndkVersion = ndkInfo[0]
-    if(ndkInfo[1]) {
-        ndkPath = ndkInfo[1]
+    // Setup native build tools: ndk & cmake
+    def nbtInfo = axutils.findNativeBuildTools(project)
+    ndkVersion = nbtInfo[0]
+    if(nbtInfo[1]) {
+        ndkPath = nbtInfo[1]
     }
-
-    // setup cmake
-    def cmakeVer = axistools.findCMake("3.10.2+", project.rootProject)
+    def cmakeVer = nbtInfo[2]
+    def cmakeOptions = Eval.me(nbtInfo[3])
 
     defaultConfig {
         applicationId "org.eugenyn.tanks4"
@@ -28,6 +23,7 @@ android {
         externalNativeBuild {
             cmake {
                 arguments "-DCMAKE_FIND_ROOT_PATH=", "-DANDROID_STL=c++_shared", "-DANDROID_TOOLCHAIN=clang", "-DANDROID_ARM_NEON=TRUE"
+                arguments.addAll(cmakeOptions)
                 cppFlags "-frtti -fexceptions -fsigned-char"
             }
         }
@@ -42,7 +38,7 @@ android {
         java.srcDir "src"
         res.srcDir "res"
         manifest.srcFile "AndroidManifest.xml"
-        assets.srcDir "../../Resources"
+        assets.srcDir "assets"
     }
 
     externalNativeBuild {
@@ -100,8 +96,8 @@ android.applicationVariants.all { variant ->
     
     tasks.register(copyTaskName) {
         copy {
-            from "${buildDir}/../../../Resources"
-            into "${buildDir}/intermediates/assets/${variant.dirName}"
+            from "${project_root_folder}/Content"
+            into "${dest_assets_folder}"
             exclude "**/*.gz"
         }
     }
@@ -110,7 +106,7 @@ android.applicationVariants.all { variant ->
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':libcocos2dx')
+    implementation project(':libaxmol')
 }
 
 project.afterEvaluate {

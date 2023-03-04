@@ -1,6 +1,6 @@
 # Tanks Kombat
 
-Tanks Kombat is a cross-platform tile-based action game developed using Axis Engine (fork of Cocos2d-x) and C++, 
+Tanks Kombat is a cross-platform tile-based action game developed using Axmol Engine (fork of Cocos2d-x) and C++, 
 the game is made in retro style with lo-res sprites and reminiscences of 8 and 16 bit games of past eras.
 
 released for Windows and Android platforms.
@@ -38,8 +38,8 @@ Also the game is available on Itch.io: https://eugenyn.itch.io/tanks-kombat
 
 #### Prerequisites
 
-1. Download [Axis](https://github.com/axis-project/axis) game engine.
-2. Config ```axis```, run ```python setup.py``` from axis root directory.
+1. Download [Axmol](https://github.com/axmolengine/axmol) game engine.
+2. Config ```axmol```, run ```python setup.py``` from axmol root directory.
 
 #### Windows
 
@@ -68,7 +68,7 @@ Also you can use built-in CMake projects support in your IDE (use Visual Studio 
 
 ## Third-party code and libraries
 
-* [Axis Game Engine](https://github.com/axis-project/axis) fork of [Cocos2d-x-4.0](https://github.com/cocos2d/cocos2d-x)
+* [Axmol Game Engine](https://github.com/axmolengine/axmol) fork of [Cocos2d-x-4.0](https://github.com/cocos2d/cocos2d-x)
 * [SneakyInput-Cocos2dx-2.0.x](https://github.com/cpinan/SneakyInput-Cocos2dx-2.0.x)
 * [Random Cave Using Cellular Automata](http://gamedevelopment.tutsplus.com/tutorials/generate-random-cave-levels-using-cellular-automata--gamedev-9664)
 * [A* Pathfinding with Cocos2D](http://www.raywenderlich.com/4970/how-to-implement-a-pathfinding-with-cocos2d-tutorial) (Objective-C)
