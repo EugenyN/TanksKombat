@@ -65,6 +65,9 @@ if(NOT DEFINED BUILD_ENGINE_DONE) # to test Tanks4 into root project
         set(AX_ENABLE_EXT_IMGUI OFF CACHE BOOL "")
         set(AX_ENABLE_EXT_GUI OFF CACHE BOOL "")
         set(AX_ENABLE_EXT_SPINE OFF CACHE BOOL "")
+        set(AX_ENABLE_EXT_LUA OFF CACHE BOOL "" FORCE)
+        set(AX_ENABLE_MFMEDIA OFF CACHE BOOL "")
+        set(AX_ENABLE_MSEDGE_WEBVIEW2 OFF CACHE BOOL "")
         set(AX_WITH_BULLET OFF CACHE BOOL "")
         set(AX_WITH_BOX2D OFF CACHE BOOL "")
         set(AX_WITH_CHIPMUNK OFF CACHE BOOL "")
@@ -86,15 +89,15 @@ endif()
 
 if (NOT DEFINED AX_PREBUILT_DIR)
     # compile flags for Tank4
-    # todo: add "CC_ENABLE_SCRIPT_BINDING=0", now it breaks compilation for android
-    target_compile_definitions(${AXIS_CORE_LIB} PUBLIC
-            CC_USE_PHYSICS=0
-            CC_USE_3D_PHYSICS=0
-            CC_USE_NAVMESH=0
-            CC_ENABLE_CHIPMUNK_INTEGRATION=0
-            CC_USE_JPEG=0
-            CC_USE_TIFF=0
-            CC_USE_WEBP=0)
+    # todo: add "AX_ENABLE_SCRIPT_BINDING=0", now it breaks compilation for android
+    target_compile_definitions(${_AX_CORE_LIB} PUBLIC
+            AX_USE_PHYSICS=0
+            AX_USE_3D_PHYSICS=0
+            AX_USE_NAVMESH=0
+            AX_ENABLE_CHIPMUNK_INTEGRATION=0
+            AX_USE_JPEG=0
+            AX_USE_TIFF=0
+            AX_USE_WEBP=0)
 endif()
 
 # record sources, headers, Content...
