@@ -1,9 +1,9 @@
 #ifndef  _APP_DELEGATE_H_
 #define  _APP_DELEGATE_H_
 
-#include "cocos2d.h"
+#include "axmol.h"
 
-class  AppDelegate : private cocos2d::Application
+class  AppDelegate : private ax::Application
 {
 public:
 	AppDelegate();

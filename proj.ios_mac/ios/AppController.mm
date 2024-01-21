@@ -3,7 +3,7 @@
  Copyright (c) 2013-2016 Chukong Technologies Inc.
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
- http://www.cocos2d-x.org
+ https://axmolengine.github.io/
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -53,7 +53,7 @@ static AppDelegate s_sharedApplication;
     // Add the view controller's view to the window and display.
     window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 
-    // Use RootViewController to manage CCEAGLView
+    // Use RootViewController to manage EAGLView
     _viewController                       = [[RootViewController alloc] init];
 #if !defined(AX_TARGET_OS_TVOS)
     _viewController.wantsFullScreenLayout = YES;
@@ -85,7 +85,7 @@ static AppDelegate s_sharedApplication;
 
     // IMPORTANT: Setting the GLView should be done after creating the RootViewController
     ax::GLView* glView = ax::GLViewImpl::createWithEAGLView((__bridge void*)_viewController.view);
-    ax::Director::getInstance()->setOpenGLView(glView);
+    ax::Director::getInstance()->setGLView(glView);
 
     // run the cocos2d-x game scene
     app->run();

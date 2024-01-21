@@ -1,7 +1,7 @@
 /****************************************************************************
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
- http://www.cocos2d-x.org
+ https://axmolengine.github.io/
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -22,23 +22,19 @@
  THE SOFTWARE.
  ****************************************************************************/
 
-#include <memory>
-
-#include <android/log.h>
-#include <jni.h>
-
 #include "AppDelegate.h"
+#include "axmol.h"
 
-#define LOG_TAG "main"
-#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+#include <stdlib.h>
+#include <stdio.h>
+#include <unistd.h>
+#include <string>
 
-namespace
+USING_NS_AX;
+
+int main(int argc, char** argv)
 {
-std::unique_ptr<AppDelegate> appDelegate;
-}
-
-void cocos_android_app_init(JNIEnv* env)
-{
-    LOGD("cocos_android_app_init");
-    appDelegate.reset(new AppDelegate());
+    // create the application instance
+    AppDelegate app;
+    return Application::getInstance()->run();
 }

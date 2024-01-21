@@ -3,7 +3,7 @@
  Copyright (c) 2013-2016 Chukong Technologies Inc.
  Copyright (c) 2017-2018 Xiamen Yaji Software Co., Ltd.
 
- http://www.cocos2d-x.org
+ https://axmolengine.github.io/
 
  Permission is hereby granted, free of charge, to any person obtaining a copy
  of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@
 
 #import "RootViewController.h"
 #import "cocos2d.h"
-#import "platform/ios/CCEAGLView-ios.h"
+#import "platform/ios/EAGLView-ios.h"
 
 @implementation RootViewController
 
@@ -44,8 +44,8 @@ customization that is not appropriate for viewDidLoad.
 // Implement loadView to create a view hierarchy programmatically, without using a nib.
 - (void)loadView
 {
-    // Initialize the CCEAGLView
-    CCEAGLView* eaglView = [CCEAGLView viewWithFrame:[UIScreen mainScreen].bounds
+    // Initialize the EAGLView
+    EAGLView* eaglView = [EAGLView viewWithFrame:[UIScreen mainScreen].bounds
                                          pixelFormat:(__bridge NSString*)ax::GLViewImpl::_pixelFormat
                                          depthFormat:ax::GLViewImpl::_depthFormat
                                   preserveBackbuffer:NO
@@ -53,10 +53,10 @@ customization that is not appropriate for viewDidLoad.
                                        multiSampling:ax::GLViewImpl::_multisamplingCount > 0 ? YES : NO
                                      numberOfSamples:ax::GLViewImpl::_multisamplingCount];
 
-    // Enable or disable multiple touches
-#if !defined(AX_TARGET_OS_TVOS)
-    [eaglView setMultipleTouchEnabled:NO];
-#endif
+    // uncumment if you want disable multiple touches
+// #if !defined(AX_TARGET_OS_TVOS)
+//     [eaglView setMultipleTouchEnabled:NO];
+// #endif
 
     // Set EAGLView as view of RootViewController
     self.view = eaglView;
@@ -95,11 +95,11 @@ customization that is not appropriate for viewDidLoad.
 {
     [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 
-    auto glView = ax::Director::getInstance()->getOpenGLView();
+    auto glView = ax::Director::getInstance()->getGLView();
 
     if (glView)
     {
-        CCEAGLView* eaglView = (__bridge CCEAGLView*)glView->getEAGLView();
+        EAGLView* eaglView = (__bridge EAGLView*)glView->getEAGLView();
 
         if (eaglView)
         {

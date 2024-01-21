@@ -201,7 +201,7 @@ void BaseScene::addJoystick()
 {
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Point origin = Director::getInstance()->getVisibleOrigin();
-	auto glview = Director::getInstance()->getOpenGLView();
+	auto glview = Director::getInstance()->getGLView();
 
 	float dpiScale = (float)Device::getDPI() / 86.0f;
 	float resolutionScale = 1.0f / glview->getScaleX();

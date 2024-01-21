@@ -36,26 +36,37 @@ Also the game is available on Itch.io: https://eugenyn.itch.io/tanks-kombat
 
 ## Build from source
 
-#### Prerequisites
+### Prerequisites
 
 1. Download [Axmol](https://github.com/axmolengine/axmol) game engine.
-2. Config ```axmol```, run ```python setup.py``` from axmol root directory.
+2. Install [PowerShell](https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell), powershell-7 is recommended, it's support Windows, macOS, Linux
+3. Config ```axmol```, run ```pwsh setup.ps1``` from axmol root directory.
+4. Ensure C/C++ compiler toolset installed on your machine.
 
-#### Windows
+### Quick build by `axmol build` for all target platforms [`Recommended`]
 
-1. Install Visual Studio 2019/2022 (for toolchain)
-2. Install [CMake](https://cmake.org/) 3.14+  
+Using a powershell console window, the `axmol build` command will auto setup general depended toolsets, so you can simply build project for all platform targets, i.e.
+
+- win32: `axmol build -p win32`
+- android: `axmol build -p android -a arm64` can runs on Windows, Linux, macOS and script will auto setup android sdk
+
+See [DevSetup](https://github.com/axmolengine/axmol/blob/dev/docs/DevSetup.md) for additional options.
+
+### Manually build with cmake
+
+#### Windows (Visual Studio)
+
+1. Install Visual Studio 2022 (for toolchain)
+2. Install [CMake](https://cmake.org/) 3.28.1+
 3. Use CMake to build project files:
    * for 32 bit Visual Studio 2022: ```cmake -S . -B build -G "Visual Studio 17 2022" -A Win32```
    * for 64 bit Visual Studio 2022: ```cmake -S . -B build -G "Visual Studio 17 2022" -A x64```
-4. Build and run project.
-	
-Also you can use built-in CMake projects support in your IDE (use Visual Studio as toolchain)
+4. Use Visual Studio to open the newly created solution file. Build and run project.
 
-#### Android
+#### Android (Android Studio)
 
-1. Install Android Studio
-2. Install SDK Build-Tools, NDK r23c+, CMake 3.10+ from Android Studio ```SDK Manager```
+1. Install Android Studio 2023.1.1+
+2. Install SDK Build-Tools 34.0.0, NDK r23c+, CMake, from Android Studio ```SDK Manager```, use Gradle Plugin (AGP) 8.2.1
 3. Open ```proj.android``` in Android Studio, wait for ```Gradle sync``` finish.
 4. Build and run project.
 
@@ -68,7 +79,7 @@ Also you can use built-in CMake projects support in your IDE (use Visual Studio 
 
 ## Third-party code and libraries
 
-* [Axmol Game Engine](https://github.com/axmolengine/axmol) fork of [Cocos2d-x-4.0](https://github.com/cocos2d/cocos2d-x)
+* [Axmol Game Engine](https://github.com/axmolengine/axmol)
 * [SneakyInput-Cocos2dx-2.0.x](https://github.com/cpinan/SneakyInput-Cocos2dx-2.0.x)
 * [Random Cave Using Cellular Automata](http://gamedevelopment.tutsplus.com/tutorials/generate-random-cave-levels-using-cellular-automata--gamedev-9664)
 * [A* Pathfinding with Cocos2D](http://www.raywenderlich.com/4970/how-to-implement-a-pathfinding-with-cocos2d-tutorial) (Objective-C)

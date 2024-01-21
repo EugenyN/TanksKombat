@@ -67,12 +67,12 @@ BEGIN
         BLOCK "040904B0"
         BEGIN
             VALUE "FileDescription", "Tanks Kombat"
-            VALUE "FileVersion", "1, 0, 0, 2"
+            VALUE "FileVersion", "1, 0, 0, 3"
             VALUE "InternalName", "Tanks Kombat"
             VALUE "LegalCopyright", "EugenyN. MIT"
             VALUE "OriginalFilename", "Tanks4.exe"
             VALUE "ProductName", "Tanks Kombat"
-            VALUE "ProductVersion", "1, 0, 0, 2"
+            VALUE "ProductVersion", "1, 0, 0, 3"
         END
     END
     BLOCK "VarFileInfo"

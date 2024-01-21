@@ -1,10 +1,10 @@
 #include "Engine.h"
 #include "Scenes\BaseScene.h"
 #include "Scenes\MainMenuScene.h"
-#include "2d/CCFontAtlasCache.h"
+#include "2d/FontAtlasCache.h"
 #include "audio/AudioEngine.h"
 
-USING_NS_CC;
+USING_NS_AX;
 
 GameMode GameMode::createFromDict(const ValueMap& dict)
 {
@@ -62,10 +62,10 @@ void Engine::launchGame()
 	loadSettings();
 
 	auto director = Director::getInstance();
-	auto glview = director->getOpenGLView();
+	auto glview = director->getGLView();
 
 	if (!glview) {
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (CC_TARGET_PLATFORM == CC_PLATFORM_MAC) || (CC_TARGET_PLATFORM == CC_PLATFORM_LINUX)
+#if (AX_TARGET_PLATFORM == CC_PLATFORM_WIN32) || (AX_TARGET_PLATFORM == CC_PLATFORM_MAC) || (AX_TARGET_PLATFORM == CC_PLATFORM_LINUX)
 		if (Settings.fullscreen)
 			glview = GLViewImpl::createWithFullScreen(GAME_TITLE);
 		else
@@ -73,7 +73,7 @@ void Engine::launchGame()
 #else
 		glview = GLViewImpl::create(GAME_TITLE);
 #endif
-		director->setOpenGLView(glview);
+		director->setGLView(glview);
 	}
 
 	director->setDisplayStats(DISPLAY_STATS);
